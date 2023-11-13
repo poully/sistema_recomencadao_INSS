@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  relationMode      = "prisma"
+}
+
+model Beneficio {
+  id                    Int                     @id @default(autoincrement())
+  status                String
+  AuxilioMaternidade    AuxilioMaternidade[]
+  DocumentoHasBeneficio DocumentoHasBeneficio[]
+}
+
+model AuxilioMaternidade {
+  id                 Int       @id @default(autoincrement())
+  senhaGov           String
+  nomeMae            String
+  dataSaidaEmprego   DateTime
+  dataNascimentoBebe DateTime?
+  matriculaCertidao  String?
+  dataRegistro       String?
+  contribuinteIndividual Boolean @default(false)
+  dataContribuicao DateTime?
+  rua                String
+  numero             Int
+  bairro             String
+  cep                Int
+  beneficio_id       Int
+  beneficio          Beneficio @relation(fields: [beneficio_id], references: [id])
+}
+
+model Documento {
+  id                    Int                     @id @default(autoincrement())
+  registro              Int
+  comprovanteResidencia String
+  comprovanteRenda      String
+  DocumentoHasBeneficio DocumentoHasBeneficio[]
+}
+
+model DocumentoHasBeneficio {
+  documento_id Int
+  beneficio_id Int
+
+  documento Documento @relation(fields: [documento_id], references: [id])
+  beneficio Beneficio @relation(fields: [beneficio_id], references: [id])
+
+  @@id([documento_id, beneficio_id])
+  @@index([beneficio_id], name: "fk_documento_has_beneficio_beneficio1_idx")
+  @@index([documento_id], name: "fk_documento_has_beneficio_documento1_idx")
+}
