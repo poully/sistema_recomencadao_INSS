@@ -1,3 +1,8 @@
+generator zod {
+  provider = "prisma-zod-generator"
+  output   = "./validation"
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -17,21 +22,20 @@ model Beneficio {
 }
 
 model AuxilioMaternidade {
-  id                 Int       @id @default(autoincrement())
-  senhaGov           String
-  nomeMae            String
-  dataSaidaEmprego   DateTime
-  dataNascimentoBebe DateTime?
-  matriculaCertidao  String?
-  dataRegistro       String?
-  contribuinteIndividual Boolean @default(false)
-  dataContribuicao DateTime?
-  rua                String
-  numero             Int
-  bairro             String
-  cep                Int
-  beneficio_id       Int
-  beneficio          Beneficio @relation(fields: [beneficio_id], references: [id])
+  id                     Int       @id @default(autoincrement())
+  nomeMae                String
+  dataSaidaEmprego       DateTime
+  dataNascimentoBebe     DateTime?
+  matriculaCertidao      String?
+  dataRegistro           String?
+  contribuinteIndividual Boolean   @default(false)
+  dataContribuicao       DateTime?
+  rua                    String
+  numero                 Int
+  bairro                 String
+  cep                    Int
+  beneficioId            Int
+  beneficio              Beneficio @relation(fields: [beneficioId], references: [id])
 }
 
 model Documento {
