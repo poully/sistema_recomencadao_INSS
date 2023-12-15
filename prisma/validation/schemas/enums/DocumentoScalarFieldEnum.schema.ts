@@ -5,4 +5,5 @@ export const DocumentoScalarFieldEnumSchema = z.enum([
   'registro',
   'comprovanteResidencia',
   'comprovanteRenda',
+  'caminho',
 ]);

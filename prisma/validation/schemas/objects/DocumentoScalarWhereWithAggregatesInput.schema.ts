@@ -38,6 +38,9 @@ const Schema: z.ZodType<Prisma.DocumentoScalarWhereWithAggregatesInput> = z
     comprovanteRenda: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
+    caminho: z
+      .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
+      .optional(),
   })
   .strict();
 

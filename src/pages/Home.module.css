@@ -1,0 +1,40 @@
+/* Home.module.css */
+
+.background {
+    background-image: url('/fundoHome.png');
+    background-size: 140vh;
+    /* Ajuste o tamanho conforme necessário */
+    border-radius: 2em;
+    min-height: 54vh;
+    /* Garante que a imagem cubra pelo menos a altura da tela */
+    display: flex;
+    align-items: left;
+    justify-content: left;
+
+}
+
+.paragrafos {
+    font-family: sans-serif;
+    text-align: justify;
+}
+
+.hr {
+    position: relative;
+    top: 10px;
+    border: none;
+    height: 8px;
+    background: black;
+    margin-bottom: 30px;
+    color: #551e1e;
+    /* Cor do texto, ajuste conforme necessário */
+}
+
+.colunas {
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.mamae{
+    background-image: url('/barriguda.jpg');
+    background-size: 40%;
+}

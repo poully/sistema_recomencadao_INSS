@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Tayler@1502
+      MYSQL_DATABASE: tccinss
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: random
+    ports:
+      - 3307:3306

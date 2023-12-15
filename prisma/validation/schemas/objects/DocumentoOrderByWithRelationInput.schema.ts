@@ -10,6 +10,7 @@ const Schema: z.ZodType<Prisma.DocumentoOrderByWithRelationInput> = z
     registro: z.lazy(() => SortOrderSchema).optional(),
     comprovanteResidencia: z.lazy(() => SortOrderSchema).optional(),
     comprovanteRenda: z.lazy(() => SortOrderSchema).optional(),
+    caminho: z.lazy(() => SortOrderSchema).optional(),
     DocumentoHasBeneficio: z
       .lazy(
         () => DocumentoHasBeneficioOrderByRelationAggregateInputObjectSchema,

@@ -43,6 +43,7 @@ model Documento {
   registro              Int
   comprovanteResidencia String
   comprovanteRenda      String
+  caminho               String
   DocumentoHasBeneficio DocumentoHasBeneficio[]
 }
 

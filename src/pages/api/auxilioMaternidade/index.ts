@@ -10,6 +10,7 @@ const prisma = new PrismaClient();
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { method } = req;
 
+
     if (method === "GET") {
         const auxilios = await prisma.auxilioMaternidade.findMany();
 
@@ -18,7 +19,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
     } else if (method === "POST") {
         try {
-            const data = AuxilioMaternidadeUncheckedCreateInputObjectSchema.parse(req.body);
+            const beneficio = await prisma.beneficio.create({
+                data: {
+                    status: 'cadastrado'
+                }
+            })
+            const data = AuxilioMaternidadeUncheckedCreateInputObjectSchema.parse({ ...req.body, beneficioId: beneficio.id });
             const diasDeIntervalo = differenceInDays(new Date(), new Date(data.dataSaidaEmprego));
 
             if (diasDeIntervalo > 442) {
@@ -44,7 +50,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         } catch (err: any) {
             if (err instanceof z.ZodError) {
-                const errors = err.flatten();
+                const errors = err;
                 return res.status(404).json({ errors });
 
             }

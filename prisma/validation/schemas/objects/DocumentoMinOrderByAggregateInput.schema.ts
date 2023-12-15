@@ -9,6 +9,7 @@ const Schema: z.ZodType<Prisma.DocumentoMinOrderByAggregateInput> = z
     registro: z.lazy(() => SortOrderSchema).optional(),
     comprovanteResidencia: z.lazy(() => SortOrderSchema).optional(),
     comprovanteRenda: z.lazy(() => SortOrderSchema).optional(),
+    caminho: z.lazy(() => SortOrderSchema).optional(),
   })
   .strict();
 

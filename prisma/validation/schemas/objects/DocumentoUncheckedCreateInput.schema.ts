@@ -9,6 +9,7 @@ const Schema: z.ZodType<Prisma.DocumentoUncheckedCreateInput> = z
     registro: z.number(),
     comprovanteResidencia: z.string(),
     comprovanteRenda: z.string(),
+    caminho: z.string(),
     DocumentoHasBeneficio: z
       .lazy(
         () =>

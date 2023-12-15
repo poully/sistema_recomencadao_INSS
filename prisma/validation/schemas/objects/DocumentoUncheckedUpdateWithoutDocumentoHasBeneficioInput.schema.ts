@@ -31,6 +31,12 @@ const Schema: z.ZodType<Prisma.DocumentoUncheckedUpdateWithoutDocumentoHasBenefi
           z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
+      caminho: z
+        .union([
+          z.string(),
+          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
+        ])
+        .optional(),
     })
     .strict();
 

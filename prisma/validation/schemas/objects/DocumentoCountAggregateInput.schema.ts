@@ -8,6 +8,7 @@ const Schema: z.ZodType<Prisma.DocumentoCountAggregateInputType> = z
     registro: z.literal(true).optional(),
     comprovanteResidencia: z.literal(true).optional(),
     comprovanteRenda: z.literal(true).optional(),
+    caminho: z.literal(true).optional(),
     _all: z.literal(true).optional(),
   })
   .strict();

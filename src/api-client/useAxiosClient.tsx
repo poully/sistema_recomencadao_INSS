@@ -1,7 +1,7 @@
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 
-const useAxiosClient = () => {
+export const useAxiosClient = () => {
     const { getToken, isLoaded, isSignedIn } = useAuth();
 
     const client = axios.create({
@@ -13,5 +13,4 @@ const useAxiosClient = () => {
         return config
     })
     return client;
-
 }

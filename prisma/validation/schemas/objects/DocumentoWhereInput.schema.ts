@@ -33,6 +33,9 @@ const Schema: z.ZodType<Prisma.DocumentoWhereInput> = z
     comprovanteRenda: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
+    caminho: z
+      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
+      .optional(),
     DocumentoHasBeneficio: z
       .lazy(() => DocumentoHasBeneficioListRelationFilterObjectSchema)
       .optional(),

@@ -36,17 +36,16 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
                 </Group>
             </AppShell.Header>
             <AppShell.Navbar p="md">
-                Menu
+                
                 {/* {Array(15)
                     .fill(0)
                     .map((_, index) => (
                         <Skeleton key={index} h={28} mt="sm" animate={false}  />
                     ))} */}
                 <Link href="/">Home</Link>
-                <Link href="/">Auxilio Maternidade</Link>
-                <Link href="/">Contato</Link>
-                <Link href="https://sso.acesso.gov.br/login?client_id=portal-logado.estaleiro.serpro.gov.br&authorization_id=18aa4fd7e5c">Gov</Link>
-                <Link href="https://meuinss.com.br">Meu INSS</Link>
+                <Link href="/auxilio-maternidade">Auxilio Maternidade</Link>
+                <Link href="https://sso.acesso.gov.br/login?client_id=portal-logado.estaleiro.serpro.gov.br&authorization_id=18aa4fd7e5c" target="_blank">Gov</Link>
+                <Link href="https://meu.inss.gov.br" target="_blank">Meu INSS</Link>
             </AppShell.Navbar>
             <AppShell.Main>
                 {children}

@@ -8,6 +8,7 @@ const Schema: z.ZodType<Prisma.DocumentoCreateManyInput> = z
     registro: z.number(),
     comprovanteResidencia: z.string(),
     comprovanteRenda: z.string(),
+    caminho: z.string(),
   })
   .strict();
 
