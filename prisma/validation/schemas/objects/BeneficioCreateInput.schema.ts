@@ -1,23 +1,31 @@
 import { z } from 'zod';
-import { AuxilioMaternidadeCreateNestedManyWithoutBeneficioInputObjectSchema } from './AuxilioMaternidadeCreateNestedManyWithoutBeneficioInput.schema';
-import { DocumentoHasBeneficioCreateNestedManyWithoutBeneficioInputObjectSchema } from './DocumentoHasBeneficioCreateNestedManyWithoutBeneficioInput.schema';
+import { SituacaoCreateNestedOneWithoutBeneficioInputObjectSchema } from './SituacaoCreateNestedOneWithoutBeneficioInput.schema';
+import { PessoaCreateNestedOneWithoutBeneficioInputObjectSchema } from './PessoaCreateNestedOneWithoutBeneficioInput.schema';
+import { TipoCreateNestedOneWithoutBeneficioInputObjectSchema } from './TipoCreateNestedOneWithoutBeneficioInput.schema';
+import { EspecialistaCreateNestedOneWithoutBeneficioInputObjectSchema } from './EspecialistaCreateNestedOneWithoutBeneficioInput.schema';
+import { DocumentosCreateNestedManyWithoutBeneficioInputObjectSchema } from './DocumentosCreateNestedManyWithoutBeneficioInput.schema';
+import { MovimentacaoCreateNestedManyWithoutBeneficioInputObjectSchema } from './MovimentacaoCreateNestedManyWithoutBeneficioInput.schema';
 
 import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.BeneficioCreateInput> = z
   .object({
-    status: z.string(),
-    AuxilioMaternidade: z
-      .lazy(
-        () =>
-          AuxilioMaternidadeCreateNestedManyWithoutBeneficioInputObjectSchema,
-      )
+    numero_beneficio: z.string(),
+    situacao: z.lazy(
+      () => SituacaoCreateNestedOneWithoutBeneficioInputObjectSchema,
+    ),
+    pessoa: z.lazy(
+      () => PessoaCreateNestedOneWithoutBeneficioInputObjectSchema,
+    ),
+    tipo: z.lazy(() => TipoCreateNestedOneWithoutBeneficioInputObjectSchema),
+    especialista: z.lazy(
+      () => EspecialistaCreateNestedOneWithoutBeneficioInputObjectSchema,
+    ),
+    Documentos: z
+      .lazy(() => DocumentosCreateNestedManyWithoutBeneficioInputObjectSchema)
       .optional(),
-    DocumentoHasBeneficio: z
-      .lazy(
-        () =>
-          DocumentoHasBeneficioCreateNestedManyWithoutBeneficioInputObjectSchema,
-      )
+    Movimentacao: z
+      .lazy(() => MovimentacaoCreateNestedManyWithoutBeneficioInputObjectSchema)
       .optional(),
   })
   .strict();

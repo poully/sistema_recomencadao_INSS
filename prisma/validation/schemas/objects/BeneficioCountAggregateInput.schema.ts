@@ -5,7 +5,11 @@ import type { Prisma } from '@prisma/client';
 const Schema: z.ZodType<Prisma.BeneficioCountAggregateInputType> = z
   .object({
     id: z.literal(true).optional(),
-    status: z.literal(true).optional(),
+    numero_beneficio: z.literal(true).optional(),
+    situacao_id: z.literal(true).optional(),
+    pessoa_id: z.literal(true).optional(),
+    tipo_id: z.literal(true).optional(),
+    especialista_id: z.literal(true).optional(),
     _all: z.literal(true).optional(),
   })
   .strict();

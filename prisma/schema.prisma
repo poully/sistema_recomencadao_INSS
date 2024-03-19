@@ -8,96 +8,93 @@ generator client {
 }
 
 datasource db {
-  provider          = "mysql"
-  url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
-  relationMode      = "prisma"
+  provider     = "cockroachdb"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
-
-// Definindo o esquema para a tabela estado
 model Estado {
-  id    Int     @id
-  nome  String
+  id     Int      @id
+  nome   String
+  Cidade Cidade[]
 }
 
-// Definindo o esquema para a tabela cidade
 model Cidade {
-  id         Int     @id
-  nome       String
-  estado_id  Int
-  estado     Estado  @relation(fields: [estado_id], references: [id])
+  id        Int      @id
+  nome      String
+  estado_id Int
+  estado    Estado   @relation(fields: [estado_id], references: [id])
+  Pessoa    Pessoa[]
 }
 
-// Definindo o esquema para a tabela pessoa
 model Pessoa {
-  id          Int     @id @default(autoincrement())
-  nome        String
-  email       String
-  endereco    String
-  telefone    String
-  data_nasc   DateTime  // Use DateTime para representar data e hora
-  cpf         String
-  cnis        String
-  cidade_id   Int
-  cidade      Cidade    @relation(fields: [cidade_id], references: [id])
+  id        Int         @id @default(sequence())
+  nome      String
+  email     String
+  endereco  String
+  telefone  String
+  data_nasc DateTime // Use DateTime para representar data e hora
+  cpf       String
+  cnis      String
+  cidade_id Int
+  cidade    Cidade      @relation(fields: [cidade_id], references: [id])
+  Beneficio Beneficio[]
 }
 
-// Definindo o esquema para a tabela situacao
 model Situacao {
-  id    Int     @id @default(autoincrement())
-  nome  String
+  id        Int         @id @default(sequence())
+  nome      String
+  Beneficio Beneficio[]
 }
 
-// Definindo o esquema para a tabela tipo
 model Tipo {
-  id    String  @id
-  nome  String
+  id        Int         @id
+  nome      String
+  Beneficio Beneficio[]
 }
 
-// Definindo o esquema para a tabela especialista
 model Especialista {
-  id        Int     @id
+  id        Int         @id
   nome      String
   email     String
   telefone  String
   endereco  String
+  Beneficio Beneficio[]
 }
 
-// Definindo o esquema para a tabela beneficio
 model Beneficio {
-  id                Int       @id @default(autoincrement())
-  numero_beneficio  String
-  situacao_id       Int
-  pessoa_id         Int
-  tipo_id           Int
-  especialista_id   Int
-  situacao          Situacao  @relation(fields: [situacao_id], references: [id])
-  pessoa            Pessoa    @relation(fields: [pessoa_id], references: [id])
-  tipo              Tipo      @relation(fields: [tipo_id], references: [id])
-  especialista      Especialista @relation(fields: [especialista_id], references: [id])
+  id               Int            @id @default(sequence())
+  numero_beneficio String
+  situacao_id      Int
+  pessoa_id        Int
+  tipo_id          Int
+  especialista_id  Int
+  situacao         Situacao       @relation(fields: [situacao_id], references: [id])
+  pessoa           Pessoa         @relation(fields: [pessoa_id], references: [id])
+  tipo             Tipo           @relation(fields: [tipo_id], references: [id])
+  especialista     Especialista   @relation(fields: [especialista_id], references: [id])
+  Documentos       Documentos[]
+  Movimentacao     Movimentacao[]
 }
 
-// Definindo o esquema para a tabela documentos
 model Documentos {
-  id            Int      @id @default(autoincrement())
-  descricao     String
-  imagem        String   // Use String para representar imagens, ou relacione com uma tabela separada se for grande
-  beneficio_id  Int
-  beneficio     Beneficio @relation(fields: [beneficio_id], references: [id])
+  id           Int       @id @default(sequence())
+  descricao    String
+  imagem       String // Use String para representar imagens, ou relacione com uma tabela separada se for grande
+  beneficio_id Int
+  beneficio    Beneficio @relation(fields: [beneficio_id], references: [id])
 }
 
-// Definindo o esquema para a tabela tipo_movimentacao
 model TipoMovimentacao {
-  id    Int     @id
-  nome  String
+  id           Int            @id
+  nome         String
+  Movimentacao Movimentacao[]
 }
 
-// Definindo o esquema para a tabela movimentacao
 model Movimentacao {
-  id                  Int      @id
-  beneficio_id        Int
+  id                   Int              @id
+  beneficio_id         Int
   tipo_movimentacao_id Int
-  beneficio           Beneficio @relation(fields: [beneficio_id], references: [id])
-  tipo_movimentacao   TipoMovimentacao @relation(fields: [tipo_movimentacao_id], references: [id])
+  beneficio            Beneficio        @relation(fields: [beneficio_id], references: [id])
+  tipo_movimentacao    TipoMovimentacao @relation(fields: [tipo_movimentacao_id], references: [id])
 }

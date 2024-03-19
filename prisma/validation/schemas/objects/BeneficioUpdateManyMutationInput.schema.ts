@@ -5,7 +5,7 @@ import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.BeneficioUpdateManyMutationInput> = z
   .object({
-    status: z
+    numero_beneficio: z
       .union([
         z.string(),
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),

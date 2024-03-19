@@ -11,7 +11,11 @@ import type { Prisma } from '@prisma/client';
 const Schema: z.ZodType<Prisma.BeneficioOrderByWithAggregationInput> = z
   .object({
     id: z.lazy(() => SortOrderSchema).optional(),
-    status: z.lazy(() => SortOrderSchema).optional(),
+    numero_beneficio: z.lazy(() => SortOrderSchema).optional(),
+    situacao_id: z.lazy(() => SortOrderSchema).optional(),
+    pessoa_id: z.lazy(() => SortOrderSchema).optional(),
+    tipo_id: z.lazy(() => SortOrderSchema).optional(),
+    especialista_id: z.lazy(() => SortOrderSchema).optional(),
     _count: z
       .lazy(() => BeneficioCountOrderByAggregateInputObjectSchema)
       .optional(),

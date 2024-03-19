@@ -1,29 +1,46 @@
 import { z } from 'zod';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
-import { AuxilioMaternidadeUpdateManyWithoutBeneficioNestedInputObjectSchema } from './AuxilioMaternidadeUpdateManyWithoutBeneficioNestedInput.schema';
-import { DocumentoHasBeneficioUpdateManyWithoutBeneficioNestedInputObjectSchema } from './DocumentoHasBeneficioUpdateManyWithoutBeneficioNestedInput.schema';
+import { SituacaoUpdateOneRequiredWithoutBeneficioNestedInputObjectSchema } from './SituacaoUpdateOneRequiredWithoutBeneficioNestedInput.schema';
+import { PessoaUpdateOneRequiredWithoutBeneficioNestedInputObjectSchema } from './PessoaUpdateOneRequiredWithoutBeneficioNestedInput.schema';
+import { TipoUpdateOneRequiredWithoutBeneficioNestedInputObjectSchema } from './TipoUpdateOneRequiredWithoutBeneficioNestedInput.schema';
+import { EspecialistaUpdateOneRequiredWithoutBeneficioNestedInputObjectSchema } from './EspecialistaUpdateOneRequiredWithoutBeneficioNestedInput.schema';
+import { DocumentosUpdateManyWithoutBeneficioNestedInputObjectSchema } from './DocumentosUpdateManyWithoutBeneficioNestedInput.schema';
+import { MovimentacaoUpdateManyWithoutBeneficioNestedInputObjectSchema } from './MovimentacaoUpdateManyWithoutBeneficioNestedInput.schema';
 
 import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.BeneficioUpdateInput> = z
   .object({
-    status: z
+    numero_beneficio: z
       .union([
         z.string(),
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
-    AuxilioMaternidade: z
+    situacao: z
       .lazy(
-        () =>
-          AuxilioMaternidadeUpdateManyWithoutBeneficioNestedInputObjectSchema,
+        () => SituacaoUpdateOneRequiredWithoutBeneficioNestedInputObjectSchema,
       )
       .optional(),
-    DocumentoHasBeneficio: z
+    pessoa: z
+      .lazy(
+        () => PessoaUpdateOneRequiredWithoutBeneficioNestedInputObjectSchema,
+      )
+      .optional(),
+    tipo: z
+      .lazy(() => TipoUpdateOneRequiredWithoutBeneficioNestedInputObjectSchema)
+      .optional(),
+    especialista: z
       .lazy(
         () =>
-          DocumentoHasBeneficioUpdateManyWithoutBeneficioNestedInputObjectSchema,
+          EspecialistaUpdateOneRequiredWithoutBeneficioNestedInputObjectSchema,
       )
+      .optional(),
+    Documentos: z
+      .lazy(() => DocumentosUpdateManyWithoutBeneficioNestedInputObjectSchema)
+      .optional(),
+    Movimentacao: z
+      .lazy(() => MovimentacaoUpdateManyWithoutBeneficioNestedInputObjectSchema)
       .optional(),
   })
   .strict();

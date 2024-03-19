@@ -1,8 +1,16 @@
 import { z } from 'zod';
 import { IntFilterObjectSchema } from './IntFilter.schema';
 import { StringFilterObjectSchema } from './StringFilter.schema';
-import { AuxilioMaternidadeListRelationFilterObjectSchema } from './AuxilioMaternidadeListRelationFilter.schema';
-import { DocumentoHasBeneficioListRelationFilterObjectSchema } from './DocumentoHasBeneficioListRelationFilter.schema';
+import { SituacaoRelationFilterObjectSchema } from './SituacaoRelationFilter.schema';
+import { SituacaoWhereInputObjectSchema } from './SituacaoWhereInput.schema';
+import { PessoaRelationFilterObjectSchema } from './PessoaRelationFilter.schema';
+import { PessoaWhereInputObjectSchema } from './PessoaWhereInput.schema';
+import { TipoRelationFilterObjectSchema } from './TipoRelationFilter.schema';
+import { TipoWhereInputObjectSchema } from './TipoWhereInput.schema';
+import { EspecialistaRelationFilterObjectSchema } from './EspecialistaRelationFilter.schema';
+import { EspecialistaWhereInputObjectSchema } from './EspecialistaWhereInput.schema';
+import { DocumentosListRelationFilterObjectSchema } from './DocumentosListRelationFilter.schema';
+import { MovimentacaoListRelationFilterObjectSchema } from './MovimentacaoListRelationFilter.schema';
 
 import type { Prisma } from '@prisma/client';
 
@@ -25,14 +33,50 @@ const Schema: z.ZodType<Prisma.BeneficioWhereInput> = z
       ])
       .optional(),
     id: z.union([z.lazy(() => IntFilterObjectSchema), z.number()]).optional(),
-    status: z
+    numero_beneficio: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
-    AuxilioMaternidade: z
-      .lazy(() => AuxilioMaternidadeListRelationFilterObjectSchema)
+    situacao_id: z
+      .union([z.lazy(() => IntFilterObjectSchema), z.number()])
       .optional(),
-    DocumentoHasBeneficio: z
-      .lazy(() => DocumentoHasBeneficioListRelationFilterObjectSchema)
+    pessoa_id: z
+      .union([z.lazy(() => IntFilterObjectSchema), z.number()])
+      .optional(),
+    tipo_id: z
+      .union([z.lazy(() => IntFilterObjectSchema), z.number()])
+      .optional(),
+    especialista_id: z
+      .union([z.lazy(() => IntFilterObjectSchema), z.number()])
+      .optional(),
+    situacao: z
+      .union([
+        z.lazy(() => SituacaoRelationFilterObjectSchema),
+        z.lazy(() => SituacaoWhereInputObjectSchema),
+      ])
+      .optional(),
+    pessoa: z
+      .union([
+        z.lazy(() => PessoaRelationFilterObjectSchema),
+        z.lazy(() => PessoaWhereInputObjectSchema),
+      ])
+      .optional(),
+    tipo: z
+      .union([
+        z.lazy(() => TipoRelationFilterObjectSchema),
+        z.lazy(() => TipoWhereInputObjectSchema),
+      ])
+      .optional(),
+    especialista: z
+      .union([
+        z.lazy(() => EspecialistaRelationFilterObjectSchema),
+        z.lazy(() => EspecialistaWhereInputObjectSchema),
+      ])
+      .optional(),
+    Documentos: z
+      .lazy(() => DocumentosListRelationFilterObjectSchema)
+      .optional(),
+    Movimentacao: z
+      .lazy(() => MovimentacaoListRelationFilterObjectSchema)
       .optional(),
   })
   .strict();

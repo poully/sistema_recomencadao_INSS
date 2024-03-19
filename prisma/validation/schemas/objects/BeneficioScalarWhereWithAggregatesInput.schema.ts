@@ -29,8 +29,20 @@ const Schema: z.ZodType<Prisma.BeneficioScalarWhereWithAggregatesInput> = z
     id: z
       .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
       .optional(),
-    status: z
+    numero_beneficio: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
+      .optional(),
+    situacao_id: z
+      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
+      .optional(),
+    pessoa_id: z
+      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
+      .optional(),
+    tipo_id: z
+      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
+      .optional(),
+    especialista_id: z
+      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
       .optional(),
   })
   .strict();

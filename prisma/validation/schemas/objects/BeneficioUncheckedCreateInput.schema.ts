@@ -1,23 +1,27 @@
 import { z } from 'zod';
-import { AuxilioMaternidadeUncheckedCreateNestedManyWithoutBeneficioInputObjectSchema } from './AuxilioMaternidadeUncheckedCreateNestedManyWithoutBeneficioInput.schema';
-import { DocumentoHasBeneficioUncheckedCreateNestedManyWithoutBeneficioInputObjectSchema } from './DocumentoHasBeneficioUncheckedCreateNestedManyWithoutBeneficioInput.schema';
+import { DocumentosUncheckedCreateNestedManyWithoutBeneficioInputObjectSchema } from './DocumentosUncheckedCreateNestedManyWithoutBeneficioInput.schema';
+import { MovimentacaoUncheckedCreateNestedManyWithoutBeneficioInputObjectSchema } from './MovimentacaoUncheckedCreateNestedManyWithoutBeneficioInput.schema';
 
 import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.BeneficioUncheckedCreateInput> = z
   .object({
     id: z.number().optional(),
-    status: z.string(),
-    AuxilioMaternidade: z
+    numero_beneficio: z.string(),
+    situacao_id: z.number(),
+    pessoa_id: z.number(),
+    tipo_id: z.number(),
+    especialista_id: z.number(),
+    Documentos: z
       .lazy(
         () =>
-          AuxilioMaternidadeUncheckedCreateNestedManyWithoutBeneficioInputObjectSchema,
+          DocumentosUncheckedCreateNestedManyWithoutBeneficioInputObjectSchema,
       )
       .optional(),
-    DocumentoHasBeneficio: z
+    Movimentacao: z
       .lazy(
         () =>
-          DocumentoHasBeneficioUncheckedCreateNestedManyWithoutBeneficioInputObjectSchema,
+          MovimentacaoUncheckedCreateNestedManyWithoutBeneficioInputObjectSchema,
       )
       .optional(),
   })

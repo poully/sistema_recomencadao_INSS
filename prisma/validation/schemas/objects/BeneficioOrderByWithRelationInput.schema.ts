@@ -1,21 +1,35 @@
 import { z } from 'zod';
 import { SortOrderSchema } from '../enums/SortOrder.schema';
-import { AuxilioMaternidadeOrderByRelationAggregateInputObjectSchema } from './AuxilioMaternidadeOrderByRelationAggregateInput.schema';
-import { DocumentoHasBeneficioOrderByRelationAggregateInputObjectSchema } from './DocumentoHasBeneficioOrderByRelationAggregateInput.schema';
+import { SituacaoOrderByWithRelationInputObjectSchema } from './SituacaoOrderByWithRelationInput.schema';
+import { PessoaOrderByWithRelationInputObjectSchema } from './PessoaOrderByWithRelationInput.schema';
+import { TipoOrderByWithRelationInputObjectSchema } from './TipoOrderByWithRelationInput.schema';
+import { EspecialistaOrderByWithRelationInputObjectSchema } from './EspecialistaOrderByWithRelationInput.schema';
+import { DocumentosOrderByRelationAggregateInputObjectSchema } from './DocumentosOrderByRelationAggregateInput.schema';
+import { MovimentacaoOrderByRelationAggregateInputObjectSchema } from './MovimentacaoOrderByRelationAggregateInput.schema';
 
 import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.BeneficioOrderByWithRelationInput> = z
   .object({
     id: z.lazy(() => SortOrderSchema).optional(),
-    status: z.lazy(() => SortOrderSchema).optional(),
-    AuxilioMaternidade: z
-      .lazy(() => AuxilioMaternidadeOrderByRelationAggregateInputObjectSchema)
+    numero_beneficio: z.lazy(() => SortOrderSchema).optional(),
+    situacao_id: z.lazy(() => SortOrderSchema).optional(),
+    pessoa_id: z.lazy(() => SortOrderSchema).optional(),
+    tipo_id: z.lazy(() => SortOrderSchema).optional(),
+    especialista_id: z.lazy(() => SortOrderSchema).optional(),
+    situacao: z
+      .lazy(() => SituacaoOrderByWithRelationInputObjectSchema)
       .optional(),
-    DocumentoHasBeneficio: z
-      .lazy(
-        () => DocumentoHasBeneficioOrderByRelationAggregateInputObjectSchema,
-      )
+    pessoa: z.lazy(() => PessoaOrderByWithRelationInputObjectSchema).optional(),
+    tipo: z.lazy(() => TipoOrderByWithRelationInputObjectSchema).optional(),
+    especialista: z
+      .lazy(() => EspecialistaOrderByWithRelationInputObjectSchema)
+      .optional(),
+    Documentos: z
+      .lazy(() => DocumentosOrderByRelationAggregateInputObjectSchema)
+      .optional(),
+    Movimentacao: z
+      .lazy(() => MovimentacaoOrderByRelationAggregateInputObjectSchema)
       .optional(),
   })
   .strict();
