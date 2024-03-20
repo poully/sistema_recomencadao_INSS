@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Box, Button, Modal, Text, TextInput } from '@mantine/core';
-import { getAllEstados } from '../lib/api';
-import { CreateEstados } from '@/src/api-client/CreateEstados';
+import { Box, Button, Text, TextInput, Modal } from '@mantine/core';
+import { createEstado, getAllEstados } from '@/src/api-client/CreateEstado';
 
 export default function Home() {
     const [estados, setEstados] = useState([]);
