@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
-import { createCidade, getAllCidades } from './api/cidades/index';
 
 const prisma = new PrismaClient();
 

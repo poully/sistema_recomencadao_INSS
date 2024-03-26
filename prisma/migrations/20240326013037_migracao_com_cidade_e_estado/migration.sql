@@ -1,0 +1,5 @@
+-- AlterSequence
+ALTER SEQUENCE "Beneficio_id_seq" MAXVALUE 9223372036854775807;
+
+-- AlterSequence
+ALTER SEQUENCE "Documentos_id_seq" MAXVALUE 9223372036854775807;
