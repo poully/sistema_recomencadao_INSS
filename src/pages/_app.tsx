@@ -4,6 +4,7 @@ import { MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { AppProps } from 'next/app';
 import i18next from "i18next";
 import { z } from "zod";
@@ -32,6 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <MainLayout>
             <Component {...pageProps} />
           </MainLayout>
+          <ReactQueryDevtools />
         </QueryClientProvider>
       </MantineProvider>
     </ClerkProvider>

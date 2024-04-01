@@ -1,33 +1,35 @@
 import { useState } from 'react';
 import { Box, Button, Text, TextInput } from '@mantine/core';
 import { useQueryClient, QueryClient, QueryClientProvider } from 'react-query';
-import { useCreateCidade, useGetAllCidades } from '@/src/api-client/CreateCidade';
+import { useCreateCidade, useGetAllCidades } from '@/src/api-client/cidadeService';
 
 export default function Home() {
     const [cidadeForm, setCidadeForm] = useState({ nome: '' });
-    const queryClient = useQueryClient();
 
-    const createNewCidade = useCreateCidade();
+    // Instanciar o QueryClient
+    const queryClient = new QueryClient();
 
-    const { data: cidadesData } = useGetAllCidades(); // Obtendo dados de todas as cidades
+    const createNewCidade = useCreateCidade(queryClient);
+
+    const { data: cidadesData } = useGetAllCidades();
 
     const handleCreateCidade = async () => {
-        await createNewCidade(cidadeForm); // Invocando a função de mutação
+        await createNewCidade.mutateAsync(cidadeForm);
         setCidadeForm({ nome: '' });
-        queryClient.invalidateQueries('cidades'); // Invalidando a query 'cidades' para recarregar os dados
     };
 
     return (
-        <QueryClientProvider client={new QueryClient()}>
+        // Envolve o componente em um QueryClientProvider e fornece o QueryClient criado
+        <QueryClientProvider client={queryClient}>
             <Box>
                 <Text variant="h1">Cidades</Text>
-                {cidades.map((cidade) => (
+                {/* cidades.map((cidade) => (
                     <Box key={cidade.id}>
                         <Text>{cidade.nome}</Text>
                         <Button>Editar</Button>
                         <Button>Excluir</Button>
                     </Box>
-                ))}
+                )) */}
                 <Box>
                     <Text>Adicionar Cidade</Text>
                     <TextInput
