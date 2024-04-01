@@ -33,7 +33,6 @@ export default function App({ Component, pageProps }: AppProps) {
           <MainLayout>
             <Component {...pageProps} />
           </MainLayout>
-          <ReactQueryDevtools />
         </QueryClientProvider>
       </MantineProvider>
     </ClerkProvider>

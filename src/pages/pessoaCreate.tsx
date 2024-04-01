@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Box, Button, Text, TextInput } from '@mantine/core';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, QueryClient, QueryClientProvider } from 'react-query'; // Importe o QueryClient e o QueryClientProvider
 import { createPessoa } from '@/src/api-client/pessoaService';
+
+const queryClient = new QueryClient(); // Crie uma instância do QueryClient
 
 export default function PessoaCreate() {
   const [nome, setNome] = useState('');
-  const queryClient = useQueryClient();
   const { mutate } = useMutation(createPessoa, {
     onSuccess: () => {
       queryClient.invalidateQueries('pessoas');
@@ -30,5 +31,14 @@ export default function PessoaCreate() {
       />
       <Button onClick={handleCreatePessoa}>Adicionar</Button>
     </Box>
+  );
+}
+
+// Envolve o componente PessoaCreate em QueryClientProvider e fornece o QueryClient criado
+export function PessoaCreateWithQueryClientProvider() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <PessoaCreate />
+    </QueryClientProvider>
   );
 }

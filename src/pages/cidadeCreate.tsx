@@ -41,7 +41,7 @@ export default function CidadeCreate() {
       <Select
         label="Estado"
         value={estadoId}
-        onChange={(value) => setEstadoId(value)}
+        onChange={(event) => setEstadoId(event.target.value)}
       >
         {estados.map((estado) => (
           <option key={estado.id} value={estado.id}>
