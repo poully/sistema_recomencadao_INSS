@@ -50,7 +50,7 @@ const Schema: z.ZodType<Prisma.PessoaScalarWhereWithAggregatesInput> = z
     cnis: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
-    cidade_id: z
+    cidade_ibge_id: z
       .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
       .optional(),
   })

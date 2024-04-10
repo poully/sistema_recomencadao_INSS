@@ -55,7 +55,7 @@ const Schema: z.ZodType<Prisma.PessoaUncheckedUpdateManyInput> = z
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
-    cidade_id: z
+    cidade_ibge_id: z
       .union([
         z.number(),
         z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),

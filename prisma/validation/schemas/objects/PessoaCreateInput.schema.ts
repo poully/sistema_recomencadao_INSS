@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { CidadeCreateNestedOneWithoutPessoaInputObjectSchema } from './CidadeCreateNestedOneWithoutPessoaInput.schema';
 import { BeneficioCreateNestedManyWithoutPessoaInputObjectSchema } from './BeneficioCreateNestedManyWithoutPessoaInput.schema';
 
 import type { Prisma } from '@prisma/client';
@@ -13,7 +12,7 @@ const Schema: z.ZodType<Prisma.PessoaCreateInput> = z
     data_nasc: z.coerce.date(),
     cpf: z.string(),
     cnis: z.string(),
-    cidade: z.lazy(() => CidadeCreateNestedOneWithoutPessoaInputObjectSchema),
+    cidade_ibge_id: z.number(),
     Beneficio: z
       .lazy(() => BeneficioCreateNestedManyWithoutPessoaInputObjectSchema)
       .optional(),

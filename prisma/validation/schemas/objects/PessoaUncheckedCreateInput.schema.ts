@@ -13,7 +13,7 @@ const Schema: z.ZodType<Prisma.PessoaUncheckedCreateInput> = z
     data_nasc: z.coerce.date(),
     cpf: z.string(),
     cnis: z.string(),
-    cidade_id: z.number(),
+    cidade_ibge_id: z.number(),
     Beneficio: z
       .lazy(
         () => BeneficioUncheckedCreateNestedManyWithoutPessoaInputObjectSchema,

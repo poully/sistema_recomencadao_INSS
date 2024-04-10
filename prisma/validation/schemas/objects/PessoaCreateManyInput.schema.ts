@@ -12,7 +12,7 @@ const Schema: z.ZodType<Prisma.PessoaCreateManyInput> = z
     data_nasc: z.coerce.date(),
     cpf: z.string(),
     cnis: z.string(),
-    cidade_id: z.number(),
+    cidade_ibge_id: z.number(),
   })
   .strict();
 

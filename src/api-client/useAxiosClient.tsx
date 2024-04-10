@@ -1,8 +1,9 @@
-import { useAuth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 import axios from "axios";
 
-export const useAxiosClient = () => {    
-    const { getToken, isSignedIn, sessionId, userId } = useAuth();
+export const useAxiosClient = () => {
+
+    const { getToken } = auth();
 
     const client = axios.create({
         baseURL: process.env.NEXT_PUBLIC_API_URL,

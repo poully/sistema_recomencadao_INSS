@@ -2,8 +2,6 @@ import { z } from 'zod';
 import { IntFilterObjectSchema } from './IntFilter.schema';
 import { StringFilterObjectSchema } from './StringFilter.schema';
 import { DateTimeFilterObjectSchema } from './DateTimeFilter.schema';
-import { CidadeRelationFilterObjectSchema } from './CidadeRelationFilter.schema';
-import { CidadeWhereInputObjectSchema } from './CidadeWhereInput.schema';
 import { BeneficioListRelationFilterObjectSchema } from './BeneficioListRelationFilter.schema';
 
 import type { Prisma } from '@prisma/client';
@@ -48,14 +46,8 @@ const Schema: z.ZodType<Prisma.PessoaWhereInput> = z
     cnis: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
-    cidade_id: z
+    cidade_ibge_id: z
       .union([z.lazy(() => IntFilterObjectSchema), z.number()])
-      .optional(),
-    cidade: z
-      .union([
-        z.lazy(() => CidadeRelationFilterObjectSchema),
-        z.lazy(() => CidadeWhereInputObjectSchema),
-      ])
       .optional(),
     Beneficio: z.lazy(() => BeneficioListRelationFilterObjectSchema).optional(),
   })

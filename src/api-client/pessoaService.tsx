@@ -1,7 +1,4 @@
-import axios from 'axios';
-import { QueryClient } from 'react-query';
-
-const API_BASE_URL = '/api/pessoa';
+import { useAxiosClient } from './useAxiosClient';
 
 interface Pessoa {
   id: number;
@@ -10,9 +7,10 @@ interface Pessoa {
   cidadeId: number;
 }
 
-export async function getPessoas(queryClient: QueryClient): Promise<Pessoa[]> {
+export async function getPessoas(): Promise<Pessoa[]> {
+  const axios = useAxiosClient();
   try {
-    const response = await axios.get(`${API_BASE_URL}/pessoas`);
+    const response = await axios.get("/pessoas");
     return response.data;
   } catch (error) {
     console.error('Erro ao obter lista de pessoas:', error);
@@ -20,10 +18,13 @@ export async function getPessoas(queryClient: QueryClient): Promise<Pessoa[]> {
   }
 }
 
+/*
+
 export async function createPessoa(
   pessoa: Omit<Pessoa, 'id'>, // Remova o campo 'id' ao criar uma nova pessoa
   queryClient: QueryClient,
 ): Promise<Pessoa> {
+  const axios = useAxiosClient();
   try {
     const response = await axios.post(`${API_BASE_URL}/pessoas`, pessoa);
     queryClient.invalidateQueries('pessoas');
@@ -34,12 +35,12 @@ export async function createPessoa(
   }
 }
 
-export async function deletePessoa(id: number, queryClient: QueryClient): Promise<void> {
+export async function deletePessoa(id: number): Promise<void> {
   try {
     await axios.delete(`${API_BASE_URL}/pessoas/${id}`);
-    queryClient.invalidateQueries('pessoas');
   } catch (error) {
     console.error(`Erro ao deletar pessoa com ID ${id}:`, error);
     throw error;
   }
 }
+*/

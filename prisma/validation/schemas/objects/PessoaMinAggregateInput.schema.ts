@@ -12,7 +12,7 @@ const Schema: z.ZodType<Prisma.PessoaMinAggregateInputType> = z
     data_nasc: z.literal(true).optional(),
     cpf: z.literal(true).optional(),
     cnis: z.literal(true).optional(),
-    cidade_id: z.literal(true).optional(),
+    cidade_ibge_id: z.literal(true).optional(),
   })
   .strict();
 

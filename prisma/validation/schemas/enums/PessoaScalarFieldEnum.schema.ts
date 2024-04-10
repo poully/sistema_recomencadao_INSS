@@ -9,5 +9,5 @@ export const PessoaScalarFieldEnumSchema = z.enum([
   'data_nasc',
   'cpf',
   'cnis',
-  'cidade_id',
+  'cidade_ibge_id',
 ]);

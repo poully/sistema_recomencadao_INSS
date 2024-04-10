@@ -13,32 +13,17 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Estado {
-  id     Int      @id
-  nome   String
-  Cidade Cidade[]
-}
-
-model Cidade {
-  id        Int      @id
-  nome      String
-  estado_id Int
-  estado    Estado   @relation(fields: [estado_id], references: [id])
-  Pessoa    Pessoa[]
-}
-
 model Pessoa {
-  id        Int         @id @default(sequence())
-  nome      String
-  email     String
-  endereco  String
-  telefone  String
-  data_nasc DateTime // Use DateTime para representar data e hora
-  cpf       String
-  cnis      String
-  cidade_id Int
-  cidade    Cidade      @relation(fields: [cidade_id], references: [id])
-  Beneficio Beneficio[]
+  id             Int         @id @default(sequence())
+  nome           String
+  email          String
+  endereco       String
+  telefone       String
+  data_nasc      DateTime // Use DateTime para representar data e hora
+  cpf            String
+  cnis           String
+  cidade_ibge_id Int
+  Beneficio      Beneficio[]
 }
 
 model Situacao {

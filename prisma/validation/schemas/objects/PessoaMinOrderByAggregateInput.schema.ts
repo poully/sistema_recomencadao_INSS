@@ -13,7 +13,7 @@ const Schema: z.ZodType<Prisma.PessoaMinOrderByAggregateInput> = z
     data_nasc: z.lazy(() => SortOrderSchema).optional(),
     cpf: z.lazy(() => SortOrderSchema).optional(),
     cnis: z.lazy(() => SortOrderSchema).optional(),
-    cidade_id: z.lazy(() => SortOrderSchema).optional(),
+    cidade_ibge_id: z.lazy(() => SortOrderSchema).optional(),
   })
   .strict();
 
