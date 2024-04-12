@@ -3,7 +3,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import type { Metadata } from "next";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
     title: "Recomendação INSS",
@@ -24,7 +25,8 @@ export default function RootLayout({
                     <ColorSchemeScript />
                 </head>
                 <body>
-                    <MantineProvider>
+                    <ToastContainer />
+                    <MantineProvider>                   
                         {children}
                     </MantineProvider>
                 </body>

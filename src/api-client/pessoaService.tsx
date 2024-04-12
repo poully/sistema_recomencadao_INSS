@@ -1,11 +1,6 @@
+import { Pessoa } from "@prisma/client";
 import { useAxiosClient } from './useAxiosClient';
 
-interface Pessoa {
-  id: number;
-  nome: string;
-  idade: number;
-  cidadeId: number;
-}
 
 export async function getPessoas(): Promise<Pessoa[]> {
   const axios = useAxiosClient();

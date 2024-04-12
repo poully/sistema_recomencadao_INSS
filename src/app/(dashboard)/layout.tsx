@@ -1,7 +1,7 @@
 // import logo from '@logo.png';
-import { AppShell, AppShellHeader, AppShellMain, AppShellNavbar, Group } from '@mantine/core';
+import { AppShell, AppShellHeader, AppShellMain, AppShellNavbar, Group, Loader } from '@mantine/core';
 import Link from 'next/link';
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 
 export default function MainLayout({ children }: { children: ReactNode }) {
 
@@ -43,7 +43,9 @@ export default function MainLayout({ children }: { children: ReactNode }) {
                 <Link href="https://meu.inss.gov.br" target="_blank">Meu INSS</Link>
             </AppShellNavbar>
             <AppShellMain>
-                {children}
+                <Suspense fallback={<Loader/>}>
+                    {children}
+                </Suspense>
             </AppShellMain>
         </AppShell >
 

@@ -1,9 +1,12 @@
 'use client';
 
+import { useAxiosClient } from '@/src/api-client/useAxiosClient';
 import { Box, Button, Loader, Select, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useEffect, useState } from 'react';
-
+import { Pessoa } from '@prisma/client';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState, useTransition } from 'react';
+import { toast } from 'react-toastify';
 
 type Estado = {
     id: number;
@@ -19,16 +22,26 @@ type Cidade = {
     id: number;
     nome: string;
 }
+type PessoaForm =  {
+estado: number;
+} & Omit<Pessoa, "endereco" | "id" >;
+
 export default function PessoaCreate() {
     const [estados, setEstados] = useState<Estado[]>([]);
     const [cidades, setCidades] = useState<Cidade[]>([]);
     const [cidadesLoading, setCidadesLoading] = useState(false);
-
-    const form = useForm({
+    const axios = useAxiosClient();
+    const router = useRouter();
+    const form = useForm<PessoaForm>({
         initialValues: {
             nome: '',
-            cidade: 0,
+            email: '',
+            cidade_ibge_id: 0,
             estado: 0,
+            cpf: '',
+            cnis: "",
+            data_nasc: new Date(),
+            telefone: "",
         },
     });
 
@@ -53,12 +66,37 @@ export default function PessoaCreate() {
         };
         fetchMunicipios();
     }, [form.values.estado]);
-
+    const [isPending, startTransition] = useTransition();
+    const handleSubmit = (values: PessoaForm) => {
+        startTransition(async () => {
+            try{
+                const response = await axios.post("/pessoa", values);
+                toast.success("Inserido com sucesso.");
+                router.push("/pessoa");
+            } catch(e) {
+                toast.error("Erro ao adicionar uma nova pessoa");
+            }
+        });
+    }
     return (
         <Box>
             <Text variant="h1">Adicionar Pessoa</Text>
+            <form onSubmit={form.onSubmit(handleSubmit)}>
             <TextInput
                 label="Nome"
+                {...form.getInputProps('nome')}
+            />
+            <TextInput
+                label="Email"
+                {...form.getInputProps('email')}
+            />
+             <TextInput
+                label="CPF"
+                {...form.getInputProps('cpf')}
+            />
+             <TextInput
+                label="CNIS"
+                {...form.getInputProps('cnis')}
             />
             <Select
                 label="Estado"
@@ -66,6 +104,7 @@ export default function PessoaCreate() {
                 data={estados.map(e => ({ value: `${e.id}`, label: e.nome }))}
                 {...form.getInputProps('estado')}
             />
+            
             {cidadesLoading && <Loader />}
             {cidades?.length && !cidadesLoading ? <Select
                 label="Cidade"
@@ -73,10 +112,11 @@ export default function PessoaCreate() {
                 disabled={!form.values.estado}
                 data={cidades.map(e => ({ value: `${e.id}`, label: e.nome }))}
 
-                {...form.getInputProps('cidade')}
+                {...form.getInputProps('cidade_ibge_id')}
             /> : null}
 
-            <Button>Adicionar</Button>
+            <Button type="submit" loading={isPending}>Adicionar</Button>
+            </form>
         </Box>
     );
 }
