@@ -1,6 +1,6 @@
 'use client';
 
-import { useAxiosClient } from '@/src/api-client/useAxiosClient';
+import { useAxiosClient } from '@/src/api-client/getAxiosClient';
 import { Box, Button, Loader, Select, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Pessoa } from '@prisma/client';
