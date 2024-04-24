@@ -39,11 +39,12 @@ export default function MainLayout({ children }: { children: ReactNode }) {
                     ))} */}
                 <Link href="/">Home</Link>
                 <Link href="/pessoa">Pessoa</Link>
+                <Link href="/beneficio">Benefício</Link>
                 <Link href="https://sso.acesso.gov.br/login?client_id=portal-logado.estaleiro.serpro.gov.br&authorization_id=18aa4fd7e5c" target="_blank">Gov</Link>
                 <Link href="https://meu.inss.gov.br" target="_blank">Meu INSS</Link>
             </AppShellNavbar>
             <AppShellMain>
-                <Suspense fallback={<Loader/>}>
+                <Suspense fallback={<Loader />}>
                     {children}
                 </Suspense>
             </AppShellMain>
