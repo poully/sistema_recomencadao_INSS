@@ -14,7 +14,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const input = {...body, cidade_ibge_id: parseInt(body.cidade_ibge_id, 10)};
+        const input = { ...body, cidade_ibge_id: parseInt(body.cidade_ibge_id, 10) };
         const data = await PessoaCreateWithoutBeneficioInputObjectSchema.parseAsync(input);
         const pessoa = await prisma.pessoa.create({ data });
         return NextResponse.json(pessoa);
@@ -25,5 +25,5 @@ export async function POST(req: NextRequest) {
 }
 
 export async function UPDATE(req: NextRequest) {
-    
+
 }
