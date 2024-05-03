@@ -14,8 +14,8 @@ export default async function TipoList() {
     return (
         <Box>
             <Group>
-                <Text variant="h1">Lista tipos de beneficios</Text>
-                <Link href="/tipo/create">
+                <Text variant="h1">Lista dos tipos de beneficios</Text>
+                <Link href="/tipoBeneficio/create">
                     <Button>Novo tipo</Button>
                 </Link>
 
