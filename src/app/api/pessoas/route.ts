@@ -41,7 +41,3 @@ export async function PUT(req: NextResponse, { params }: { params: { id: number 
         return NextResponse.json({ error: validationError.toString() }, { status: 500 })
     }
 }
-
-export async function DELETE(req: NextRequest) {
-
-}
