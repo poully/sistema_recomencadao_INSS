@@ -1,4 +1,4 @@
-import { PessoaCreateWithoutBeneficioInputObjectSchema } from "@/prisma/validation/schemas";
+import { DocumentosCreateWithoutBeneficioInputObjectSchema } from "@/prisma/validation/schemas";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { fromError } from 'zod-validation-error';
@@ -14,9 +14,9 @@ export async function GET() {
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const data = await PessoaCreateWithoutBeneficioInputObjectSchema.parseAsync(input);
-        const pessoa = await prisma.documentos.create({ data });
-        return NextResponse.json(pessoa);
+        const data = await DocumentosCreateWithoutBeneficioInputObjectSchema.parseAsync(input);
+        const documento = await prisma.documentos.create({ data });
+        return NextResponse.json(documento);
     } catch (e) {
         const validationError = fromError(e);
         return NextResponse.json({ error: validationError.toString() }, { status: 500 })
