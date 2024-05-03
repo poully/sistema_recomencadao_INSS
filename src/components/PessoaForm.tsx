@@ -1,6 +1,7 @@
 'use client';
 
 import { useAxiosClient } from '@/src/api-client/getAxiosClient';
+import { useIbge, Cidade, Estado } from '@/src/hooks';
 import { Box, Button, Loader, Select, Text, TextInput } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
@@ -10,31 +11,19 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
 
-type Estado = {
-    id: number;
-    nome: string;
-    sigla: string;
-    regiao: {
-        id: string;
-        sigla: string;
-        nome: string;
-    }
-};
-type Cidade = {
-    id: number;
-    nome: string;
-}
-type PessoaForm = {
+
+export type PessoaFormInput = {
     estado: number;
 } & Omit<Pessoa, "id">;
-
-export default function PessoaCreate() {
-    const [estados, setEstados] = useState<Estado[]>([]);
-    const [cidades, setCidades] = useState<Cidade[]>([]);
-    const [cidadesLoading, setCidadesLoading] = useState(false);
+type PessoaFormProps = {
+    data?: PessoaFormInput;
+    onSubmit?: (values: PessoaFormInput) => Promise<void>;
+    title?: string;
+}
+export function PessoaForm({ data, onSubmit, title }: PessoaFormProps) {
     const axios = useAxiosClient();
     const router = useRouter();
-    const form = useForm<PessoaForm>({
+    const form = useForm<PessoaFormInput>({
         initialValues: {
             nome: '',
             email: '',
@@ -47,46 +36,32 @@ export default function PessoaCreate() {
             endereco: "",
         },
     });
+    const onChangeEstado = (estadoId: number) => {
+        form.setFieldValue('estado', estadoId);
+    }
+    const { cidades, estados, cidadesLoading, setSelectedEstado, setSelectedCidade } = useIbge({ cidadeId: data?.cidade_ibge_id, onChangeEstado });
 
     useEffect(() => {
-        const fetchEstados = async () => {
-            const estadosResponse = await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados");
-            const estados = await estadosResponse.json();
-            setEstados(estados);
-        };
-        fetchEstados();
-    }, []);
+        if (form.values.estado) {
+            setSelectedEstado(`${form.values.estado}`);
+        }
+    }, [form.values.estado, data?.cidade_ibge_id]);
 
     useEffect(() => {
-        const fetchMunicipios = async () => {
-            if (form.values.estado) {
-                setCidadesLoading(true);
-                const municipiosResponse = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${form.values.estado}/municipios`);
-                const municipios = await municipiosResponse.json();
-                setCidades(municipios);
-                setCidadesLoading(false);
-            }
-        };
-        fetchMunicipios();
-    }, [form.values.estado]);
+        if (data) {
+            form.setValues({ ...data, data_nasc: new Date(data.data_nasc) });
+        }
+    }, [data]);
+
     const [isPending, startTransition] = useTransition();
-    const handleSubmit = (values: PessoaForm) => {
-        startTransition(async () => {
-            try {
-                const {estado, ...input} = values;
-                const response = await axios.post("/pessoas", input);
-                toast.success("Inserido com sucesso.");
-                router.push("/pessoa");
-            } catch (e) {
-                const error = e as AxiosError;
-                // @ts-expect-error
-                toast.error(error.response?.data?.error!);
-            }
-        });
+    const handleSubmit = (values: PessoaFormInput) => {
+        if (onSubmit) {
+            startTransition(async () => onSubmit(values));
+        }
     }
     return (
         <Box>
-            <Text variant="h1">Adicionar Pessoa</Text>
+            <Text variant="h1">{title}</Text>
             <form onSubmit={form.onSubmit(handleSubmit)}>
                 <TextInput
                     label="Nome"

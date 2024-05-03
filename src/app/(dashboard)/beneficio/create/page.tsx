@@ -3,9 +3,7 @@
 import { useAxiosClient } from '@/src/api-client/getAxiosClient';
 import { Box, Button, Loader, Select, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { Beneficio } from '@prisma/client';
-import { Movimentacao } from '@prisma/client';
-import { Tipo } from '@prisma/client';
+import { Beneficio, Movimentacao } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
@@ -25,9 +23,9 @@ type Tipo = {
     nome: string;
 }
 
-type BeneficioForm =  {
-estado: number;
-} & Omit<Beneficio, "id" >;
+type BeneficioForm = {
+    estado: number;
+} & Omit<Beneficio, "id">;
 
 export default function BeneficioCreate() {
     const [pessoa, setPessoa] = useState<Pessoa[]>([]);
@@ -68,11 +66,11 @@ export default function BeneficioCreate() {
     const [isPending, startTransition] = useTransition();
     const handleSubmit = (values: BeneficioForm) => {
         startTransition(async () => {
-            try{
+            try {
                 const response = await axios.post("/beneficio", values);
                 toast.success("Inserido com sucesso.");
                 router.push("/beneficio");
-            } catch(e) {
+            } catch (e) {
                 toast.error("Erro ao adicionar um novo beneficio");
             }
         });
@@ -81,29 +79,29 @@ export default function BeneficioCreate() {
         <Box>
             <Text variant="h1">Adicionar Beneficio</Text>
             <form onSubmit={form.onSubmit(handleSubmit)}>
-            <TextInput
-                label="Número Beneficio"
-                {...form.getInputProps('numero_beneficio')}
-            />
-            
-            <Select
-                label="Pessoa"
-                placeholder="Selecione a pessoa"
-                data={pessoa.map(e => ({ value: `${e.id}`, label: e.nome }))}
-                {...form.getInputProps('estado')}
-            />
-            
-            {pessoasLoading && <Loader />}
-            {pessoa?.length && !pessoasLoading ? <Select
-                label="Cidade"
-                placeholder="Selecione a cidade"
-                disabled={!form.values.estado}
-                data={pessoa.map(e => ({ value: `${e.id}`, label: e.nome }))}
+                <TextInput
+                    label="Número Beneficio"
+                    {...form.getInputProps('numero_beneficio')}
+                />
 
-                {...form.getInputProps('cidade_ibge_id')}
-            /> : null}
+                <Select
+                    label="Pessoa"
+                    placeholder="Selecione a pessoa"
+                    data={pessoa.map(e => ({ value: `${e.id}`, label: e.nome }))}
+                    {...form.getInputProps('pessoa')}
+                />
 
-            <Button type="submit" loading={isPending}>Adicionar</Button>
+                {pessoasLoading && <Loader />}
+                {pessoa?.length && !pessoasLoading ? <Select
+                    label="Pessoa"
+                    placeholder="Selecione a pessoa"
+                    disabled={!form.values.pessoa}
+                    data={pessoa.map(e => ({ value: `${e.id}`, label: e.nome }))}
+
+                    {...form.getInputProps('cidade_ibge_id')}
+                /> : null}
+
+                <Button type="submit" loading={isPending}>Adicionar</Button>
             </form>
         </Box>
     );
