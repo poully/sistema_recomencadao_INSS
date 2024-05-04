@@ -23,13 +23,10 @@ type Tipo = {
     nome: string;
 }
 
-type BeneficioForm = {
-    estado: number;
-} & Omit<Beneficio, "id">;
+type BeneficioForm = Omit<Beneficio, "id">;
 
 export default function BeneficioCreate() {
-    const [pessoa, setPessoa] = useState<Pessoa[]>([]);
-    const [pessoasLoading, setPessoasLoading] = useState(false);
+    const [pessoa] = useState<Pessoa[]>([]);
     const axios = useAxiosClient();
     const router = useRouter();
     const form = useForm<BeneficioForm>({
@@ -42,27 +39,6 @@ export default function BeneficioCreate() {
         },
     });
 
-    // useEffect(() => {
-    //     const fetchEstados = async () => {
-    //         const estadosResponse = await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados");
-    //         const estados = await estadosResponse.json();
-    //         setEstados(estados);
-    //     };
-    //     fetchEstados();
-    // }, []);
-
-    // useEffect(() => {
-    //     const fetchMunicipios = async () => {
-    //         if (form.values.estado) {
-    //             setCidadesLoading(true);
-    //             const municipiosResponse = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${form.values.estado}/municipios`);
-    //             const municipios = await municipiosResponse.json();
-    //             setCidades(municipios);
-    //             setCidadesLoading(false);
-    //         }
-    //     };
-    //     fetchMunicipios();
-    // }, [form.values.estado]);
     const [isPending, startTransition] = useTransition();
     const handleSubmit = (values: BeneficioForm) => {
         startTransition(async () => {
@@ -83,23 +59,36 @@ export default function BeneficioCreate() {
                     label="Número Beneficio"
                     {...form.getInputProps('numero_beneficio')}
                 />
-
                 <Select
                     label="Pessoa"
                     placeholder="Selecione a pessoa"
                     data={pessoa.map(e => ({ value: `${e.id}`, label: e.nome }))}
                     {...form.getInputProps('pessoa')}
                 />
-
-                {pessoasLoading && <Loader />}
-                {pessoa?.length && !pessoasLoading ? <Select
-                    label="Pessoa"
-                    placeholder="Selecione a pessoa"
-                    disabled={!form.values.pessoa}
+                <Select
+                    label="Situação"
+                    placeholder="Selecione a Situação"
                     data={pessoa.map(e => ({ value: `${e.id}`, label: e.nome }))}
-
-                    {...form.getInputProps('cidade_ibge_id')}
-                /> : null}
+                    {...form.getInputProps('situacao')}
+                />
+                <Select
+                    label="Situação"
+                    placeholder="Selecione a Situação"
+                    data={pessoa.map(e => ({ value: `${e.id}`, label: e.nome }))}
+                    {...form.getInputProps('situacao')}
+                />
+                <Select
+                    label="Tipo de Beneficio"
+                    placeholder="Tipo de Beneficio"
+                    data={pessoa.map(e => ({ value: `${e.id}`, label: e.nome }))}
+                    {...form.getInputProps('tipoBeneficio')}
+                />
+                <Select
+                    label="Especialista"
+                    placeholder="Selecione o Especialista"
+                    data={pessoa.map(e => ({ value: `${e.id}`, label: e.nome }))}
+                    {...form.getInputProps('especialista')}
+                />
 
                 <Button type="submit" loading={isPending}>Adicionar</Button>
             </form>

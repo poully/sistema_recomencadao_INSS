@@ -2,14 +2,8 @@
 
 import { useAxiosClient } from '@/src/api-client/getAxiosClient';
 import { PessoaFormInput, PessoaForm } from '@/src/components';
-import { useIbge } from '@/src/hooks';
-import { Box, Button, Loader, Select, Text, TextInput } from '@mantine/core';
-import { DatePickerInput } from '@mantine/dates';
-import { useForm } from '@mantine/form';
-import { Pessoa } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
 
 

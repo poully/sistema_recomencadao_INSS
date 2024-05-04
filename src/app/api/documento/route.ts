@@ -14,9 +14,9 @@ export async function GET() {
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const data = await DocumentosCreateWithoutBeneficioInputObjectSchema.parseAsync(input);
-        const documento = await prisma.documentos.create({ data });
-        return NextResponse.json(documento);
+        const data = await DocumentosCreateWithoutBeneficioInputObjectSchema.parseAsync(body);
+        const documentos = await prisma.documentos.create({ data });
+        return NextResponse.json(documentos);
     } catch (e) {
         const validationError = fromError(e);
         return NextResponse.json({ error: validationError.toString() }, { status: 500 })
