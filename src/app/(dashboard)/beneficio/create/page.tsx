@@ -72,10 +72,10 @@ export default function BeneficioCreate() {
                     {...form.getInputProps('situacao')}
                 />
                 <Select
-                    label="Situação"
-                    placeholder="Selecione a Situação"
+                    label="Movimentação"
+                    placeholder="Selecione a Movimentação"
                     data={pessoa.map(e => ({ value: `${e.id}`, label: e.nome }))}
-                    {...form.getInputProps('situacao')}
+                    {...form.getInputProps('movimentacao')}
                 />
                 <Select
                     label="Tipo de Beneficio"
