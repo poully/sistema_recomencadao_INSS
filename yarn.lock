@@ -237,10 +237,10 @@
   dependencies:
     clsx "2.1.0"
 
-"@mantine/dropzone@^7.6.2":
-  version "7.7.1"
-  resolved "https://registry.yarnpkg.com/@mantine/dropzone/-/dropzone-7.7.1.tgz#b189088c5af17ee9b5e3a7b45d350a7932e8e9b6"
-  integrity sha512-B5DmWGX0F7yDem+Y+fQy4ZIBy/DkTd9TmlqPhCy8MYdC33I3GSv9o/MAnqbeG0tEnS0X1Aw6h5mnqnsVFYpf2w==
+"@mantine/dropzone@^7.9.2":
+  version "7.9.2"
+  resolved "https://registry.yarnpkg.com/@mantine/dropzone/-/dropzone-7.9.2.tgz#4ccafcce438282264b0d8a160c85baf3f383e1d5"
+  integrity sha512-+vGO04gwwcpDfb+NIjuK0IltIqy0ZeYcFTjRuMgn+Occu2/qCLjH6AyYYUEzyBtSIP/pLWYCf+vGqQqvIA/zmQ==
   dependencies:
     react-dropzone-esm "15.0.1"
 
@@ -541,6 +541,18 @@
   integrity sha512-E4KcWTpoLHqwPHLxidpOqQbcrZVgi0rsmmZXUle1jXmJfuIf/UWpczUJ7MZZ5tlxytgJXyp0w4PGkkeLiuIdZw==
   dependencies:
     tslib "^2.4.0"
+
+"@tabler/icons-react@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons-react/-/icons-react-3.4.0.tgz#6f4783f0cfd42ab6bd47b6c14758c97e70d9025b"
+  integrity sha512-hwRXZ//7B3d8FSb2loMj67s8UZeneCsOCs+Acv0KllWXS15brpFjdi6ROf/Vq5+vr1brFf+xmSTiQkKlEF1Yaw==
+  dependencies:
+    "@tabler/icons" "3.4.0"
+
+"@tabler/icons@3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-3.4.0.tgz#9e043543920a37d75fbcfd4ed7d3746ca8049aec"
+  integrity sha512-6gYHXG0xAJgt2KPcTYDqhe3xYoJMTgz/ZfYup4EUHsxzYsz6rBlt8WgavHsGaWckaqH7ApR/epYslfXZjK27yw==
 
 "@tanstack/query-core@5.28.13":
   version "5.28.13"

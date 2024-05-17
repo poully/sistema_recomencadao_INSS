@@ -6,7 +6,8 @@ import type { Prisma } from '@prisma/client';
 const Schema: z.ZodType<Prisma.DocumentosCreateInput> = z
   .object({
     descricao: z.string(),
-    imagem: z.string(),
+    conteudo: z.string(),
+    extensao: z.string(),
     beneficio: z.lazy(
       () => BeneficioCreateNestedOneWithoutDocumentosInputObjectSchema,
     ),

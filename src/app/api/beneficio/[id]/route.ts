@@ -1,4 +1,4 @@
-import { BeneficioUpdateWithoutDocumentosInputObjectSchema } from "@/prisma/validation/schemas";
+import { BeneficioUpdateInputObjectSchema } from "@/prisma/validation/schemas";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -14,7 +14,7 @@ export async function GET(req: NextRequest, { id }: Params) {
 export async function PUT(req: NextRequest, { id }: Params) {
     try {
         const body = await req.json();
-        const data = await BeneficioUpdateWithoutDocumentosInputObjectSchema.parseAsync(body);
+        const data = await BeneficioUpdateInputObjectSchema.parseAsync(body);
         const beneficio = await prisma.beneficio.update({ data, where: { id } });
         return NextResponse.json(beneficio);
     } catch (e) {

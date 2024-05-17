@@ -8,9 +8,8 @@ generator client {
 }
 
 datasource db {
-  provider     = "cockroachdb"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
 }
 
 model Pessoa {
@@ -65,7 +64,8 @@ model Beneficio {
 model Documentos {
   id           Int       @id @default(sequence())
   descricao    String
-  imagem       String // Use String para representar imagens, ou relacione com uma tabela separada se for grande
+  conteudo     String
+  extensao     String
   beneficio_id Int
   beneficio    Beneficio @relation(fields: [beneficio_id], references: [id])
 }

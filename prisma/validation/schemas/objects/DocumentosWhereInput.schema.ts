@@ -28,7 +28,10 @@ const Schema: z.ZodType<Prisma.DocumentosWhereInput> = z
     descricao: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
-    imagem: z
+    conteudo: z
+      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
+      .optional(),
+    extensao: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
     beneficio_id: z

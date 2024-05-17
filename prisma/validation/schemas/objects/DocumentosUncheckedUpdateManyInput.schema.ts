@@ -18,7 +18,13 @@ const Schema: z.ZodType<Prisma.DocumentosUncheckedUpdateManyInput> = z
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
-    imagem: z
+    conteudo: z
+      .union([
+        z.string(),
+        z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
+    extensao: z
       .union([
         z.string(),
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),

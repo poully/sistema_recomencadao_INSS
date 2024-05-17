@@ -2,6 +2,7 @@ import { ptBR } from "@clerk/localizations";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
+import '@mantine/dropzone/styles.css';
 import type { Metadata } from "next";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -26,7 +27,7 @@ export default function RootLayout({
                 </head>
                 <body>
                     <ToastContainer />
-                    <MantineProvider>                   
+                    <MantineProvider>
                         {children}
                     </MantineProvider>
                 </body>

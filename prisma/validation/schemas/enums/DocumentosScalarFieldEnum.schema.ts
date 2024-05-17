@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const DocumentosScalarFieldEnumSchema = z.enum([
   'id',
   'descricao',
-  'imagem',
+  'conteudo',
+  'extensao',
   'beneficio_id',
 ]);
