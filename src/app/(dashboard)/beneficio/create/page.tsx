@@ -1,13 +1,13 @@
 'use client';
 
 import { useAxiosClient } from '@/src/api-client/getAxiosClient';
-import { Box, Button, Group, Image, Select, SimpleGrid, Text, TextInput, rem } from '@mantine/core';
-import { Dropzone, DropzoneAccept, DropzoneIdle, DropzoneReject, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { Box, Button, Flex, Group, Select, Text, TextInput, rem } from '@mantine/core';
+import { Dropzone, DropzoneAccept, DropzoneIdle, DropzoneReject, FileWithPath, PDF_MIME_TYPE } from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
-import { Beneficio, Documentos } from '@prisma/client';
+import { Beneficio, Documentos, Especialista, Situacao } from '@prisma/client';
 import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
-import { useState, useTransition } from 'react';
+import { useCallback, useEffect, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
 
 type Pessoa = {
@@ -28,9 +28,24 @@ type Tipo = {
 type BeneficioForm = { documentos?: Omit<Documentos, "id" | "descricao" | "beneficio_id">[] } & Omit<Beneficio, "id">;
 
 export default function BeneficioCreate() {
-    const [pessoa] = useState<Pessoa[]>([]);
+    const [pessoas, setPessoas] = useState<Pessoa[]>([]);
     const [files, setFiles] = useState<FileWithPath[]>([]);
+    const [tipos, setTipo] = useState<Tipo[]>([]);
+    const [situacoes, setSituacoes] = useState<Situacao[]>([]);
+    const [especialistas, setEspecialistas] = useState<Especialista[]>([]);
     const axios = useAxiosClient();
+    useEffect(() => {
+        const fetchData = async () => {
+            const endpoints = ["/pessoas", "/tipoBeneficio", "/situacao", "/especialista"];
+            const promiseAllResults = await Promise.all(endpoints.map(async e => axios.get(e)));
+            const [responsePessoa, responseTipo, responseSituacao, responseEspecialista] = promiseAllResults;
+            setPessoas(responsePessoa.data);
+            setTipo(responseTipo.data);
+            setSituacoes(responseSituacao.data);
+            setEspecialistas(responseEspecialista.data);
+        }
+        fetchData();
+    }, []);
     const router = useRouter();
     const form = useForm<BeneficioForm>({
         initialValues: {
@@ -43,6 +58,14 @@ export default function BeneficioCreate() {
     });
 
     const [isPending, startTransition] = useTransition();
+    const removeFile = useCallback((index: number) => {
+        const newFiles = [...files];
+        newFiles.splice(index, 1);
+        setFiles(newFiles);
+    }, [files]);
+    const addFile = useCallback((newFiles: FileWithPath[]) => {
+        setFiles([...files, ...newFiles]);
+    }, [files]);
     const handleSubmit = (values: BeneficioForm) => {
         startTransition(async () => {
             try {
@@ -50,9 +73,8 @@ export default function BeneficioCreate() {
                 if (files) {
                     const promises = files.map(async (file) => {
                         const buffer = await file.arrayBuffer();
-                        const conteudo = Buffer.from(buffer).toString('base64');
-                        const extensao = file.name.split('.').pop();
-                        return { conteudo, extensao };
+                        const imagem = Buffer.from(buffer).toString('base64');
+                        return { imagem, descricao: file.name };
                     })
                     docs.push(...(await Promise.all(promises)));
                 }
@@ -76,37 +98,31 @@ export default function BeneficioCreate() {
                 <Select
                     label="Pessoa"
                     placeholder="Selecione a pessoa"
-                    data={pessoa.map(e => ({ value: `${e.id}`, label: e.nome }))}
-                    {...form.getInputProps('pessoa')}
+                    data={pessoas.map(e => ({ value: `${e.id}`, label: e.nome }))}
+                    {...form.getInputProps('pessoa_id')}
                 />
                 <Select
                     label="Situação"
                     placeholder="Selecione a Situação"
-                    data={pessoa.map(e => ({ value: `${e.id}`, label: e.nome }))}
-                    {...form.getInputProps('situacao')}
-                />
-                <Select
-                    label="Movimentação"
-                    placeholder="Selecione a Movimentação"
-                    data={pessoa.map(e => ({ value: `${e.id}`, label: e.nome }))}
-                    {...form.getInputProps('movimentacao')}
+                    data={situacoes.map(e => ({ value: `${e.id}`, label: e.nome }))}
+                    {...form.getInputProps('situacao_id')}
                 />
                 <Select
                     label="Tipo de Beneficio"
                     placeholder="Tipo de Beneficio"
-                    data={pessoa.map(e => ({ value: `${e.id}`, label: e.nome }))}
-                    {...form.getInputProps('tipoBeneficio')}
+                    data={tipos.map(e => ({ value: `${e.id}`, label: e.nome }))}
+                    {...form.getInputProps('tipo_id')}
                 />
                 <Select
                     label="Especialista"
                     placeholder="Selecione o Especialista"
-                    data={pessoa.map(e => ({ value: `${e.id}`, label: e.nome }))}
-                    {...form.getInputProps('especialista')}
+                    data={especialistas.map(e => ({ value: `${e.id}`, label: e.nome }))}
+                    {...form.getInputProps('especialista_id')}
                 />
                 <Dropzone
-                    onDrop={setFiles}
+                    onDrop={addFile}
                     maxSize={5 * 1024 ** 2}
-                    accept={IMAGE_MIME_TYPE}
+                    accept={PDF_MIME_TYPE}
 
                 >
                     <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
@@ -131,7 +147,7 @@ export default function BeneficioCreate() {
 
                         <div>
                             <Text size="xl" inline>
-                                Arraste as imagens aqui ou clique para selecionar os arquivos
+                                Arraste os pdfs aqui ou clique para selecionar os arquivos
                             </Text>
                             <Text size="sm" c="dimmed" inline mt={7}>
                                 Anexe quantos arquivos quiser, cada arquivo não deve exceder 5mb
@@ -139,12 +155,11 @@ export default function BeneficioCreate() {
                         </div>
                     </Group>
                 </Dropzone>
-                <SimpleGrid cols={{ base: 1, sm: 4 }} mt={files.length > 0 ? 'xl' : 0}>
+                <Box>
                     {files?.length ? files.map((file, index) => {
-                        const imageUrl = URL.createObjectURL(file);
-                        return <Image key={index} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />;
+                        return <Flex align="center"><span>{file.name}</span><span style={{ cursor: "pointer" }}><IconX color='red' onClick={() => removeFile(index)} /></span></Flex>;
                     }) : null}
-                </SimpleGrid>
+                </Box>
 
                 <Button type="submit" loading={isPending}>Adicionar</Button>
             </form>

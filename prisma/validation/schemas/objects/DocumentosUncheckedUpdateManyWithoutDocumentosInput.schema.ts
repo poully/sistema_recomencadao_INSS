@@ -19,13 +19,7 @@ const Schema: z.ZodType<Prisma.DocumentosUncheckedUpdateManyWithoutDocumentosInp
           z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
-      conteudo: z
-        .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
-        ])
-        .optional(),
-      extensao: z
+      imagem: z
         .union([
           z.string(),
           z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),

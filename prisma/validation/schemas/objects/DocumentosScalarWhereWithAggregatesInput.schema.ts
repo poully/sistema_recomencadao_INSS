@@ -32,10 +32,7 @@ const Schema: z.ZodType<Prisma.DocumentosScalarWhereWithAggregatesInput> = z
     descricao: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
-    conteudo: z
-      .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
-      .optional(),
-    extensao: z
+    imagem: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
     beneficio_id: z

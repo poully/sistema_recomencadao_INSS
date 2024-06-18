@@ -6,8 +6,7 @@ const Schema: z.ZodType<Prisma.DocumentosCreateManyBeneficioInput> = z
   .object({
     id: z.number().optional(),
     descricao: z.string(),
-    conteudo: z.string(),
-    extensao: z.string(),
+    imagem: z.string(),
   })
   .strict();
 

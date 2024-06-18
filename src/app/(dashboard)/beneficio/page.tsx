@@ -1,16 +1,22 @@
 import { getBeneficio } from '@/src/api-client/beneficioService';
-import { Box, Button, Group, Table, TableData, Text } from '@mantine/core';
+import { Box, Button, Group, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text } from '@mantine/core';
 import Link from 'next/link';
 
 export default async function PessoaList() {
-    const pessoas = await getBeneficio();
-    const tableData: TableData = {
-        caption: '',
-        head: ["Benefício", "Tipo", "Nome", "Situação"],
-        body: pessoas.map((beneficio) => (
-            [beneficio.id, beneficio.tipo_id, beneficio.pessoa_id, beneficio.situacao_id]
-        )),
-    };
+    const beneficios = await getBeneficio();
+    const rows = beneficios.map((beneficio) => (
+        <Link href={`/beneficio/${beneficio.id}`} key={beneficio.id}>
+            <TableTr>
+
+                <TableTd>{beneficio.tipo_id}</TableTd>
+                <TableTd>{beneficio.pessoa_id}</TableTd>
+                <TableTd>{beneficio.situacao_id}</TableTd>
+
+            </TableTr>
+        </Link>
+    ));
+    const headers = ["Benefício", "Tipo", "Nome", "Situação"];
+
     return (
         <Box>
             <Group>
@@ -21,7 +27,16 @@ export default async function PessoaList() {
 
             </Group>
 
-            <Table data={tableData} />
+            <Table highlightOnHover >
+                <TableThead>
+                    <TableTr>
+                        {headers.map((header) => (
+                            <TableTh key={header}>{header}</TableTh>
+                        ))}
+                    </TableTr>
+                </TableThead>
+                <TableTbody>{rows}</TableTbody>
+            </Table>
         </Box>
     );
 }

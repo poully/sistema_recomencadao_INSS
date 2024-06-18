@@ -64,8 +64,7 @@ model Beneficio {
 model Documentos {
   id           Int       @id @default(sequence())
   descricao    String
-  conteudo     String
-  extensao     String
+  imagem       String
   beneficio_id Int
   beneficio    Beneficio @relation(fields: [beneficio_id], references: [id])
 }

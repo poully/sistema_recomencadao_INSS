@@ -8,8 +8,7 @@ const Schema: z.ZodType<Prisma.DocumentosOrderByWithRelationInput> = z
   .object({
     id: z.lazy(() => SortOrderSchema).optional(),
     descricao: z.lazy(() => SortOrderSchema).optional(),
-    conteudo: z.lazy(() => SortOrderSchema).optional(),
-    extensao: z.lazy(() => SortOrderSchema).optional(),
+    imagem: z.lazy(() => SortOrderSchema).optional(),
     beneficio_id: z.lazy(() => SortOrderSchema).optional(),
     beneficio: z
       .lazy(() => BeneficioOrderByWithRelationInputObjectSchema)
