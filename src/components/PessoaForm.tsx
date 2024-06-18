@@ -1,22 +1,20 @@
 'use client';
 
 import { useAxiosClient } from '@/src/api-client/getAxiosClient';
-import { useIbge, Cidade, Estado } from '@/src/hooks';
+import { useIbge } from '@/src/hooks';
 import { Box, Button, Loader, Select, Text, TextInput } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import { Pessoa } from '@prisma/client';
-import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, useTransition } from 'react';
-import { toast } from 'react-toastify';
+import { useEffect, useTransition } from 'react';
 
 
 export type PessoaFormInput = {
     estado: number;
 } & Omit<Pessoa, "id">;
 type PessoaFormProps = {
-    data?: PessoaFormInput;
+    data?: PessoaFormInput | undefined;
     onSubmit?: (values: PessoaFormInput) => Promise<void>;
     title?: string;
 }
@@ -38,17 +36,18 @@ export function PessoaForm({ data, onSubmit, title }: PessoaFormProps) {
     });
     const onChangeEstado = (estadoId: number) => {
         form.setFieldValue('estado', estadoId);
-    }
+    };
     const { cidades, estados, cidadesLoading, setSelectedEstado, setSelectedCidade } = useIbge({ cidadeId: data?.cidade_ibge_id, onChangeEstado });
 
     useEffect(() => {
         if (form.values.estado) {
-            setSelectedEstado(`${form.values.estado}`);
+            setSelectedEstado(form.values.estado);
         }
     }, [form.values.estado, data?.cidade_ibge_id]);
 
     useEffect(() => {
         if (data) {
+            if (data.cidade_ibge_id) setSelectedCidade(data.cidade_ibge_id);
             form.setValues({ ...data, data_nasc: new Date(data.data_nasc) });
         }
     }, [data]);
@@ -110,8 +109,10 @@ export function PessoaForm({ data, onSubmit, title }: PessoaFormProps) {
                     {...form.getInputProps('cidade_ibge_id')}
                 /> : null}
 
+                <Box>
+                    <Button mt="sm" type="submit" loading={isPending}>{data ? "Alterar" : "Adicionar"}</Button>
+                </Box>
 
-                <Button type="submit" loading={isPending}>Adicionar</Button>
             </form>
         </Box>
     );

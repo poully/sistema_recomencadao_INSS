@@ -1,6 +1,6 @@
 'use client'
 
-import { useTransition, useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 export type Estado = {
     id: number;
@@ -22,19 +22,22 @@ export const useIbge = (params?: { cidadeId?: string | number | undefined, onCha
     const [estados, setEstados] = useState<Estado[]>([]);
     const [cidades, setCidades] = useState<Cidade[]>([]);
     const [cidadesLoading, startCidadesLoading] = useTransition();
+    const fetchEstados = async () => {
+        const estadosResponse = await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados");
+        const estadosData = await estadosResponse.json();
+        setEstados(estadosData);
+    };
     useEffect(() => {
 
-        const fetchEstados = async () => {
-            const estadosResponse = await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados");
-            const estados = await estadosResponse.json();
-            setEstados(estados);
-        };
-        fetchEstados();
         if (params?.cidadeId) {
-            setSelectedCidade(params.cidadeId);
+            setSelectedCidade(parseInt(`${params.cidadeId}`, 10));
+        } else {
+            fetchEstados();
         }
 
-    }, [params.cidadeId]);
+
+
+    }, [params?.cidadeId]);
 
     const setSelectedEstado = (estadoId: number) => {
         if (params?.onChangeEstado) params.onChangeEstado(estadoId);
@@ -46,7 +49,8 @@ export const useIbge = (params?: { cidadeId?: string | number | undefined, onCha
             }
         });
     };
-    const setSelectedCidade = async (cidadeId: string) => {
+    const setSelectedCidade = async (cidadeId: number) => {
+        fetchEstados();
         const municipioResponse = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${cidadeId}`);
         const municipio = await municipioResponse.json();
         setSelectedEstado(municipio.microrregiao.mesorregiao.UF.id);

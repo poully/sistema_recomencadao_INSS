@@ -1,28 +1,39 @@
 'use client'
 import { useAxiosClient } from '@/src/api-client/getAxiosClient';
-import { PessoaFormInput, PessoaForm } from '@/src/components';
+import { PessoaForm, PessoaFormInput } from '@/src/components';
+import { Loader } from '@mantine/core';
+import { Pessoa } from '@prisma/client';
 import { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
 
 
-export default function PessoaUpdate({ params }: { params: { id: string } }) {
+export default function PessoaUpdate() {
     const axios = useAxiosClient();
     const router = useRouter();
-    const [pessoa, setPessoa] = useState<PessoaFormInput | null>(null);
+    const params = useParams<{ id: string }>();
+    const [isPending, startTransition] = useTransition();
+    const [pessoa, setPessoa] = useState<Pessoa | null>(null);
     useEffect(() => {
-        const fetchPessoa = async () => {
-            const pessoa = await axios.get(`/pessoas/${params.id}`);
-            setPessoa(pessoa.data);
-        }
-        fetchPessoa();
+        startTransition(async () => {
+            try {
+                const pessoa = await axios.get(`/pessoas/${params.id}`);
+                setPessoa(pessoa.data);
+            } catch (e) {
+                const error = e as AxiosError;
+                // @ts-expect-error
+                toast.error(error.response?.data?.error!);
+                router.back();
+            }
+
+        });
     }, [])
 
     const onSubmit = async (values: PessoaFormInput) => {
         try {
             const { estado, ...input } = values;
-            const response = await axios.put("/pessoas", input);
+            const response = await axios.put(`/pessoas/${pessoa?.id}`, input);
             toast.success("Alterado com sucesso.");
             router.push("/pessoa");
         } catch (e) {
@@ -31,5 +42,5 @@ export default function PessoaUpdate({ params }: { params: { id: string } }) {
             toast.error(error.response?.data?.error!);
         }
     }
-    return pessoa ? <PessoaForm onSubmit={onSubmit} data={pessoa} title="Editar pessoa" /> : <div>Carregando...</div>
+    return !isPending && pessoa ? <PessoaForm onSubmit={onSubmit} data={pessoa as unknown as PessoaFormInput} title="Editar pessoa" /> : <Loader color="blue" />;
 }
