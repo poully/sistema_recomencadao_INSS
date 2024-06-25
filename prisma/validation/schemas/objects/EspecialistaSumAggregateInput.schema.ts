@@ -5,6 +5,7 @@ import type { Prisma } from '@prisma/client';
 const Schema: z.ZodType<Prisma.EspecialistaSumAggregateInputType> = z
   .object({
     id: z.literal(true).optional(),
+    cidade_ibge_id: z.literal(true).optional(),
   })
   .strict();
 

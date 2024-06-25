@@ -36,6 +36,9 @@ const Schema: z.ZodType<Prisma.EspecialistaWhereInput> = z
     endereco: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
+    cidade_ibge_id: z
+      .union([z.lazy(() => IntFilterObjectSchema), z.number()])
+      .optional(),
     Beneficio: z.lazy(() => BeneficioListRelationFilterObjectSchema).optional(),
   })
   .strict();

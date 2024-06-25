@@ -43,6 +43,7 @@ model Especialista {
   email     String
   telefone  String
   endereco  String
+  cidade_ibge_id Int
   Beneficio Beneficio[]
 }
 

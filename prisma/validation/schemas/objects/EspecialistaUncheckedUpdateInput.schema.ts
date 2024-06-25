@@ -37,6 +37,12 @@ const Schema: z.ZodType<Prisma.EspecialistaUncheckedUpdateInput> = z
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
+    cidade_ibge_id: z
+      .union([
+        z.number(),
+        z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
     Beneficio: z
       .lazy(
         () =>

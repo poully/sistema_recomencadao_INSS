@@ -41,6 +41,9 @@ const Schema: z.ZodType<Prisma.EspecialistaScalarWhereWithAggregatesInput> = z
     endereco: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
+    cidade_ibge_id: z
+      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
+      .optional(),
   })
   .strict();
 

@@ -10,6 +10,7 @@ const Schema: z.ZodType<Prisma.EspecialistaMinOrderByAggregateInput> = z
     email: z.lazy(() => SortOrderSchema).optional(),
     telefone: z.lazy(() => SortOrderSchema).optional(),
     endereco: z.lazy(() => SortOrderSchema).optional(),
+    cidade_ibge_id: z.lazy(() => SortOrderSchema).optional(),
   })
   .strict();
 

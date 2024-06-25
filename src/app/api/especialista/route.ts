@@ -1,4 +1,4 @@
-import { EspecialistaCreateWithoutBeneficioInputObjectSchema, EspecialistaUncheckedUpdateWithoutBeneficioInputObjectSchema, PessoaUncheckedUpdateWithoutBeneficioInputObjectSchema } from "@/prisma/validation/schemas";
+import { EspecialistaCreateWithoutBeneficioInputObjectSchema, EspecialistaUncheckedUpdateWithoutBeneficioInputObjectSchema } from "@/prisma/validation/schemas";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { fromError } from 'zod-validation-error';
@@ -9,6 +9,7 @@ const prisma = new PrismaClient();
 export async function GET() {
     const data = await prisma.especialista.findMany();
     return NextResponse.json(data);
+    console.log(data);
 }
 
 export async function POST(req: NextRequest) {

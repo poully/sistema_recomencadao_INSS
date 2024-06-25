@@ -10,6 +10,7 @@ const Schema: z.ZodType<Prisma.EspecialistaUncheckedCreateInput> = z
     email: z.string(),
     telefone: z.string(),
     endereco: z.string(),
+    cidade_ibge_id: z.number(),
     Beneficio: z
       .lazy(
         () =>
