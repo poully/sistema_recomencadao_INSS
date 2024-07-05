@@ -9,13 +9,13 @@ const prisma = new PrismaClient();
 export async function GET() {
     const data = await prisma.especialista.findMany();
     return NextResponse.json(data);
-    console.log(data);
 }
 
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const data = await EspecialistaCreateWithoutBeneficioInputObjectSchema.parseAsync(body);
+        const input = { ...body, cidade_ibge_id: parseInt(body.cidade_ibge_id, 10) };
+        const data = await EspecialistaCreateWithoutBeneficioInputObjectSchema.parseAsync(input);
         const especialista = await prisma.especialista.create({ data });
         return NextResponse.json(especialista);
     } catch (e) {
@@ -27,7 +27,8 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextResponse, { params }: { params: { id: number } }) {
     try {
         const body = await req.json();
-        const data = await EspecialistaUncheckedUpdateWithoutBeneficioInputObjectSchema.parseAsync(body);
+        const input = { ...body, cidade_ibge_id: parseInt(body.cidade_ibge_id, 10) };
+        const data = await EspecialistaUncheckedUpdateWithoutBeneficioInputObjectSchema.parseAsync(input);
         const especialista = await prisma.especialista.update({
             where: {
                 id: params.id
