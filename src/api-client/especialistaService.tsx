@@ -1,6 +1,6 @@
 import { Especialista } from "@prisma/client";
-import { useAxiosClient } from './useAxiosClient';
 import { Optional } from "@prisma/client/runtime/library";
+import { useAxiosClient } from './useAxiosClient';
 
 
 export async function getEspecialista(): Promise<Especialista[]> {
