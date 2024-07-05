@@ -1,30 +1,28 @@
-import { Grid, GridCol } from '@mantine/core';
-import styles from './Home.module.css';
+import { Box, Container, Divider, Flex, Image, SimpleGrid, Text, Title } from '@mantine/core';
 
 function Home() {
   return (
-    <div>
-      <div className={styles.background}>
-      </div>
-      <div className={styles.colunas}>
-        <hr className={styles.hr}></hr>
-        <h1 style={{ width: "100%", textAlign: "center" }}>Assessoria Beneficio INSS</h1>
-      </div>
-      <Grid>
-        <GridCol span={6}>
-          <p className={styles.paragrafos}>
-            O salário-maternidade é um benefício concedido durante a licença maternidade para que o trabalhador não fique desamparado no período de afastamento do trabalho.
-            As leis que regem a política de salário-maternidade estão sempre em pauta e geram muitas dúvidas, principalmente por conta das recentes alterações que surgiram com a reforma trabalhista.
-            Também conhecido como auxílio maternidade ou licença maternidade, se trata de um benefício fornecido pelo Governo Federal que beneficia pessoas que contribuem para a previdência social (INSS).
-            Precisa solicitar o seu salário-maternidade? Fale conosco, será um prazer lhe atender!
-          </p>
-        </GridCol>
-        <GridCol span={6} className={styles.mamae}>
-        </GridCol>
-      </Grid>
-
-
-    </div >
+    <div style={{ backgroundColor: '#f0f0f0', padding: '20px' }}>
+      <Container>
+        <div style={{ marginBottom: '20px', textAlign: 'center' }}>
+          <Divider my="sm" />
+          <Title order={1}>Assessoria Benefício INSS</Title>
+        </div>
+        <SimpleGrid>
+          <Box>
+            <Text style={{ fontSize: '16px', lineHeight: '1.5', color: '#4a4a4a', textAlign: 'justify' }}>
+              O salário-maternidade é um benefício concedido durante a licença maternidade para que o trabalhador não fique desamparado no período de afastamento do trabalho.
+              As leis que regem a política de salário-maternidade estão sempre em pauta e geram muitas dúvidas, principalmente por conta das recentes alterações que surgiram com a reforma trabalhista.
+              Também conhecido como auxílio maternidade ou licença maternidade, se trata de um benefício fornecido pelo Governo Federal que beneficia pessoas que contribuem para a previdência social (INSS).
+              Precisa solicitar o seu salário-maternidade? Fale conosco, será um prazer lhe atender!
+            </Text>
+          </Box>
+          <Flex align="center" justify="center">
+            <Image src="/barriguda.jpg" alt="Mamãe" radius="md" />
+          </Flex>
+        </SimpleGrid>
+      </Container>
+    </div>
   );
 }
 
