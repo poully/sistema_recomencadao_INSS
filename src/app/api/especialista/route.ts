@@ -13,8 +13,7 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
     try {
-        const body = await req.json();
-        const input = { ...body, cidade_ibge_id: parseInt(body.cidade_ibge_id, 10) };
+        const input = await req.json();
         const data = await EspecialistaCreateWithoutBeneficioInputObjectSchema.parseAsync(input);
         const especialista = await prisma.especialista.create({ data });
         return NextResponse.json(especialista);
@@ -24,10 +23,9 @@ export async function POST(req: NextRequest) {
     }
 }
 
-export async function PUT(req: NextResponse, { params }: { params: { id: number } }) {
+export async function PUT(req: NextResponse, { params }: { params: { id: string } }) {
     try {
-        const body = await req.json();
-        const input = { ...body, cidade_ibge_id: parseInt(body.cidade_ibge_id, 10) };
+        const input = await req.json();
         const data = await EspecialistaUncheckedUpdateWithoutBeneficioInputObjectSchema.parseAsync(input);
         const especialista = await prisma.especialista.update({
             where: {

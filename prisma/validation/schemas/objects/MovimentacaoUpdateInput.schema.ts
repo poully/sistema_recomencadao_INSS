@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
+import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 import { BeneficioUpdateOneRequiredWithoutMovimentacaoNestedInputObjectSchema } from './BeneficioUpdateOneRequiredWithoutMovimentacaoNestedInput.schema';
 import { TipoMovimentacaoUpdateOneRequiredWithoutMovimentacaoNestedInputObjectSchema } from './TipoMovimentacaoUpdateOneRequiredWithoutMovimentacaoNestedInput.schema';
 
@@ -9,8 +9,8 @@ const Schema: z.ZodType<Prisma.MovimentacaoUpdateInput> = z
   .object({
     id: z
       .union([
-        z.number(),
-        z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
+        z.string(),
+        z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
     beneficio: z

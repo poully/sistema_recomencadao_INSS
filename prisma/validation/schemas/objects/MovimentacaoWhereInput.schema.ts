@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { IntFilterObjectSchema } from './IntFilter.schema';
+import { UuidFilterObjectSchema } from './UuidFilter.schema';
 import { BeneficioRelationFilterObjectSchema } from './BeneficioRelationFilter.schema';
 import { BeneficioWhereInputObjectSchema } from './BeneficioWhereInput.schema';
 import { TipoMovimentacaoRelationFilterObjectSchema } from './TipoMovimentacaoRelationFilter.schema';
@@ -25,12 +25,12 @@ const Schema: z.ZodType<Prisma.MovimentacaoWhereInput> = z
         z.lazy(() => MovimentacaoWhereInputObjectSchema).array(),
       ])
       .optional(),
-    id: z.union([z.lazy(() => IntFilterObjectSchema), z.number()]).optional(),
+    id: z.union([z.lazy(() => UuidFilterObjectSchema), z.string()]).optional(),
     beneficio_id: z
-      .union([z.lazy(() => IntFilterObjectSchema), z.number()])
+      .union([z.lazy(() => UuidFilterObjectSchema), z.string()])
       .optional(),
     tipo_movimentacao_id: z
-      .union([z.lazy(() => IntFilterObjectSchema), z.number()])
+      .union([z.lazy(() => UuidFilterObjectSchema), z.string()])
       .optional(),
     beneficio: z
       .union([

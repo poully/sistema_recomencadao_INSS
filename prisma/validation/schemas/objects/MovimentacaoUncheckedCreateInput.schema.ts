@@ -4,9 +4,9 @@ import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.MovimentacaoUncheckedCreateInput> = z
   .object({
-    id: z.number(),
-    beneficio_id: z.number(),
-    tipo_movimentacao_id: z.number(),
+    id: z.string().optional(),
+    beneficio_id: z.string(),
+    tipo_movimentacao_id: z.string(),
   })
   .strict();
 

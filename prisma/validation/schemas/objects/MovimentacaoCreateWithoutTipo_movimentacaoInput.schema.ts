@@ -6,7 +6,7 @@ import type { Prisma } from '@prisma/client';
 const Schema: z.ZodType<Prisma.MovimentacaoCreateWithoutTipo_movimentacaoInput> =
   z
     .object({
-      id: z.number(),
+      id: z.string().optional(),
       beneficio: z.lazy(
         () => BeneficioCreateNestedOneWithoutMovimentacaoInputObjectSchema,
       ),

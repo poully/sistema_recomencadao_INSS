@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 
 import type { Prisma } from '@prisma/client';
@@ -9,8 +8,8 @@ const Schema: z.ZodType<Prisma.EspecialistaUncheckedUpdateWithoutBeneficioInput>
     .object({
       id: z
         .union([
-          z.number(),
-          z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
+          z.string(),
+          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
       nome: z
@@ -37,10 +36,16 @@ const Schema: z.ZodType<Prisma.EspecialistaUncheckedUpdateWithoutBeneficioInput>
           z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
-      cidade_ibge_id: z
+      cidade: z
         .union([
-          z.number(),
-          z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
+          z.string(),
+          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
+        ])
+        .optional(),
+      uf: z
+        .union([
+          z.string(),
+          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
     })

@@ -4,7 +4,7 @@ import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.TipoMovimentacaoWhereUniqueInput> = z
   .object({
-    id: z.number().optional(),
+    id: z.string().optional(),
   })
   .strict();
 

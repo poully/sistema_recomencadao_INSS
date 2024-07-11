@@ -23,7 +23,6 @@ export default async function EspecialistasList() {
             <TableTh>Nome</TableTh>
             <TableTh>Email</TableTh>
             <TableTh>Telefone</TableTh>
-            <TableTh></TableTh>
         </TableTr>
     );
     return (

@@ -15,6 +15,7 @@ export default function EspecialistaCreate() {
     const onSubmit = async (values: EspecialistaFormInput) => {
         try {
             const { estado, ...input } = values;
+            console.log(values);
             const response = await axios.post("/especialista", input);
             toast.success("Inserido com sucesso.");
             router.push("/especialista");

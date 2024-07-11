@@ -5,8 +5,6 @@ import { SituacaoWhereUniqueInputObjectSchema } from './objects/SituacaoWhereUni
 import { SituacaoCountAggregateInputObjectSchema } from './objects/SituacaoCountAggregateInput.schema';
 import { SituacaoMinAggregateInputObjectSchema } from './objects/SituacaoMinAggregateInput.schema';
 import { SituacaoMaxAggregateInputObjectSchema } from './objects/SituacaoMaxAggregateInput.schema';
-import { SituacaoAvgAggregateInputObjectSchema } from './objects/SituacaoAvgAggregateInput.schema';
-import { SituacaoSumAggregateInputObjectSchema } from './objects/SituacaoSumAggregateInput.schema';
 
 export const SituacaoAggregateSchema = z.object({
   orderBy: z
@@ -24,6 +22,4 @@ export const SituacaoAggregateSchema = z.object({
     .optional(),
   _min: SituacaoMinAggregateInputObjectSchema.optional(),
   _max: SituacaoMaxAggregateInputObjectSchema.optional(),
-  _avg: SituacaoAvgAggregateInputObjectSchema.optional(),
-  _sum: SituacaoSumAggregateInputObjectSchema.optional(),
 });

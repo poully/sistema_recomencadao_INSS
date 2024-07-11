@@ -5,8 +5,6 @@ import { EspecialistaWhereUniqueInputObjectSchema } from './objects/Especialista
 import { EspecialistaCountAggregateInputObjectSchema } from './objects/EspecialistaCountAggregateInput.schema';
 import { EspecialistaMinAggregateInputObjectSchema } from './objects/EspecialistaMinAggregateInput.schema';
 import { EspecialistaMaxAggregateInputObjectSchema } from './objects/EspecialistaMaxAggregateInput.schema';
-import { EspecialistaAvgAggregateInputObjectSchema } from './objects/EspecialistaAvgAggregateInput.schema';
-import { EspecialistaSumAggregateInputObjectSchema } from './objects/EspecialistaSumAggregateInput.schema';
 
 export const EspecialistaAggregateSchema = z.object({
   orderBy: z
@@ -24,6 +22,4 @@ export const EspecialistaAggregateSchema = z.object({
     .optional(),
   _min: EspecialistaMinAggregateInputObjectSchema.optional(),
   _max: EspecialistaMaxAggregateInputObjectSchema.optional(),
-  _avg: EspecialistaAvgAggregateInputObjectSchema.optional(),
-  _sum: EspecialistaSumAggregateInputObjectSchema.optional(),
 });

@@ -5,8 +5,6 @@ import { BeneficioWhereUniqueInputObjectSchema } from './objects/BeneficioWhereU
 import { BeneficioCountAggregateInputObjectSchema } from './objects/BeneficioCountAggregateInput.schema';
 import { BeneficioMinAggregateInputObjectSchema } from './objects/BeneficioMinAggregateInput.schema';
 import { BeneficioMaxAggregateInputObjectSchema } from './objects/BeneficioMaxAggregateInput.schema';
-import { BeneficioAvgAggregateInputObjectSchema } from './objects/BeneficioAvgAggregateInput.schema';
-import { BeneficioSumAggregateInputObjectSchema } from './objects/BeneficioSumAggregateInput.schema';
 
 export const BeneficioAggregateSchema = z.object({
   orderBy: z
@@ -24,6 +22,4 @@ export const BeneficioAggregateSchema = z.object({
     .optional(),
   _min: BeneficioMinAggregateInputObjectSchema.optional(),
   _max: BeneficioMaxAggregateInputObjectSchema.optional(),
-  _avg: BeneficioAvgAggregateInputObjectSchema.optional(),
-  _sum: BeneficioSumAggregateInputObjectSchema.optional(),
 });

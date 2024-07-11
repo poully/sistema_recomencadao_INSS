@@ -5,8 +5,6 @@ import { TipoWhereUniqueInputObjectSchema } from './objects/TipoWhereUniqueInput
 import { TipoCountAggregateInputObjectSchema } from './objects/TipoCountAggregateInput.schema';
 import { TipoMinAggregateInputObjectSchema } from './objects/TipoMinAggregateInput.schema';
 import { TipoMaxAggregateInputObjectSchema } from './objects/TipoMaxAggregateInput.schema';
-import { TipoAvgAggregateInputObjectSchema } from './objects/TipoAvgAggregateInput.schema';
-import { TipoSumAggregateInputObjectSchema } from './objects/TipoSumAggregateInput.schema';
 
 export const TipoAggregateSchema = z.object({
   orderBy: z
@@ -24,6 +22,4 @@ export const TipoAggregateSchema = z.object({
     .optional(),
   _min: TipoMinAggregateInputObjectSchema.optional(),
   _max: TipoMaxAggregateInputObjectSchema.optional(),
-  _avg: TipoAvgAggregateInputObjectSchema.optional(),
-  _sum: TipoSumAggregateInputObjectSchema.optional(),
 });

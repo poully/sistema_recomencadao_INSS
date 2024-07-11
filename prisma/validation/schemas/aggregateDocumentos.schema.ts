@@ -5,8 +5,6 @@ import { DocumentosWhereUniqueInputObjectSchema } from './objects/DocumentosWher
 import { DocumentosCountAggregateInputObjectSchema } from './objects/DocumentosCountAggregateInput.schema';
 import { DocumentosMinAggregateInputObjectSchema } from './objects/DocumentosMinAggregateInput.schema';
 import { DocumentosMaxAggregateInputObjectSchema } from './objects/DocumentosMaxAggregateInput.schema';
-import { DocumentosAvgAggregateInputObjectSchema } from './objects/DocumentosAvgAggregateInput.schema';
-import { DocumentosSumAggregateInputObjectSchema } from './objects/DocumentosSumAggregateInput.schema';
 
 export const DocumentosAggregateSchema = z.object({
   orderBy: z
@@ -24,6 +22,4 @@ export const DocumentosAggregateSchema = z.object({
     .optional(),
   _min: DocumentosMinAggregateInputObjectSchema.optional(),
   _max: DocumentosMaxAggregateInputObjectSchema.optional(),
-  _avg: DocumentosAvgAggregateInputObjectSchema.optional(),
-  _sum: DocumentosSumAggregateInputObjectSchema.optional(),
 });

@@ -14,7 +14,8 @@ const Schema: z.ZodType<Prisma.PessoaOrderByWithRelationInput> = z
     data_nasc: z.lazy(() => SortOrderSchema).optional(),
     cpf: z.lazy(() => SortOrderSchema).optional(),
     cnis: z.lazy(() => SortOrderSchema).optional(),
-    cidade_ibge_id: z.lazy(() => SortOrderSchema).optional(),
+    cidade: z.lazy(() => SortOrderSchema).optional(),
+    uf: z.lazy(() => SortOrderSchema).optional(),
     Beneficio: z
       .lazy(() => BeneficioOrderByRelationAggregateInputObjectSchema)
       .optional(),

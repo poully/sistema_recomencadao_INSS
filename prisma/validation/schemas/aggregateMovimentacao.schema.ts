@@ -5,8 +5,6 @@ import { MovimentacaoWhereUniqueInputObjectSchema } from './objects/Movimentacao
 import { MovimentacaoCountAggregateInputObjectSchema } from './objects/MovimentacaoCountAggregateInput.schema';
 import { MovimentacaoMinAggregateInputObjectSchema } from './objects/MovimentacaoMinAggregateInput.schema';
 import { MovimentacaoMaxAggregateInputObjectSchema } from './objects/MovimentacaoMaxAggregateInput.schema';
-import { MovimentacaoAvgAggregateInputObjectSchema } from './objects/MovimentacaoAvgAggregateInput.schema';
-import { MovimentacaoSumAggregateInputObjectSchema } from './objects/MovimentacaoSumAggregateInput.schema';
 
 export const MovimentacaoAggregateSchema = z.object({
   orderBy: z
@@ -24,6 +22,4 @@ export const MovimentacaoAggregateSchema = z.object({
     .optional(),
   _min: MovimentacaoMinAggregateInputObjectSchema.optional(),
   _max: MovimentacaoMaxAggregateInputObjectSchema.optional(),
-  _avg: MovimentacaoAvgAggregateInputObjectSchema.optional(),
-  _sum: MovimentacaoSumAggregateInputObjectSchema.optional(),
 });

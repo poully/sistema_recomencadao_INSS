@@ -6,11 +6,11 @@ import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.BeneficioUncheckedCreateWithoutSituacaoInput> = z
   .object({
-    id: z.number().optional(),
+    id: z.string().optional(),
     numero_beneficio: z.string(),
-    pessoa_id: z.number(),
-    tipo_id: z.number(),
-    especialista_id: z.number(),
+    pessoa_id: z.string(),
+    tipo_id: z.string(),
+    especialista_id: z.string(),
     Documentos: z
       .lazy(
         () =>

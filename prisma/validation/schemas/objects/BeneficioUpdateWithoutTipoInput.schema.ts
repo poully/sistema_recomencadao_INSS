@@ -10,6 +10,12 @@ import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.BeneficioUpdateWithoutTipoInput> = z
   .object({
+    id: z
+      .union([
+        z.string(),
+        z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
     numero_beneficio: z
       .union([
         z.string(),

@@ -5,8 +5,6 @@ import { PessoaWhereUniqueInputObjectSchema } from './objects/PessoaWhereUniqueI
 import { PessoaCountAggregateInputObjectSchema } from './objects/PessoaCountAggregateInput.schema';
 import { PessoaMinAggregateInputObjectSchema } from './objects/PessoaMinAggregateInput.schema';
 import { PessoaMaxAggregateInputObjectSchema } from './objects/PessoaMaxAggregateInput.schema';
-import { PessoaAvgAggregateInputObjectSchema } from './objects/PessoaAvgAggregateInput.schema';
-import { PessoaSumAggregateInputObjectSchema } from './objects/PessoaSumAggregateInput.schema';
 
 export const PessoaAggregateSchema = z.object({
   orderBy: z
@@ -24,6 +22,4 @@ export const PessoaAggregateSchema = z.object({
     .optional(),
   _min: PessoaMinAggregateInputObjectSchema.optional(),
   _max: PessoaMaxAggregateInputObjectSchema.optional(),
-  _avg: PessoaAvgAggregateInputObjectSchema.optional(),
-  _sum: PessoaSumAggregateInputObjectSchema.optional(),
 });

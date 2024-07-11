@@ -5,8 +5,6 @@ import { TipoMovimentacaoWhereUniqueInputObjectSchema } from './objects/TipoMovi
 import { TipoMovimentacaoCountAggregateInputObjectSchema } from './objects/TipoMovimentacaoCountAggregateInput.schema';
 import { TipoMovimentacaoMinAggregateInputObjectSchema } from './objects/TipoMovimentacaoMinAggregateInput.schema';
 import { TipoMovimentacaoMaxAggregateInputObjectSchema } from './objects/TipoMovimentacaoMaxAggregateInput.schema';
-import { TipoMovimentacaoAvgAggregateInputObjectSchema } from './objects/TipoMovimentacaoAvgAggregateInput.schema';
-import { TipoMovimentacaoSumAggregateInputObjectSchema } from './objects/TipoMovimentacaoSumAggregateInput.schema';
 
 export const TipoMovimentacaoAggregateSchema = z.object({
   orderBy: z
@@ -24,6 +22,4 @@ export const TipoMovimentacaoAggregateSchema = z.object({
     .optional(),
   _min: TipoMovimentacaoMinAggregateInputObjectSchema.optional(),
   _max: TipoMovimentacaoMaxAggregateInputObjectSchema.optional(),
-  _avg: TipoMovimentacaoAvgAggregateInputObjectSchema.optional(),
-  _sum: TipoMovimentacaoSumAggregateInputObjectSchema.optional(),
 });

@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 import { DocumentosUncheckedUpdateManyWithoutBeneficioNestedInputObjectSchema } from './DocumentosUncheckedUpdateManyWithoutBeneficioNestedInput.schema';
 import { MovimentacaoUncheckedUpdateManyWithoutBeneficioNestedInputObjectSchema } from './MovimentacaoUncheckedUpdateManyWithoutBeneficioNestedInput.schema';
@@ -11,8 +10,8 @@ const Schema: z.ZodType<Prisma.BeneficioUncheckedUpdateWithoutEspecialistaInput>
     .object({
       id: z
         .union([
-          z.number(),
-          z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
+          z.string(),
+          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
       numero_beneficio: z
@@ -23,20 +22,20 @@ const Schema: z.ZodType<Prisma.BeneficioUncheckedUpdateWithoutEspecialistaInput>
         .optional(),
       situacao_id: z
         .union([
-          z.number(),
-          z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
+          z.string(),
+          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
       pessoa_id: z
         .union([
-          z.number(),
-          z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
+          z.string(),
+          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
       tipo_id: z
         .union([
-          z.number(),
-          z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
+          z.string(),
+          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
       Documentos: z

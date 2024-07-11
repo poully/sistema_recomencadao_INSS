@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { IntWithAggregatesFilterObjectSchema } from './IntWithAggregatesFilter.schema';
+import { UuidWithAggregatesFilterObjectSchema } from './UuidWithAggregatesFilter.schema';
 import { StringWithAggregatesFilterObjectSchema } from './StringWithAggregatesFilter.schema';
 
 import type { Prisma } from '@prisma/client';
@@ -27,22 +27,22 @@ const Schema: z.ZodType<Prisma.BeneficioScalarWhereWithAggregatesInput> = z
       ])
       .optional(),
     id: z
-      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
+      .union([z.lazy(() => UuidWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
     numero_beneficio: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
     situacao_id: z
-      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
+      .union([z.lazy(() => UuidWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
     pessoa_id: z
-      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
+      .union([z.lazy(() => UuidWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
     tipo_id: z
-      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
+      .union([z.lazy(() => UuidWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
     especialista_id: z
-      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
+      .union([z.lazy(() => UuidWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
   })
   .strict();

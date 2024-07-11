@@ -6,5 +6,6 @@ export const EspecialistaScalarFieldEnumSchema = z.enum([
   'email',
   'telefone',
   'endereco',
-  'cidade_ibge_id',
+  'cidade',
+  'uf',
 ]);

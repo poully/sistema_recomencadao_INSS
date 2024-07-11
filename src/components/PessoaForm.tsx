@@ -10,9 +10,8 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 
 
-export type PessoaFormInput = {
-    estado: number;
-} & Omit<Pessoa, "id">;
+export type PessoaFormInput = Omit<Pessoa, "id">;
+
 type PessoaFormProps = {
     data?: PessoaFormInput | undefined;
     onSubmit?: (values: PessoaFormInput) => Promise<void>;
@@ -25,8 +24,8 @@ export function PessoaForm({ data, onSubmit, title }: PessoaFormProps) {
         initialValues: {
             nome: '',
             email: '',
-            cidade_ibge_id: 0,
-            estado: 0,
+            cidade: '',
+            uf: '',
             cpf: '',
             cnis: "",
             data_nasc: new Date(),
@@ -34,7 +33,7 @@ export function PessoaForm({ data, onSubmit, title }: PessoaFormProps) {
             endereco: "",
         },
     });
-    const onChangeEstado = (estadoId: number) => {
+    const onChangeEstado = (estadoId: string) => {
         form.setFieldValue('estado', estadoId);
     };
     const { cidades, estados, cidadesLoading, setSelectedEstado, setSelectedCidade } = useIbge({ cidadeId: data?.cidade_ibge_id, onChangeEstado });
@@ -43,11 +42,10 @@ export function PessoaForm({ data, onSubmit, title }: PessoaFormProps) {
         if (form.values.estado) {
             setSelectedEstado(form.values.estado);
         }
-    }, [form.values.estado, data?.cidade_ibge_id]);
+    }, [form.values.estado]);
 
     useEffect(() => {
         if (data) {
-            if (data.cidade_ibge_id) setSelectedCidade(data.cidade_ibge_id);
             form.setValues({ ...data, data_nasc: new Date(data.data_nasc) });
         }
     }, [data]);

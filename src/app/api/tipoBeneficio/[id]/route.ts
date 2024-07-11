@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-type Params = { id: number };
+type Params = { id: string };
 
 export async function GET(req: NextRequest, { id }: Params) {
     const data = await prisma.tipo.findFirst({ where: { id } });

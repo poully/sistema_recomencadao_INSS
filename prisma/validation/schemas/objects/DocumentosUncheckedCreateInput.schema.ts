@@ -4,10 +4,10 @@ import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.DocumentosUncheckedCreateInput> = z
   .object({
-    id: z.number().optional(),
+    id: z.string().optional(),
     descricao: z.string(),
     imagem: z.string(),
-    beneficio_id: z.number(),
+    beneficio_id: z.string(),
   })
   .strict();
 

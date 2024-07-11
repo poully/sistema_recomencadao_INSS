@@ -17,7 +17,7 @@ export type Cidade = {
     nome: string;
 }
 
-export const useIbge = (params?: { cidadeId?: string | number | undefined, onChangeEstado?: (id: number) => void }) => {
+export const useIbge = (params?: { cidadeId?: string | number | undefined, onChangeEstado?: (nome: string) => void }) => {
 
     const [estados, setEstados] = useState<Estado[]>([]);
     const [cidades, setCidades] = useState<Cidade[]>([]);
@@ -39,8 +39,8 @@ export const useIbge = (params?: { cidadeId?: string | number | undefined, onCha
 
     }, [params?.cidadeId]);
 
-    const setSelectedEstado = (estadoId: number) => {
-        if (params?.onChangeEstado) params.onChangeEstado(estadoId);
+    const setSelectedEstado = (estadoId: number, nome: string) => {
+        if (params?.onChangeEstado) params.onChangeEstado(nome);
         startCidadesLoading(async () => {
             if (estadoId) {
                 const municipiosResponse = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios`);
@@ -53,7 +53,7 @@ export const useIbge = (params?: { cidadeId?: string | number | undefined, onCha
         fetchEstados();
         const municipioResponse = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${cidadeId}`);
         const municipio = await municipioResponse.json();
-        setSelectedEstado(municipio.microrregiao.mesorregiao.UF.id);
+        setSelectedEstado(municipio.microrregiao.mesorregiao.UF.id, municipio.microrregiao.mesorregiao.UF.nome);
     };
 
     return { estados, cidades, cidadesLoading, setSelectedEstado, setSelectedCidade };

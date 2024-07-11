@@ -44,6 +44,7 @@ export function EspecialistaForm({ data, onSubmit, title }: EspecialistaFormProp
     useEffect(() => {
         if (data) {
             if (data.cidade_ibge_id) setSelectedCidade(data.cidade_ibge_id);
+            form.setValues( data );
         }
     }, [data]);
 

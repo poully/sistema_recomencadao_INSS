@@ -5,7 +5,7 @@ import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.SituacaoUncheckedCreateInput> = z
   .object({
-    id: z.number().optional(),
+    id: z.string().optional(),
     nome: z.string(),
     Beneficio: z
       .lazy(

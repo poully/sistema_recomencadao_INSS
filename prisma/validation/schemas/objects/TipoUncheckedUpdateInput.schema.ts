@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 import { BeneficioUncheckedUpdateManyWithoutTipoNestedInputObjectSchema } from './BeneficioUncheckedUpdateManyWithoutTipoNestedInput.schema';
 
@@ -9,8 +8,8 @@ const Schema: z.ZodType<Prisma.TipoUncheckedUpdateInput> = z
   .object({
     id: z
       .union([
-        z.number(),
-        z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
+        z.string(),
+        z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
     nome: z

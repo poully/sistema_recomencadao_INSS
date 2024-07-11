@@ -4,12 +4,13 @@ import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.EspecialistaCreateWithoutBeneficioInput> = z
   .object({
-    id: z.number(),
+    id: z.string().optional(),
     nome: z.string(),
     email: z.string(),
     telefone: z.string(),
     endereco: z.string(),
-    cidade_ibge_id: z.number(),
+    cidade: z.string(),
+    uf: z.string(),
   })
   .strict();
 

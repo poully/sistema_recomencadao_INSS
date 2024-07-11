@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { IntFilterObjectSchema } from './IntFilter.schema';
+import { UuidFilterObjectSchema } from './UuidFilter.schema';
 import { StringFilterObjectSchema } from './StringFilter.schema';
 import { BeneficioListRelationFilterObjectSchema } from './BeneficioListRelationFilter.schema';
 
@@ -23,7 +23,7 @@ const Schema: z.ZodType<Prisma.EspecialistaWhereInput> = z
         z.lazy(() => EspecialistaWhereInputObjectSchema).array(),
       ])
       .optional(),
-    id: z.union([z.lazy(() => IntFilterObjectSchema), z.number()]).optional(),
+    id: z.union([z.lazy(() => UuidFilterObjectSchema), z.string()]).optional(),
     nome: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
@@ -36,8 +36,11 @@ const Schema: z.ZodType<Prisma.EspecialistaWhereInput> = z
     endereco: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
-    cidade_ibge_id: z
-      .union([z.lazy(() => IntFilterObjectSchema), z.number()])
+    cidade: z
+      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
+      .optional(),
+    uf: z
+      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
     Beneficio: z.lazy(() => BeneficioListRelationFilterObjectSchema).optional(),
   })
