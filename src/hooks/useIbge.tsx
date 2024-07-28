@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useTransition } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 
 export type Estado = {
     id: number;
@@ -17,7 +17,7 @@ export type Cidade = {
     nome: string;
 }
 
-export const useIbge = (params?: { cidadeId?: string | number | undefined, onChangeEstado?: (nome: string) => void }) => {
+export const useIbge = (params?: { cidadeId?: string | number | undefined, onChangeEstado?: (id: number | undefined) => void }) => {
 
     const [estados, setEstados] = useState<Estado[]>([]);
     const [cidades, setCidades] = useState<Cidade[]>([]);
@@ -27,20 +27,30 @@ export const useIbge = (params?: { cidadeId?: string | number | undefined, onCha
         const estadosData = await estadosResponse.json();
         setEstados(estadosData);
     };
+
     useEffect(() => {
 
-        if (params?.cidadeId) {
+        /*if (params?.cidadeId) {
             setSelectedCidade(parseInt(`${params.cidadeId}`, 10));
         } else {
             fetchEstados();
-        }
-
-
+        }*/
+        fetchEstados();
 
     }, [params?.cidadeId]);
 
-    const setSelectedEstado = (estadoId: number, nome: string) => {
-        if (params?.onChangeEstado) params.onChangeEstado(nome);
+    const getEstadoIdBySigla = useCallback((sigla: string) => {
+        const estado = estados.find(estado => estado.sigla === sigla);
+        return estado?.id;
+    }, [estados]);
+
+    const getCidadeIdByName = useCallback((name: string) => {
+        const cidade = cidades.find(cidade => cidade.nome === name);
+        return cidade?.id;
+    }, [cidades]);
+    const setSelectedEstado = (sigla: string) => {
+        const estadoId = getEstadoIdBySigla(sigla);
+        if (params?.onChangeEstado) params.onChangeEstado(estadoId);
         startCidadesLoading(async () => {
             if (estadoId) {
                 const municipiosResponse = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios`);
@@ -49,7 +59,7 @@ export const useIbge = (params?: { cidadeId?: string | number | undefined, onCha
             }
         });
     };
-    const setSelectedCidade = async (cidadeId: number) => {
+    const setSelectedCidade = async (nome: string) => {
         fetchEstados();
         const municipioResponse = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${cidadeId}`);
         const municipio = await municipioResponse.json();

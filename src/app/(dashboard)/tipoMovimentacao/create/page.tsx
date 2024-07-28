@@ -14,7 +14,7 @@ export default function TipoCreate() {
 
     const onSubmit = async (values: TipoMovimentacaoForm) => {
         try {
-            const response = await axios.post("/TipoMovimentacao", values);
+            const response = await axios.post("/tipoMovimentacao", values);
             toast.success("Inserido com sucesso.");
             router.push("/TipoMovimentacao");
         } catch (e) {

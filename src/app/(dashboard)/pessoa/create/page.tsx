@@ -14,7 +14,7 @@ export default function PessoaCreate() {
 
     const onSubmit = async (values: PessoaFormInput) => {
         try {
-            const { estado, ...input } = values;
+            const { uf, ...input } = values;
             const response = await axios.post("/pessoas", input);
             toast.success("Inserido com sucesso.");
             router.push("/pessoa");

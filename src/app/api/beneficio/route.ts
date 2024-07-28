@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const data = await BeneficioCreateInputObjectSchema.parseAsync(body);
         const beneficio = await prisma.beneficio.create({ data });
+        //await prisma.movimentacao.create({ data: { tipo: 'C', valor: beneficio.valor, beneficioId: beneficio.id } });
         return NextResponse.json(beneficio);
     } catch (e) {
         const validationError = fromError(e);

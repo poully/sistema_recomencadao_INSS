@@ -36,7 +36,7 @@ export function PessoaForm({ data, onSubmit, title }: PessoaFormProps) {
     const onChangeEstado = (estadoId: string) => {
         form.setFieldValue('estado', estadoId);
     };
-    const { cidades, estados, cidadesLoading, setSelectedEstado, setSelectedCidade } = useIbge({ cidadeId: data?.cidade_ibge_id, onChangeEstado });
+    const { cidades, estados, cidadesLoading, setSelectedEstado } = useIbge({ cidadeId: data?.cidade_ibge_id, onChangeEstado });
 
     useEffect(() => {
         if (form.values.estado) {

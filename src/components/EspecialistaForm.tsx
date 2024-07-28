@@ -9,9 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 
 
-export type EspecialistaFormInput = {
-    estado: number;
-} & Omit<Especialista, "id">;
+export type EspecialistaFormInput = Omit<Especialista, "id">;
 type EspecialistaFormProps = {
     data?: EspecialistaFormInput | undefined;
     onSubmit?: (values: EspecialistaFormInput) => Promise<void>;
@@ -24,22 +22,22 @@ export function EspecialistaForm({ data, onSubmit, title }: EspecialistaFormProp
         initialValues: {
             nome: '',
             email: '',
-            cidade_ibge_id: 0,
-            estado: 0,
+            cidade: '',
+            uf: '',
             telefone: "",
             endereco: "",
         },
     });
-    const onChangeEstado = (estadoId: number) => {
-        form.setFieldValue('estado', estadoId);
+    const onChangeEstado = (uf: string) => {
+        form.setFieldValue('estado', uf);
     };
     const { cidades, estados, cidadesLoading, setSelectedEstado, setSelectedCidade } = useIbge({ cidadeId: data?.cidade_ibge_id, onChangeEstado });
 
     useEffect(() => {
-        if (form.values.estado) {
-            setSelectedEstado(form.values.estado);
+        if (form.values.uf) {
+            setSelectedEstado(form.values.uf);
         }
-    }, [form.values.estado, data?.cidade_ibge_id]);
+    }, [form.values.uf, data?.cidade_ibge_id]);
 
     useEffect(() => {
         if (data) {
@@ -85,7 +83,7 @@ export function EspecialistaForm({ data, onSubmit, title }: EspecialistaFormProp
                 {cidades?.length && !cidadesLoading ? <Select
                     label="Cidade"
                     placeholder="Selecione a cidade"
-                    disabled={!form.values.estado}
+                    disabled={!form.values.uf}
                     data={cidades.map(e => ({ value: `${e.id}`, label: e.nome }))}
 
                     {...form.getInputProps('cidade_ibge_id')}

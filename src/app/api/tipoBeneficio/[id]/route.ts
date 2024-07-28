@@ -1,32 +1,40 @@
-import { TipoCreateWithoutBeneficioInputObjectSchema } from "@/prisma/validation/schemas";
+import { TipoUpdateWithoutBeneficioInputObjectSchema } from "@/prisma/validation/schemas";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { fromError } from "zod-validation-error";
 
 const prisma = new PrismaClient();
 
 type Params = { id: string };
 
-export async function GET(req: NextRequest, { id }: Params) {
-    const data = await prisma.tipo.findFirst({ where: { id } });
-    return NextResponse.json(data);
-}
-
-export async function PUT(req: NextRequest, { id }: Params) {
+export async function GET(req: NextRequest, { params: { id } }: { params: Params }) {
     try {
-        const body = await req.json();
-        const data = await TipoCreateWithoutBeneficioInputObjectSchema.parseAsync(body);
-        const tipo = await prisma.tipo.update({ data, where: { id } });
-        return NextResponse.json(tipo);
+        const data = await prisma.tipo.findUnique({ where: { id } });
+        return NextResponse.json(data);
     } catch (e) {
-        return NextResponse.error();
+        const validationError = fromError(e);
+        return NextResponse.json({ error: validationError.toString() }, { status: 500 })
     }
 }
 
-export async function DELETE(req: NextRequest, { id }: Params) {
+export async function PUT(req: NextRequest, { params: {id} }: { params: Params }) {
+    try {
+        const input = await req.json();
+        const data = await TipoUpdateWithoutBeneficioInputObjectSchema.parseAsync(input);
+        const tipo = await prisma.tipo.update({ data, where: { id } });
+        return NextResponse.json(tipo);
+    } catch (e) {
+        const validationError = fromError(e);
+        return NextResponse.json({ error: validationError.toString() }, { status: 500 })
+    }
+}
+
+export async function DELETE(req: NextRequest, { params: { id } }: { params: Params }) {
     try {
         const tipo = await prisma.tipo.delete({ where: { id } });
         return NextResponse.json(tipo);
     } catch (e) {
-        return NextResponse.error();
+        const error = e as Error;
+        return NextResponse.json({ error: error.message }, { status: 500 })
     }
 }
