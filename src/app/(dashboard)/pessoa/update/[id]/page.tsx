@@ -32,8 +32,7 @@ export default function PessoaUpdate() {
 
     const onSubmit = async (values: PessoaFormInput) => {
         try {
-            const { estado, ...input } = values;
-            const response = await axios.put(`/pessoas/${pessoa?.id}`, input);
+            const response = await axios.put(`/pessoas/${pessoa?.id}`, values);
             toast.success("Alterado com sucesso.");
             router.push("/pessoa");
         } catch (e) {

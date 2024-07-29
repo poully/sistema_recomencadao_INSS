@@ -17,27 +17,26 @@ export type Cidade = {
     nome: string;
 }
 
-export const useIbge = (params?: { cidadeId?: string | number | undefined, onChangeEstado?: (id: number | undefined) => void }) => {
+export const useIbge = () => {
 
     const [estados, setEstados] = useState<Estado[]>([]);
     const [cidades, setCidades] = useState<Cidade[]>([]);
     const [cidadesLoading, startCidadesLoading] = useTransition();
+    const [estadosLoading, startEstadosLoading] = useTransition();
     const fetchEstados = async () => {
         const estadosResponse = await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados");
         const estadosData = await estadosResponse.json();
         setEstados(estadosData);
     };
+    const fetchCidades = async (estadoId: number) => {
+        const municipiosResponse = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios`);
+        const municipios = await municipiosResponse.json();
+        setCidades(municipios);
+    }
 
     useEffect(() => {
-
-        /*if (params?.cidadeId) {
-            setSelectedCidade(parseInt(`${params.cidadeId}`, 10));
-        } else {
-            fetchEstados();
-        }*/
-        fetchEstados();
-
-    }, [params?.cidadeId]);
+        startEstadosLoading(fetchEstados);
+    }, [startEstadosLoading]);
 
     const getEstadoIdBySigla = useCallback((sigla: string) => {
         const estado = estados.find(estado => estado.sigla === sigla);
@@ -48,23 +47,16 @@ export const useIbge = (params?: { cidadeId?: string | number | undefined, onCha
         const cidade = cidades.find(cidade => cidade.nome === name);
         return cidade?.id;
     }, [cidades]);
-    const setSelectedEstado = (sigla: string) => {
+
+    const setSelectedEstado = useCallback((sigla: string) => {
+        console.log("setSelectedEstado", sigla);
         const estadoId = getEstadoIdBySigla(sigla);
-        if (params?.onChangeEstado) params.onChangeEstado(estadoId);
         startCidadesLoading(async () => {
             if (estadoId) {
-                const municipiosResponse = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios`);
-                const municipios = await municipiosResponse.json();
-                setCidades(municipios);
+                await fetchCidades(estadoId);
             }
         });
-    };
-    const setSelectedCidade = async (nome: string) => {
-        fetchEstados();
-        const municipioResponse = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${cidadeId}`);
-        const municipio = await municipioResponse.json();
-        setSelectedEstado(municipio.microrregiao.mesorregiao.UF.id, municipio.microrregiao.mesorregiao.UF.nome);
-    };
+    }, [getEstadoIdBySigla, startCidadesLoading]);
 
-    return { estados, cidades, cidadesLoading, setSelectedEstado, setSelectedCidade };
+    return { estados, cidades, cidadesLoading, estadosLoading, setSelectedEstado, getCidadeIdByName, getEstadoIdBySigla };
 }

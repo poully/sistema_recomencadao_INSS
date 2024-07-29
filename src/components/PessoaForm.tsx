@@ -1,12 +1,10 @@
 'use client';
 
-import { useAxiosClient } from '@/src/api-client/getAxiosClient';
 import { useIbge } from '@/src/hooks';
 import { Box, Button, Loader, Select, Text, TextInput } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import { Pessoa } from '@prisma/client';
-import { useRouter } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 
 
@@ -18,8 +16,6 @@ type PessoaFormProps = {
     title?: string;
 }
 export function PessoaForm({ data, onSubmit, title }: PessoaFormProps) {
-    const axios = useAxiosClient();
-    const router = useRouter();
     const form = useForm<PessoaFormInput>({
         initialValues: {
             nome: '',
@@ -33,16 +29,14 @@ export function PessoaForm({ data, onSubmit, title }: PessoaFormProps) {
             endereco: "",
         },
     });
-    const onChangeEstado = (estadoId: string) => {
-        form.setFieldValue('estado', estadoId);
-    };
-    const { cidades, estados, cidadesLoading, setSelectedEstado } = useIbge({ cidadeId: data?.cidade_ibge_id, onChangeEstado });
+
+    const { cidades, estados, cidadesLoading, estadosLoading, setSelectedEstado } = useIbge();
 
     useEffect(() => {
-        if (form.values.estado) {
-            setSelectedEstado(form.values.estado);
+        if (form.values.uf && form.values.uf !== '' && !estadosLoading) {
+            setSelectedEstado(form.values.uf);
         }
-    }, [form.values.estado]);
+    }, [form.values.uf, estadosLoading]);
 
     useEffect(() => {
         if (data) {
@@ -90,21 +84,21 @@ export function PessoaForm({ data, onSubmit, title }: PessoaFormProps) {
                     placeholder="data de nascimento"
                     {...form.getInputProps('data_nasc')}
                 />
-                <Select
+                {estadosLoading && <Loader />}
+                {!estadosLoading ? <Select
                     label="Estado"
                     placeholder="Selecione o estado"
-                    data={estados.map(e => ({ value: `${e.id}`, label: e.nome }))}
-                    {...form.getInputProps('estado')}
-                />
+                    data={estados.map(e => ({ value: `${e.sigla}`, label: e.nome }))}
+                    {...form.getInputProps('uf')}
+                /> : null}
 
                 {cidadesLoading && <Loader />}
                 {cidades?.length && !cidadesLoading ? <Select
                     label="Cidade"
                     placeholder="Selecione a cidade"
-                    disabled={!form.values.estado}
-                    data={cidades.map(e => ({ value: `${e.id}`, label: e.nome }))}
-
-                    {...form.getInputProps('cidade_ibge_id')}
+                    disabled={!form.values.uf}
+                    data={cidades.map(e => ({ value: `${e.nome}`, label: e.nome }))}
+                    {...form.getInputProps('cidade')}
                 /> : null}
 
                 <Box>
