@@ -1,18 +1,16 @@
 'use client'
+
 import { useAxiosClient } from '@/src/api-client/getAxiosClient';
-import { TipoMovimentacao } from '@prisma/client';
+import { TipoMovimentacaoForm, TipoMovimentacaoFormInput } from '@/src/components/TipoMovimentacaoForm';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-import input from 'postcss/lib/input';
 import { toast } from 'react-toastify';
-
-type TipoMovimentacaoForm = Omit<TipoMovimentacao, "id">;
 
 export default function TipoCreate() {
     const axios = useAxiosClient();
     const router = useRouter();
 
-    const onSubmit = async (values: TipoMovimentacaoForm) => {
+    const onSubmit = async (values: TipoMovimentacaoFormInput) => {
         try {
             const response = await axios.post("/tipoMovimentacao", values);
             toast.success("Inserido com sucesso.");

@@ -31,21 +31,20 @@ export function EspecialistaForm({ data, onSubmit, title }: EspecialistaFormProp
     const onChangeEstado = (uf: string) => {
         form.setFieldValue('estado', uf);
     };
-    const { cidades, estados, cidadesLoading, setSelectedEstado, setSelectedCidade } = useIbge({ cidadeId: data?.cidade_ibge_id, onChangeEstado });
+    const { cidades, estados, cidadesLoading, estadosLoading, setSelectedEstado } = useIbge();
 
     useEffect(() => {
-        if (form.values.uf) {
+        
+        if (form.values.uf && form.values.uf !== '' && !estadosLoading) {
             setSelectedEstado(form.values.uf);
         }
-    }, [form.values.uf, data?.cidade_ibge_id]);
+    }, [form.values.uf, estadosLoading]);
 
     useEffect(() => {
         if (data) {
-            if (data.cidade_ibge_id) setSelectedCidade(data.cidade_ibge_id);
-            form.setValues( data );
+            form.setValues({ ...data});
         }
     }, [data]);
-
     const [isPending, startTransition] = useTransition();
     const handleSubmit = (values: EspecialistaFormInput) => {
         if (onSubmit) {
