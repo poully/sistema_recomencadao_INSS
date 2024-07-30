@@ -33,6 +33,7 @@ export function PessoaForm({ data, onSubmit, title }: PessoaFormProps) {
     const { cidades, estados, cidadesLoading, estadosLoading, setSelectedEstado } = useIbge();
 
     useEffect(() => {
+        
         if (form.values.uf && form.values.uf !== '' && !estadosLoading) {
             setSelectedEstado(form.values.uf);
         }
