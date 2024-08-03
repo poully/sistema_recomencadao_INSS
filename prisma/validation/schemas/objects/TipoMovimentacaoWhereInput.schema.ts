@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { UuidFilterObjectSchema } from './UuidFilter.schema';
+import { StringFilterObjectSchema } from './StringFilter.schema';
 import { MovimentacaoListRelationFilterObjectSchema } from './MovimentacaoListRelationFilter.schema';
 
 import type { Prisma } from '@prisma/client';
@@ -24,7 +25,7 @@ const Schema: z.ZodType<Prisma.TipoMovimentacaoWhereInput> = z
       .optional(),
     id: z.union([z.lazy(() => UuidFilterObjectSchema), z.string()]).optional(),
     nome: z
-      .union([z.lazy(() => UuidFilterObjectSchema), z.string()])
+      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
     Movimentacao: z
       .lazy(() => MovimentacaoListRelationFilterObjectSchema)

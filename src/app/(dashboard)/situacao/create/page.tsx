@@ -12,14 +12,14 @@ export default function SituacaoCreate() {
 
     const onSubmit = async (values: SituacaoFormInput) => {
         try {
-            const response = await axios.post("/tipoBeneficio", values);
+            const response = await axios.post("/situacao", values);
             toast.success("Inserido com sucesso.");
-            router.push("/tipoBeneficio");
+            router.push("/situacao");
         } catch (e) {
             const error = e as AxiosError;
             // @ts-expect-error
             toast.error(error.response?.data?.error!);
         }
     }
-    return <SituacaoForm onSubmit={onSubmit} title="Adicionar tipo" />
+    return <SituacaoForm onSubmit={onSubmit} title="Adicionar situação" />
 }

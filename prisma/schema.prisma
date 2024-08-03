@@ -74,7 +74,7 @@ model Documentos {
 
 model TipoMovimentacao {
   id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  nome         String @db.Uuid
+  nome         String
   Movimentacao Movimentacao[]
 }
 
