@@ -1,7 +1,6 @@
 import { getPessoas } from '@/src/api-client/pessoaService';
 import { Box, Button, Group, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text } from '@mantine/core';
 import Link from 'next/link';
-import { useEffect } from 'react';
 
 export default async function PessoaList() {
 

@@ -31,7 +31,7 @@ export function TipoMovimentacaoForm({ data, onSubmit, title }: TipoMovimentacao
             <Text variant="h1">{title}</Text>
             <form onSubmit={form.onSubmit(handleSubmit)}>
                 <TextInput
-                    label="Tipo de movimentacao do Benefício"
+                    label="Tipo de movimentação do benefício"
                     {...form.getInputProps('nome')}
                 />
                 <Box>

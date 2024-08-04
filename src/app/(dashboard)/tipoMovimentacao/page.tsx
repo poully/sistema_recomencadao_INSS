@@ -13,6 +13,9 @@ export default async function tipoMovimentacaoList() {
                 <Link href={`/tipoMovimentacao/update/${element.id}`}>
                     <Button>Editar</Button>
                 </Link>
+                {/* <Link href={`/tipoMovimentacao/delete/${element.id}`}>
+                    <Button variant="filled" color="red">Excluir</Button>
+                </Link> */}
             </TableTd>
         </TableTr>
     ));
@@ -25,7 +28,7 @@ export default async function tipoMovimentacaoList() {
     return (
         <Box>
             <Group>
-                <Text variant="h1">Lista de Tipo Movimentacao</Text>
+                <Text variant="h1">Lista de Tipo Movimentação</Text>
                 <Link href="/tipoMovimentacao/create">
                     <Button>Adicionar</Button>
                 </Link>

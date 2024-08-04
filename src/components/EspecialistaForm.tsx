@@ -1,23 +1,20 @@
 'use client';
 
-import { useAxiosClient } from '@/src/api-client/getAxiosClient';
 import { useIbge } from '@/src/hooks';
 import { Box, Button, Loader, Select, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Especialista } from '@prisma/client';
-import { useRouter } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 
 
 export type EspecialistaFormInput = Omit<Especialista, "id">;
+
 type EspecialistaFormProps = {
     data?: EspecialistaFormInput | undefined;
     onSubmit?: (values: EspecialistaFormInput) => Promise<void>;
     title?: string;
 }
 export function EspecialistaForm({ data, onSubmit, title }: EspecialistaFormProps) {
-    const axios = useAxiosClient();
-    const router = useRouter();
     const form = useForm<EspecialistaFormInput>({
         initialValues: {
             nome: '',
@@ -28,9 +25,7 @@ export function EspecialistaForm({ data, onSubmit, title }: EspecialistaFormProp
             endereco: "",
         },
     });
-    const onChangeEstado = (uf: string) => {
-        form.setFieldValue('estado', uf);
-    };
+
     const { cidades, estados, cidadesLoading, estadosLoading, setSelectedEstado } = useIbge();
 
     useEffect(() => {
@@ -45,6 +40,7 @@ export function EspecialistaForm({ data, onSubmit, title }: EspecialistaFormProp
             form.setValues({ ...data});
         }
     }, [data]);
+
     const [isPending, startTransition] = useTransition();
     const handleSubmit = (values: EspecialistaFormInput) => {
         if (onSubmit) {
@@ -63,7 +59,6 @@ export function EspecialistaForm({ data, onSubmit, title }: EspecialistaFormProp
                     label="Email"
                     {...form.getInputProps('email')}
                 />
-
                 <TextInput
                     label="Telefone"
                     {...form.getInputProps('telefone')}
@@ -72,12 +67,13 @@ export function EspecialistaForm({ data, onSubmit, title }: EspecialistaFormProp
                     label="Endereço"
                     {...form.getInputProps('endereco')}
                 />
-                <Select
+                {estadosLoading && <Loader />}
+                {!estadosLoading ? <Select
                     label="Estado"
                     placeholder="Selecione o estado"
-                    data={estados.map(e => ({ value: `${e.id}`, label: e.nome }))}
-                    {...form.getInputProps('estado')}
-                />
+                    data={estados.map(e => ({ value: `${e.sigla}`, label: e.nome }))}
+                    {...form.getInputProps('uf')}
+                /> : null}
                 {cidadesLoading && <Loader />}
                 {cidades?.length && !cidadesLoading ? <Select
                     label="Cidade"
@@ -85,7 +81,7 @@ export function EspecialistaForm({ data, onSubmit, title }: EspecialistaFormProp
                     disabled={!form.values.uf}
                     data={cidades.map(e => ({ value: `${e.id}`, label: e.nome }))}
 
-                    {...form.getInputProps('cidade_ibge_id')}
+                    {...form.getInputProps('cidade')}
                 /> : null}
 
                 <Box>
