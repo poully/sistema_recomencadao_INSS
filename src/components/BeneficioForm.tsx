@@ -1,53 +1,21 @@
 'use client';
 
-import { useAxiosClient } from '@/src/api-client/getAxiosClient';
-import { Box, Button, Flex, Group, Select, Text, TextInput, rem } from '@mantine/core';
+import { Box, Button, Select, Text, TextInput } from '@mantine/core';
 import { Dropzone, DropzoneAccept, DropzoneIdle, DropzoneReject, FileWithPath, PDF_MIME_TYPE } from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
-import { Beneficio, Documentos, Especialista, Situacao } from '@prisma/client';
-import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState, useTransition } from 'react';
-import { toast } from 'react-toastify';
+import { Beneficio } from '@prisma/client';
+import { useEffect, useTransition } from 'react';
 
-type Pessoa = {
-    id: number;
-    nome: string;
+
+export type BeneficioFormInput = Omit<Beneficio, "id">;
+
+type BeneficioFormProps = {
+    data?: BeneficioFormInput | undefined;
+    onSubmit?: (values: BeneficioFormInput) => Promise<void>;
+    title?: string;
 }
-
-type Movimentacao = {
-    id: number;
-    nome: string;
-}
-
-type Tipo = {
-    id: number;
-    nome: string;
-}
-
-type BeneficioForm = { documentos?: Omit<Documentos, "id" | "descricao" | "beneficio_id">[] } & Omit<Beneficio, "id">;
-
-export default function BeneficioCreate() {
-    const [pessoas, setPessoas] = useState<Pessoa[]>([]);
-    const [files, setFiles] = useState<FileWithPath[]>([]);
-    const [tipos, setTipo] = useState<Tipo[]>([]);
-    const [situacoes, setSituacoes] = useState<Situacao[]>([]);
-    const [especialistas, setEspecialistas] = useState<Especialista[]>([]);
-    const axios = useAxiosClient();
-    useEffect(() => {
-        const fetchData = async () => {
-            const endpoints = ["/pessoas", "/tipoBeneficio", "/situacao", "/especialista"];
-            const promiseAllResults = await Promise.all(endpoints.map(async e => axios.get(e)));
-            const [responsePessoa, responseTipo, responseSituacao, responseEspecialista] = promiseAllResults;
-            setPessoas(responsePessoa.data);
-            setTipo(responseTipo.data);
-            setSituacoes(responseSituacao.data);
-            setEspecialistas(responseEspecialista.data);
-        }
-        fetchData();
-    }, []);
-    const router = useRouter();
-    const form = useForm<BeneficioForm>({
+export function BeneficioForm({ data, onSubmit, title }: BeneficioFormProps) {
+    const form = useForm<BeneficioFormInput>({
         initialValues: {
             numero_beneficio: '',
             situacao_id: '',
@@ -57,35 +25,19 @@ export default function BeneficioCreate() {
         },
     });
 
+    useEffect(() => {
+        
+        if (form.values.uf && form.values.uf !== '' && !estadosLoading) {
+            setSelectedEstado(form.values.uf);
+        }
+    }, [form.values.uf, estadosLoading]);
+
+
     const [isPending, startTransition] = useTransition();
-    const removeFile = useCallback((index: number) => {
-        const newFiles = [...files];
-        newFiles.splice(index, 1);
-        setFiles(newFiles);
-    }, [files]);
-    const addFile = useCallback((newFiles: FileWithPath[]) => {
-        setFiles([...files, ...newFiles]);
-    }, [files]);
-    const handleSubmit = (values: BeneficioForm) => {
-        startTransition(async () => {
-            try {
-                const docs = [];
-                if (files) {
-                    const promises = files.map(async (file) => {
-                        const buffer = await file.arrayBuffer();
-                        const imagem = Buffer.from(buffer).toString('base64');
-                        return { imagem, descricao: file.name };
-                    })
-                    docs.push(...(await Promise.all(promises)));
-                }
-                const newValues = { ...values, documentos: docs };
-                const response = await axios.post("/beneficio", newValues);
-                toast.success("Inserido com sucesso.");
-                router.push("/beneficio");
-            } catch (e) {
-                toast.error("Erro ao adicionar um novo beneficio");
-            }
-        });
+    const handleSubmit = (values: BeneficioFormInput) => {
+        if (onSubmit) {
+            startTransition(async () => onSubmit(values));
+        }
     }
     return (
         <Box>
@@ -123,6 +75,7 @@ export default function BeneficioCreate() {
                     onDrop={addFile}
                     maxSize={5 * 1024 ** 2}
                     accept={PDF_MIME_TYPE}
+
                 >
                     <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
                         <DropzoneAccept>
@@ -155,14 +108,9 @@ export default function BeneficioCreate() {
                     </Group>
                 </Dropzone>
                 <Box>
-                    {files?.length ? files.map((file, index) => (
-                        <Flex align="center" key={index}>
-                            <span>{file.name}</span>
-                            <span style={{ cursor: "pointer" }}>
-                                <IconX color='red' onClick={() => removeFile(index)} />
-                            </span>
-                        </Flex>
-                    )) : null}
+                    {files?.length ? files.map((file, index) => {
+                        return <Flex align="center"><span>{file.name}</span><span style={{ cursor: "pointer" }}><IconX color='red' onClick={() => removeFile(index)} /></span></Flex>;
+                    }) : null}
                 </Box>
 
                 <Button type="submit" loading={isPending}>Adicionar</Button>

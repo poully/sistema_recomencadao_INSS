@@ -27,7 +27,7 @@ const Schema: z.ZodType<Prisma.TipoMovimentacaoWhereInput> = z
     nome: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
-    Movimentacao: z
+    movimentacao: z
       .lazy(() => MovimentacaoListRelationFilterObjectSchema)
       .optional(),
   })

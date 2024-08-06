@@ -25,10 +25,10 @@ const Schema: z.ZodType<Prisma.BeneficioOrderByWithRelationInput> = z
     especialista: z
       .lazy(() => EspecialistaOrderByWithRelationInputObjectSchema)
       .optional(),
-    Documentos: z
+    documentos: z
       .lazy(() => DocumentosOrderByRelationAggregateInputObjectSchema)
       .optional(),
-    Movimentacao: z
+    movimentacao: z
       .lazy(() => MovimentacaoOrderByRelationAggregateInputObjectSchema)
       .optional(),
   })

@@ -67,7 +67,7 @@ const Schema: z.ZodType<Prisma.PessoaUpdateInput> = z
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
-    Beneficio: z
+    beneficio: z
       .lazy(() => BeneficioUpdateManyWithoutPessoaNestedInputObjectSchema)
       .optional(),
   })

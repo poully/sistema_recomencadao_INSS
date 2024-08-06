@@ -13,7 +13,7 @@ const Schema: z.ZodType<Prisma.EspecialistaOrderByWithRelationInput> = z
     endereco: z.lazy(() => SortOrderSchema).optional(),
     cidade: z.lazy(() => SortOrderSchema).optional(),
     uf: z.lazy(() => SortOrderSchema).optional(),
-    Beneficio: z
+    beneficio: z
       .lazy(() => BeneficioOrderByRelationAggregateInputObjectSchema)
       .optional(),
   })

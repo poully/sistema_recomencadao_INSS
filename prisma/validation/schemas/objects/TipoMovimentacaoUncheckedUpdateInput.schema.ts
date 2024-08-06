@@ -18,7 +18,7 @@ const Schema: z.ZodType<Prisma.TipoMovimentacaoUncheckedUpdateInput> = z
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
-    Movimentacao: z
+    movimentacao: z
       .lazy(
         () =>
           MovimentacaoUncheckedUpdateManyWithoutTipo_movimentacaoNestedInputObjectSchema,

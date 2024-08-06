@@ -11,13 +11,13 @@ const Schema: z.ZodType<Prisma.BeneficioUncheckedCreateWithoutSituacaoInput> = z
     pessoa_id: z.string(),
     tipo_id: z.string(),
     especialista_id: z.string(),
-    Documentos: z
+    documentos: z
       .lazy(
         () =>
           DocumentosUncheckedCreateNestedManyWithoutBeneficioInputObjectSchema,
       )
       .optional(),
-    Movimentacao: z
+    movimentacao: z
       .lazy(
         () =>
           MovimentacaoUncheckedCreateNestedManyWithoutBeneficioInputObjectSchema,

@@ -1,8 +1,8 @@
-import { Beneficio } from "@prisma/client";
+import { Beneficio, Movimentacao, TipoMovimentacao } from "@prisma/client";
 import { useAxiosClient } from './useAxiosClient';
 
-
-export async function getBeneficio(): Promise<Beneficio[]> {
+type BeneficioWithMovimentacao = Beneficio & { movimentacao?: (Movimentacao & { tipo_movimentacao: TipoMovimentacao })[] };
+export async function getBeneficio(): Promise<BeneficioWithMovimentacao[]> {
   const axios = useAxiosClient();
   try {
     const response = await axios.get("/beneficio");

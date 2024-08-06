@@ -72,10 +72,10 @@ const Schema: z.ZodType<Prisma.BeneficioWhereInput> = z
         z.lazy(() => EspecialistaWhereInputObjectSchema),
       ])
       .optional(),
-    Documentos: z
+    documentos: z
       .lazy(() => DocumentosListRelationFilterObjectSchema)
       .optional(),
-    Movimentacao: z
+    movimentacao: z
       .lazy(() => MovimentacaoListRelationFilterObjectSchema)
       .optional(),
   })

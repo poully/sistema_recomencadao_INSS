@@ -7,7 +7,7 @@ const Schema: z.ZodType<Prisma.TipoCreateInput> = z
   .object({
     id: z.string().optional(),
     nome: z.string(),
-    Beneficio: z
+    beneficio: z
       .lazy(() => BeneficioCreateNestedManyWithoutTipoInputObjectSchema)
       .optional(),
   })

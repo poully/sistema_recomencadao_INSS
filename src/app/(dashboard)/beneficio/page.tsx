@@ -11,11 +11,12 @@ export default async function PessoaList() {
                 <TableTd>{beneficio.tipo_id}</TableTd>
                 <TableTd>{beneficio.pessoa_id}</TableTd>
                 <TableTd>{beneficio.situacao_id}</TableTd>
+                <TableTd>{beneficio?.movimentacao?.length ? beneficio.movimentacao[beneficio.movimentacao.length - 1].tipo_movimentacao.nome : ""}</TableTd>
 
             </TableTr>
         </Link>
     ));
-    const headers = ["Benefício", "Tipo", "Nome", "Situação"];
+    const headers = ["Benefício", "Tipo", "Nome", "Situação", "Última movimentação"];
 
     return (
         <Box>

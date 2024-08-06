@@ -18,7 +18,7 @@ const Schema: z.ZodType<Prisma.SituacaoUncheckedUpdateInput> = z
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
-    Beneficio: z
+    beneficio: z
       .lazy(
         () =>
           BeneficioUncheckedUpdateManyWithoutSituacaoNestedInputObjectSchema,

@@ -22,10 +22,10 @@ const Schema: z.ZodType<Prisma.BeneficioCreateInput> = z
     especialista: z.lazy(
       () => EspecialistaCreateNestedOneWithoutBeneficioInputObjectSchema,
     ),
-    Documentos: z
+    documentos: z
       .lazy(() => DocumentosCreateNestedManyWithoutBeneficioInputObjectSchema)
       .optional(),
-    Movimentacao: z
+    movimentacao: z
       .lazy(() => MovimentacaoCreateNestedManyWithoutBeneficioInputObjectSchema)
       .optional(),
   })

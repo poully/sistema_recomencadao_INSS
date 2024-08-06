@@ -37,13 +37,13 @@ const Schema: z.ZodType<Prisma.BeneficioUncheckedUpdateWithoutTipoInput> = z
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
-    Documentos: z
+    documentos: z
       .lazy(
         () =>
           DocumentosUncheckedUpdateManyWithoutBeneficioNestedInputObjectSchema,
       )
       .optional(),
-    Movimentacao: z
+    movimentacao: z
       .lazy(
         () =>
           MovimentacaoUncheckedUpdateManyWithoutBeneficioNestedInputObjectSchema,

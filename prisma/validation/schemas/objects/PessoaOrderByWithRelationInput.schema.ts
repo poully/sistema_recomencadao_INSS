@@ -16,7 +16,7 @@ const Schema: z.ZodType<Prisma.PessoaOrderByWithRelationInput> = z
     cnis: z.lazy(() => SortOrderSchema).optional(),
     cidade: z.lazy(() => SortOrderSchema).optional(),
     uf: z.lazy(() => SortOrderSchema).optional(),
-    Beneficio: z
+    beneficio: z
       .lazy(() => BeneficioOrderByRelationAggregateInputObjectSchema)
       .optional(),
   })

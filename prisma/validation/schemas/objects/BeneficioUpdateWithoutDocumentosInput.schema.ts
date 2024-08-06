@@ -41,7 +41,7 @@ const Schema: z.ZodType<Prisma.BeneficioUpdateWithoutDocumentosInput> = z
           EspecialistaUpdateOneRequiredWithoutBeneficioNestedInputObjectSchema,
       )
       .optional(),
-    Movimentacao: z
+    movimentacao: z
       .lazy(() => MovimentacaoUpdateManyWithoutBeneficioNestedInputObjectSchema)
       .optional(),
   })

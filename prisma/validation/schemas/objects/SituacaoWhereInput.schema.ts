@@ -27,7 +27,7 @@ const Schema: z.ZodType<Prisma.SituacaoWhereInput> = z
     nome: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
-    Beneficio: z.lazy(() => BeneficioListRelationFilterObjectSchema).optional(),
+    beneficio: z.lazy(() => BeneficioListRelationFilterObjectSchema).optional(),
   })
   .strict();
 

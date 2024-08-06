@@ -12,7 +12,7 @@ const Schema: z.ZodType<Prisma.EspecialistaUncheckedCreateInput> = z
     endereco: z.string(),
     cidade: z.string(),
     uf: z.string(),
-    Beneficio: z
+    beneficio: z
       .lazy(
         () =>
           BeneficioUncheckedCreateNestedManyWithoutEspecialistaInputObjectSchema,

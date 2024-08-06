@@ -8,7 +8,7 @@ const Schema: z.ZodType<Prisma.TipoOrderByWithRelationInput> = z
   .object({
     id: z.lazy(() => SortOrderSchema).optional(),
     nome: z.lazy(() => SortOrderSchema).optional(),
-    Beneficio: z
+    beneficio: z
       .lazy(() => BeneficioOrderByRelationAggregateInputObjectSchema)
       .optional(),
   })

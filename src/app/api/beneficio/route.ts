@@ -1,4 +1,5 @@
 import { BeneficioCreateInputObjectSchema } from "@/prisma/validation/schemas";
+import { createMovimentacao } from "@/src/utils/createMovimentacao";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { fromError } from "zod-validation-error";
@@ -6,7 +7,7 @@ import { fromError } from "zod-validation-error";
 const prisma = new PrismaClient();
 
 export async function GET() {
-    const data = await prisma.beneficio.findMany();
+    const data = await prisma.beneficio.findMany({ include: { movimentacao: { include: { tipo_movimentacao: true } } } });
     return NextResponse.json(data);
 }
 
@@ -15,7 +16,7 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const data = await BeneficioCreateInputObjectSchema.parseAsync(body);
         const beneficio = await prisma.beneficio.create({ data });
-        //await prisma.movimentacao.create({ data: { tipo: 'C', valor: beneficio.valor, beneficioId: beneficio.id } });
+        await createMovimentacao({ beneficio_id: beneficio.id, nomeTipoMovimentacao: "" });
         return NextResponse.json(beneficio);
     } catch (e) {
         const validationError = fromError(e);

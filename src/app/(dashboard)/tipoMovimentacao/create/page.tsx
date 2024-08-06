@@ -14,7 +14,7 @@ export default function TipoCreate() {
         try {
             const response = await axios.post("/tipoMovimentacao", values);
             toast.success("Inserido com sucesso.");
-            router.push("/TipoMovimentacao");
+            router.push("/tipoMovimentacao");
         } catch (e) {
             const error = e as AxiosError;
             // @ts-expect-error

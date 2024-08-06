@@ -1,7 +1,7 @@
 'use client';
 
 import { useAxiosClient } from '@/src/api-client/getAxiosClient';
-import { EspecialistaFormInput , EspecialistaForm } from '@/src/components/EspecialistaForm';
+import { EspecialistaFormInput, EspecialistaForm } from '@/src/components/EspecialistaForm';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
@@ -14,7 +14,7 @@ export default function EspecialistaCreate() {
 
     const onSubmit = async (values: EspecialistaFormInput) => {
         try {
-            const { estado, ...input } = values;
+            const { uf, ...input } = values;
             console.log(values);
             const response = await axios.post("/especialista", input);
             toast.success("Inserido com sucesso.");

@@ -13,75 +13,75 @@ datasource db {
 }
 
 model Pessoa {
-  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  nome           String
-  email          String
-  endereco       String
-  telefone       String
-  data_nasc      DateTime // Use DateTime para representar data e hora
-  cpf            String
-  cnis           String
-  cidade         String
-  uf             String
-  Beneficio      Beneficio[]
+  id        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome      String
+  email     String
+  endereco  String
+  telefone  String
+  data_nasc DateTime // Use DateTime para representar data e hora
+  cpf       String
+  cnis      String
+  cidade    String
+  uf        String
+  beneficio Beneficio[]
 }
 
 model Situacao {
-  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   nome      String
-  Beneficio Beneficio[]
+  beneficio Beneficio[]
 }
 
 model Tipo {
-  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   nome      String
-  Beneficio Beneficio[]
+  beneficio Beneficio[]
 }
 
 model Especialista {
-  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  nome      String 
+  id        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome      String
   email     String
   telefone  String
   endereco  String
   cidade    String
   uf        String
-  Beneficio Beneficio[]
+  beneficio Beneficio[]
 }
 
 model Beneficio {
-  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id               String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   numero_beneficio String
-  situacao_id      String @db.Uuid
-  pessoa_id        String @db.Uuid
-  tipo_id          String @db.Uuid
-  especialista_id  String @db.Uuid
+  situacao_id      String         @db.Uuid
+  pessoa_id        String         @db.Uuid
+  tipo_id          String         @db.Uuid
+  especialista_id  String         @db.Uuid
   situacao         Situacao       @relation(fields: [situacao_id], references: [id])
   pessoa           Pessoa         @relation(fields: [pessoa_id], references: [id])
   tipo             Tipo           @relation(fields: [tipo_id], references: [id])
   especialista     Especialista   @relation(fields: [especialista_id], references: [id])
-  Documentos       Documentos[]
-  Movimentacao     Movimentacao[]
+  documentos       Documentos[]
+  movimentacao     Movimentacao[]
 }
 
 model Documentos {
-  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  descricao    String @db.Uuid
-  imagem       String @db.Uuid
-  beneficio_id String @db.Uuid
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  descricao    String    @db.Uuid
+  imagem       String    @db.Uuid
+  beneficio_id String    @db.Uuid
   beneficio    Beneficio @relation(fields: [beneficio_id], references: [id])
 }
 
 model TipoMovimentacao {
-  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   nome         String
-  Movimentacao Movimentacao[]
+  movimentacao Movimentacao[]
 }
 
 model Movimentacao {
-  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  beneficio_id         String @db.Uuid
-  tipo_movimentacao_id String @db.Uuid
+  id                   String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  beneficio_id         String           @db.Uuid
+  tipo_movimentacao_id String           @db.Uuid
   beneficio            Beneficio        @relation(fields: [beneficio_id], references: [id])
   tipo_movimentacao    TipoMovimentacao @relation(fields: [tipo_movimentacao_id], references: [id])
 }

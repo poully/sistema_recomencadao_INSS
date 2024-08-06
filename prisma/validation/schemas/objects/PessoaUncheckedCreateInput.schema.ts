@@ -15,7 +15,7 @@ const Schema: z.ZodType<Prisma.PessoaUncheckedCreateInput> = z
     cnis: z.string(),
     cidade: z.string(),
     uf: z.string(),
-    Beneficio: z
+    beneficio: z
       .lazy(
         () => BeneficioUncheckedCreateNestedManyWithoutPessoaInputObjectSchema,
       )

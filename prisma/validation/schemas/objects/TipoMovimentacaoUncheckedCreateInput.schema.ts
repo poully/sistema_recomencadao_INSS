@@ -7,7 +7,7 @@ const Schema: z.ZodType<Prisma.TipoMovimentacaoUncheckedCreateInput> = z
   .object({
     id: z.string().optional(),
     nome: z.string(),
-    Movimentacao: z
+    movimentacao: z
       .lazy(
         () =>
           MovimentacaoUncheckedCreateNestedManyWithoutTipo_movimentacaoInputObjectSchema,
