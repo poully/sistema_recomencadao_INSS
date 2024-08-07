@@ -149,7 +149,7 @@ export default function BeneficioCreate() {
                                 Arraste os pdfs aqui ou clique para selecionar os arquivos
                             </Text>
                             <Text size="sm" c="dimmed" inline mt={7}>
-                                Anexe quantos arquivos forem precisos, cada arquivo não deve exceder 5mb
+                                Anexe quantos arquivos forem preciso, arquivos menores de 5mb
                             </Text>
                         </div>
                     </Group>

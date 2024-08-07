@@ -56,6 +56,7 @@ model Beneficio {
   pessoa_id        String         @db.Uuid
   tipo_id          String         @db.Uuid
   especialista_id  String         @db.Uuid
+  movimentacao_id  String         @db.Uuid
   situacao         Situacao       @relation(fields: [situacao_id], references: [id])
   pessoa           Pessoa         @relation(fields: [pessoa_id], references: [id])
   tipo             Tipo           @relation(fields: [tipo_id], references: [id])

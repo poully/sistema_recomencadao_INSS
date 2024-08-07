@@ -1,13 +1,24 @@
 'use client';
 
-import { Box, Button, Select, Text, TextInput } from '@mantine/core';
+import { useAxiosClient } from '@/src/api-client/getAxiosClient';
+import { Box, Button, Select, Text, TextInput, Flex,  Group, rem } from '@mantine/core';
 import { Dropzone, DropzoneAccept, DropzoneIdle, DropzoneReject, FileWithPath, PDF_MIME_TYPE } from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
-import { Beneficio } from '@prisma/client';
-import { useEffect, useTransition } from 'react';
+import { Beneficio, Pessoa, Tipo, Situacao, Especialista, Movimentacao } from '@prisma/client';
+import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
+import { useCallback,useEffect, useTransition, useState } from 'react';
+import { toast } from 'react-toastify';
 
 
 export type BeneficioFormInput = Omit<Beneficio, "id">;
+
+const [pessoas, setPessoas] = useState<Pessoa[]>([]);
+const [files, setFiles] = useState<FileWithPath[]>([]);
+const [tipos, setTipo] = useState<Tipo[]>([]);
+const [situacoes, setSituacoes] = useState<Situacao[]>([]);
+const [especialistas, setEspecialistas] = useState<Especialista[]>([]);
+const [movimentacoes, setMovimentacoes] = useState<Movimentacao[]>([]);
+const axios = useAxiosClient();
 
 type BeneficioFormProps = {
     data?: BeneficioFormInput | undefined;
@@ -22,15 +33,27 @@ export function BeneficioForm({ data, onSubmit, title }: BeneficioFormProps) {
             pessoa_id: '',
             tipo_id: '',
             especialista_id: '',
+            movimentacao_id: '',
         },
     });
 
     useEffect(() => {
-        
-        if (form.values.uf && form.values.uf !== '' && !estadosLoading) {
+        const fetchData = async () => {
+            const endpoints = ["/pessoas", "/tipoBeneficio", "/situacao", "/especialista", "/movimentacao"];
+            const promiseAllResults = await Promise.all(endpoints.map(async e => axios.get(e)));
+            const [responsePessoa, responseTipo, responseSituacao, responseEspecialista, responseMovimentacao] = promiseAllResults;
+            setPessoas(responsePessoa.data);
+            setTipo(responseTipo.data);
+            setSituacoes(responseSituacao.data);
+            setEspecialistas(responseEspecialista.data);
+            setMovimentacoes(responseMovimentacao.data);
+        }
+        fetchData();
+        if (form.values. && form.values.uf !== '' && !estadosLoading) {
             setSelectedEstado(form.values.uf);
         }
     }, [form.values.uf, estadosLoading]);
+    
 
 
     const [isPending, startTransition] = useTransition();
@@ -38,6 +61,36 @@ export function BeneficioForm({ data, onSubmit, title }: BeneficioFormProps) {
         if (onSubmit) {
             startTransition(async () => onSubmit(values));
         }
+    }
+    const removeFile = useCallback((index: number) => {
+        const newFiles = [...files];
+        newFiles.splice(index, 1);
+        setFiles(newFiles);
+    }, [files]);
+    const addFile = useCallback((newFiles: FileWithPath[]) => {
+        setFiles([...files, ...newFiles]);
+    }, [files]);
+
+    const handleSubmit = (values: BeneficioForm) => {
+        startTransition(async () => {
+            try {
+                const docs = [];
+                if (files) {
+                    const promises = files.map(async (file) => {
+                        const buffer = await file.arrayBuffer();
+                        const imagem = Buffer.from(buffer).toString('base64');
+                        return { imagem, descricao: file.name };
+                    })
+                    docs.push(...(await Promise.all(promises)));
+                }
+                const newValues = { ...values, documentos: docs };
+                const response = await axios.post("/beneficio", newValues);
+                toast.success("Inserido com sucesso.");
+                router.put("/beneficio");
+            } catch (e) {
+                toast.error("Erro ao adicionar um novo beneficio");
+            }
+        });
     }
     return (
         <Box>
@@ -102,7 +155,7 @@ export function BeneficioForm({ data, onSubmit, title }: BeneficioFormProps) {
                                 Arraste os pdfs aqui ou clique para selecionar os arquivos
                             </Text>
                             <Text size="sm" c="dimmed" inline mt={7}>
-                                Anexe quantos arquivos forem precisos, cada arquivo não deve exceder 5mb
+                                Anexe quantos arquivos forem preciso, arquivos menores de 5mb
                             </Text>
                         </div>
                     </Group>
@@ -113,7 +166,7 @@ export function BeneficioForm({ data, onSubmit, title }: BeneficioFormProps) {
                     }) : null}
                 </Box>
 
-                <Button type="submit" loading={isPending}>Adicionar</Button>
+                <Button type="submit" loading={isPending}>Editar</Button>
             </form>
         </Box>
     );
