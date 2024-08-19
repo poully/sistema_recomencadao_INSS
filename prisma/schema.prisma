@@ -56,7 +56,6 @@ model Beneficio {
   pessoa_id        String         @db.Uuid
   tipo_id          String         @db.Uuid
   especialista_id  String         @db.Uuid
-  movimentacao_id  String         @db.Uuid
   situacao         Situacao       @relation(fields: [situacao_id], references: [id])
   pessoa           Pessoa         @relation(fields: [pessoa_id], references: [id])
   tipo             Tipo           @relation(fields: [tipo_id], references: [id])
@@ -67,8 +66,8 @@ model Beneficio {
 
 model Documentos {
   id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  descricao    String    @db.Uuid
-  imagem       String    @db.Uuid
+  descricao    String
+  imagem       String
   beneficio_id String    @db.Uuid
   beneficio    Beneficio @relation(fields: [beneficio_id], references: [id])
 }
@@ -81,8 +80,8 @@ model TipoMovimentacao {
 
 model Movimentacao {
   id                   String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  beneficio_id         String           @db.Uuid
   tipo_movimentacao_id String           @db.Uuid
+  beneficio_id         String           @db.Uuid
   beneficio            Beneficio        @relation(fields: [beneficio_id], references: [id])
   tipo_movimentacao    TipoMovimentacao @relation(fields: [tipo_movimentacao_id], references: [id])
 }

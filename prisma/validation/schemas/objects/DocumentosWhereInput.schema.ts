@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { UuidFilterObjectSchema } from './UuidFilter.schema';
+import { StringFilterObjectSchema } from './StringFilter.schema';
 import { BeneficioRelationFilterObjectSchema } from './BeneficioRelationFilter.schema';
 import { BeneficioWhereInputObjectSchema } from './BeneficioWhereInput.schema';
 
@@ -25,10 +26,10 @@ const Schema: z.ZodType<Prisma.DocumentosWhereInput> = z
       .optional(),
     id: z.union([z.lazy(() => UuidFilterObjectSchema), z.string()]).optional(),
     descricao: z
-      .union([z.lazy(() => UuidFilterObjectSchema), z.string()])
+      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
     imagem: z
-      .union([z.lazy(() => UuidFilterObjectSchema), z.string()])
+      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
     beneficio_id: z
       .union([z.lazy(() => UuidFilterObjectSchema), z.string()])

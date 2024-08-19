@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { UuidWithAggregatesFilterObjectSchema } from './UuidWithAggregatesFilter.schema';
+import { StringWithAggregatesFilterObjectSchema } from './StringWithAggregatesFilter.schema';
 
 import type { Prisma } from '@prisma/client';
 
@@ -29,10 +30,10 @@ const Schema: z.ZodType<Prisma.DocumentosScalarWhereWithAggregatesInput> = z
       .union([z.lazy(() => UuidWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
     descricao: z
-      .union([z.lazy(() => UuidWithAggregatesFilterObjectSchema), z.string()])
+      .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
     imagem: z
-      .union([z.lazy(() => UuidWithAggregatesFilterObjectSchema), z.string()])
+      .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
     beneficio_id: z
       .union([z.lazy(() => UuidWithAggregatesFilterObjectSchema), z.string()])

@@ -22,10 +22,10 @@ const Schema: z.ZodType<Prisma.MovimentacaoScalarWhereInput> = z
       ])
       .optional(),
     id: z.union([z.lazy(() => UuidFilterObjectSchema), z.string()]).optional(),
-    beneficio_id: z
+    tipo_movimentacao_id: z
       .union([z.lazy(() => UuidFilterObjectSchema), z.string()])
       .optional(),
-    tipo_movimentacao_id: z
+    beneficio_id: z
       .union([z.lazy(() => UuidFilterObjectSchema), z.string()])
       .optional(),
   })

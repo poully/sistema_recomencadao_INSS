@@ -5,18 +5,19 @@ import Link from 'next/link';
 export default async function PessoaList() {
     const beneficios = await getBeneficio();
     const rows = beneficios.map((beneficio) => (
-        <Link href={`/beneficio/${beneficio.id}`} key={beneficio.id}>
+        
             <TableTr>
-
-                <TableTd>{beneficio.tipo_id}</TableTd>
-                <TableTd>{beneficio.pessoa_id}</TableTd>
-                <TableTd>{beneficio.situacao_id}</TableTd>
-                <TableTd>{beneficio?.movimentacao?.length ? beneficio.movimentacao[beneficio.movimentacao.length - 1].tipo_movimentacao.nome : ""}</TableTd>
-
+                <Link href={`/beneficio/${beneficio.id}`} key={beneficio.id}>
+                <TableTd>{beneficio.numero_beneficio}</TableTd>
+                <TableTd>{beneficio.tipo.nome}</TableTd>
+                <TableTd>{beneficio.pessoa.nome}</TableTd>
+                <TableTd>{beneficio.situacao.nome}</TableTd>
+                
+                </Link>
             </TableTr>
-        </Link>
+       
     ));
-    const headers = ["Benefício", "Tipo", "Nome", "Situação", "Última movimentação"];
+    const headers = ["Benefício", "Tipo", "Nome", "Situação"];
 
     return (
         <Box>

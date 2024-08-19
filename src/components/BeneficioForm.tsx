@@ -1,65 +1,66 @@
 'use client';
 
 import { useAxiosClient } from '@/src/api-client/getAxiosClient';
-import { Box, Button, Select, Text, TextInput, Flex,  Group, rem } from '@mantine/core';
+import { Box, Button, Flex, Group, rem, Select, Text, TextInput } from '@mantine/core';
 import { Dropzone, DropzoneAccept, DropzoneIdle, DropzoneReject, FileWithPath, PDF_MIME_TYPE } from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
-import { Beneficio, Pessoa, Tipo, Situacao, Especialista, Movimentacao } from '@prisma/client';
+import { Beneficio, Especialista, TipoMovimentacao, Pessoa, Situacao, Tipo } from '@prisma/client';
 import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
-import { useCallback,useEffect, useTransition, useState } from 'react';
-import { toast } from 'react-toastify';
+import { useCallback, useEffect, useState, useTransition } from 'react';
 
 
 export type BeneficioFormInput = Omit<Beneficio, "id">;
 
-const [pessoas, setPessoas] = useState<Pessoa[]>([]);
-const [files, setFiles] = useState<FileWithPath[]>([]);
-const [tipos, setTipo] = useState<Tipo[]>([]);
-const [situacoes, setSituacoes] = useState<Situacao[]>([]);
-const [especialistas, setEspecialistas] = useState<Especialista[]>([]);
-const [movimentacoes, setMovimentacoes] = useState<Movimentacao[]>([]);
-const axios = useAxiosClient();
 
-type BeneficioFormProps = {
+
+type BeneficioFormOutput = BeneficioFormInput & { tipo_movimentacao_id: string };
+
+export type BeneficioFormProps = {
     data?: BeneficioFormInput | undefined;
-    onSubmit?: (values: BeneficioFormInput) => Promise<void>;
+    onSubmit?: (args: { values: BeneficioFormOutput, files: File[] }) => Promise<void>;
     title?: string;
 }
+
+
 export function BeneficioForm({ data, onSubmit, title }: BeneficioFormProps) {
-    const form = useForm<BeneficioFormInput>({
+    const [pessoas, setPessoas] = useState<Pessoa[]>([]);
+    const [files, setFiles] = useState<FileWithPath[]>([]);
+    const [tipos, setTipo] = useState<Tipo[]>([]);
+    const [situacoes, setSituacoes] = useState<Situacao[]>([]);
+    const [especialistas, setEspecialistas] = useState<Especialista[]>([]);
+    const [tipoMovimentacao, setTipoMovimentacao] = useState<TipoMovimentacao[]>([]);
+    const axios = useAxiosClient();
+    const form = useForm<BeneficioFormOutput>({
         initialValues: {
             numero_beneficio: '',
             situacao_id: '',
             pessoa_id: '',
             tipo_id: '',
             especialista_id: '',
-            movimentacao_id: '',
+            tipo_movimentacao_id: '',
         },
     });
 
     useEffect(() => {
         const fetchData = async () => {
-            const endpoints = ["/pessoas", "/tipoBeneficio", "/situacao", "/especialista", "/movimentacao"];
+            const endpoints = ["/pessoas", "/tipoBeneficio", "/situacao", "/especialista", "/tipoMovimentacao"];
             const promiseAllResults = await Promise.all(endpoints.map(async e => axios.get(e)));
             const [responsePessoa, responseTipo, responseSituacao, responseEspecialista, responseMovimentacao] = promiseAllResults;
             setPessoas(responsePessoa.data);
             setTipo(responseTipo.data);
             setSituacoes(responseSituacao.data);
             setEspecialistas(responseEspecialista.data);
-            setMovimentacoes(responseMovimentacao.data);
+            setTipoMovimentacao(responseMovimentacao.data);
         }
         fetchData();
-        if (form.values. && form.values.uf !== '' && !estadosLoading) {
-            setSelectedEstado(form.values.uf);
-        }
-    }, [form.values.uf, estadosLoading]);
-    
+    }, []);
+
 
 
     const [isPending, startTransition] = useTransition();
-    const handleSubmit = (values: BeneficioFormInput) => {
+    const handleSubmit = (values: BeneficioFormOutput) => {
         if (onSubmit) {
-            startTransition(async () => onSubmit(values));
+            startTransition(async () => onSubmit({ values, files }));
         }
     }
     const removeFile = useCallback((index: number) => {
@@ -71,27 +72,7 @@ export function BeneficioForm({ data, onSubmit, title }: BeneficioFormProps) {
         setFiles([...files, ...newFiles]);
     }, [files]);
 
-    const handleSubmit = (values: BeneficioForm) => {
-        startTransition(async () => {
-            try {
-                const docs = [];
-                if (files) {
-                    const promises = files.map(async (file) => {
-                        const buffer = await file.arrayBuffer();
-                        const imagem = Buffer.from(buffer).toString('base64');
-                        return { imagem, descricao: file.name };
-                    })
-                    docs.push(...(await Promise.all(promises)));
-                }
-                const newValues = { ...values, documentos: docs };
-                const response = await axios.post("/beneficio", newValues);
-                toast.success("Inserido com sucesso.");
-                router.put("/beneficio");
-            } catch (e) {
-                toast.error("Erro ao adicionar um novo beneficio");
-            }
-        });
-    }
+
     return (
         <Box>
             <Text variant="h1">Adicionar Beneficio</Text>
@@ -117,6 +98,12 @@ export function BeneficioForm({ data, onSubmit, title }: BeneficioFormProps) {
                     placeholder="Tipo de Beneficio"
                     data={tipos.map(e => ({ value: `${e.id}`, label: e.nome }))}
                     {...form.getInputProps('tipo_id')}
+                />
+                <Select
+                    label="Tipo de Movimentação"
+                    placeholder="Tipo de Movimentação"
+                    data={tipoMovimentacao.map(e => ({ value: `${e.id}`, label: e.nome }))}
+                    {...form.getInputProps('tipo_movimentacao_id')}
                 />
                 <Select
                     label="Especialista"
@@ -149,7 +136,6 @@ export function BeneficioForm({ data, onSubmit, title }: BeneficioFormProps) {
                                 stroke={1.5}
                             />
                         </DropzoneIdle>
-
                         <div>
                             <Text size="xl" inline>
                                 Arraste os pdfs aqui ou clique para selecionar os arquivos
@@ -166,7 +152,7 @@ export function BeneficioForm({ data, onSubmit, title }: BeneficioFormProps) {
                     }) : null}
                 </Box>
 
-                <Button type="submit" loading={isPending}>Editar</Button>
+                <Button type="submit" loading={isPending}>Adicionar</Button>
             </form>
         </Box>
     );
