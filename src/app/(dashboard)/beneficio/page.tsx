@@ -1,23 +1,15 @@
 import { getBeneficio } from '@/src/api-client/beneficioService';
-import { Box, Button, Group, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text } from '@mantine/core';
+import { Box, Button, Group, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text, Loader } from '@mantine/core';
+import { IconEye, IconPencil, IconTrash } from "@tabler/icons-react";
 import Link from 'next/link';
+import { Suspense } from 'react';
+import { BeneficioRows } from './BeneficioRows';
 
 export default async function PessoaList() {
+
     const beneficios = await getBeneficio();
-    const rows = beneficios.map((beneficio) => (
-        
-            <TableTr>
-                <Link href={`/beneficio/${beneficio.id}`} key={beneficio.id}>
-                <TableTd>{beneficio.numero_beneficio}</TableTd>
-                <TableTd>{beneficio.tipo.nome}</TableTd>
-                <TableTd>{beneficio.pessoa.nome}</TableTd>
-                <TableTd>{beneficio.situacao.nome}</TableTd>
-                
-                </Link>
-            </TableTr>
-       
-    ));
-    const headers = ["Benefício", "Tipo", "Nome", "Situação"];
+
+    const headers = ["Benefício", "Tipo", "Nome", "Situação", ""];
 
     return (
         <Box>
@@ -37,7 +29,7 @@ export default async function PessoaList() {
                         ))}
                     </TableTr>
                 </TableThead>
-                <TableTbody>{rows}</TableTbody>
+                <TableTbody><BeneficioRows beneficios={beneficios} /> </TableTbody>
             </Table>
         </Box>
     );

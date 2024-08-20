@@ -9,6 +9,7 @@ import 'dayjs/locale/pt-br';
 import type { Metadata } from "next";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
     title: "Recomendação INSS",
@@ -32,7 +33,9 @@ export default function RootLayout({
                     <ToastContainer />
                     <MantineProvider>
                         <DatesProvider settings={{ locale: "pt-br", timezone: "America/Sao_Paulo" }}>
-                            {children}
+                            <Providers>
+                                {children}
+                            </Providers>
                         </DatesProvider>
                     </MantineProvider>
                 </body>

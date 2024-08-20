@@ -2,21 +2,20 @@ import { getMovimentacao } from '@/src/api-client/movimentacaoService';
 import { Box, Group, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text } from '@mantine/core';
 
 export default async function MovimentacoesList() {
-    const especialistas = await getMovimentacao();
+    const movimentacoes = await getMovimentacao();
+    const rows = movimentacoes.map((movimentacao) => (
 
-
-    const rows = especialistas.map((element) => (
-        <TableTr key={element.id}>
-            <TableTd>{element.beneficio_id}</TableTd>
-            <TableTd>{element.tipo_movimentacao_id}</TableTd>
-            <TableTd></TableTd>
+        <TableTr key={movimentacao.id}>
+            <TableTd>{movimentacao.tipo_movimentacao_id}</TableTd>
+            <TableTd>{movimentacao.beneficio_id}</TableTd>
+            {/* <TableTd>{movimentacao}</TableTd> */}
         </TableTr>
     ));
     const ths = (
         <TableTr>
             <TableTh>Movimentação</TableTh>
             <TableTh>Benefício</TableTh>
-            <TableTh>Tipo de Movimentação</TableTh>
+            <TableTh>Nome</TableTh>
         </TableTr>
     );
     return (

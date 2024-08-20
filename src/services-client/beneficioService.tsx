@@ -1,3 +1,4 @@
+'use-client';
 import { Beneficio, Movimentacao, TipoMovimentacao, Prisma, Situacao, Pessoa, Tipo } from "@prisma/client";
 import { useAxiosClient } from './useAxiosClient';
 
@@ -14,7 +15,6 @@ export async function getBeneficio(): Promise<BeneficioWithMovimentacao[]> {
 }
 
 export async function removeBeneficio({ id }: { id: string }) {
-  'use server';
   const axios = useAxiosClient();
   try {
     const response = await axios.delete(`/beneficio/${id}`);
