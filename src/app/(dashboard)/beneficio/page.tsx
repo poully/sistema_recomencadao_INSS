@@ -1,11 +1,10 @@
 import { getBeneficio } from '@/src/api-client/beneficioService';
-import { Box, Button, Group, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text, Loader } from '@mantine/core';
-import { IconEye, IconPencil, IconTrash } from "@tabler/icons-react";
+import { Box, Button, Group, Table, TableTbody, TableTh, TableThead, TableTr, Text } from '@mantine/core';
 import Link from 'next/link';
-import { Suspense } from 'react';
 import { BeneficioRows } from './BeneficioRows';
+import { unstable_cache } from "next/cache";
 
-export default async function PessoaList() {
+export default async function BeneficioListPage() {
 
     const beneficios = await getBeneficio();
 
@@ -29,6 +28,7 @@ export default async function PessoaList() {
                         ))}
                     </TableTr>
                 </TableThead>
+
                 <TableTbody><BeneficioRows beneficios={beneficios} /> </TableTbody>
             </Table>
         </Box>

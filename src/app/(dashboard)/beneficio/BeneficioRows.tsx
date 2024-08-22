@@ -2,12 +2,13 @@
 
 import { BeneficioWithMovimentacao, getBeneficio, removeBeneficio } from '@/src/services-client/beneficioService';
 import { TableTd, TableTr } from '@mantine/core';
-import { IconEye, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useMutation, useQuery } from '@tanstack/react-query';
-import Link from 'next/link';
 import { toast } from "react-toastify";
+import { RowActions } from '@/src/components';
+import { useRouter } from 'next/navigation';
 
 export function BeneficioRows(props: { beneficios: BeneficioWithMovimentacao[] }) {
+    const router = useRouter();
 
     const { data } = useQuery({
         queryKey: ['beneficios'],
@@ -22,6 +23,8 @@ export function BeneficioRows(props: { beneficios: BeneficioWithMovimentacao[] }
         },
         onSuccess(data, variables, context) {
             toast.success("Removido com sucesso");
+            router.refresh();
+
         },
     });
 
@@ -35,15 +38,13 @@ export function BeneficioRows(props: { beneficios: BeneficioWithMovimentacao[] }
                     <TableTd>{beneficio.pessoa.nome}</TableTd>
                     <TableTd>{beneficio.situacao.nome}</TableTd>
                     <TableTd>
-                        <Link href={`/beneficio/${beneficio.id}`}><IconEye /></Link>
-                        <Link href={`/beneficio/update/${beneficio.id}`}><IconPencil /></Link>
-                        <IconTrash style={{
-                            cursor: "pointer"
-                        }} onClick={async () => {
-                            console.log("chamou!")
-                            await mutate({ id: beneficio.id });
+                        <RowActions viewUrl={`/beneficio/${beneficio.id}`}
+                            editUrl={`/beneficio/update/${beneficio.id}`}
+                            onClickDelete={async () => {
+                                await mutate({ id: beneficio.id });
 
-                        }} />
+                            }} />
+
                     </TableTd>
 
                 </TableTr >

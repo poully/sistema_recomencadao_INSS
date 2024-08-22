@@ -1,5 +1,5 @@
 'use-client';
-import { Beneficio, Movimentacao, TipoMovimentacao, Prisma, Situacao, Pessoa, Tipo } from "@prisma/client";
+import { Beneficio, Movimentacao, TipoMovimentacao, Situacao, Pessoa, Tipo } from "@prisma/client";
 import { useAxiosClient } from './useAxiosClient';
 
 export type BeneficioWithMovimentacao = Beneficio & { movimentacao?: (Movimentacao & { tipo_movimentacao: TipoMovimentacao })[], situacao: Situacao, pessoa: Pessoa, tipo: Tipo };

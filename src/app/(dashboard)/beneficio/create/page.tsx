@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
 import { BeneficioForm, BeneficioFormProps } from '@/src/components/BeneficioForm';
+import { revalidatePath } from 'next/cache';
 
 type Pessoa = {
     id: number;
@@ -49,6 +50,7 @@ export default function BeneficioCreate() {
             const response = await axios.post("/beneficio", newValues);
             toast.success("Inserido com sucesso.");
             router.push("/beneficio");
+            router.refresh();
         } catch (e) {
             toast.error("Erro ao adicionar um novo beneficio");
         }
