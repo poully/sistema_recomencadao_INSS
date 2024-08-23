@@ -1,26 +1,25 @@
 'use client';
 
-import { BeneficioWithMovimentacao, getBeneficio, removeBeneficio } from '@/src/services-client/beneficioService';
+import { apiClient } from '@/src/api-client/client';
 import { TableTd, TableTr } from '@mantine/core';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from "react-toastify";
 import { RowActions } from '@/src/components';
 import { useRouter } from 'next/navigation';
-import { useAxiosClient } from '@/src/services-client/useAxiosClient';
+import type { BeneficioGet } from '@/src/api-client/client/beneficio';
 
-export function BeneficioRows(props: { beneficios: BeneficioWithMovimentacao[] }) {
+export function BeneficioRows(props: { beneficios: BeneficioGet }) {
     const router = useRouter();
-    const axios = useAxiosClient();
 
     const queryClient = useQueryClient()
     const { data } = useQuery({
         queryKey: ['beneficios'],
-        queryFn: getBeneficio,
+        queryFn: async () => apiClient.beneficio.get({}) as Promise<BeneficioGet>,
         initialData: props.beneficios,
     });
 
     const { mutate } = useMutation({
-        mutationFn: removeBeneficio(axios), mutationKey: ['removeBeneficio'], onError(e) {
+        mutationFn: apiClient.beneficio.remove, mutationKey: ['removeBeneficio'], onError(e) {
             console.log(e);
             toast.error("Erro ao remover");
         },
@@ -34,7 +33,7 @@ export function BeneficioRows(props: { beneficios: BeneficioWithMovimentacao[] }
 
     return (
         <>
-            {data.map((beneficio) => (
+            {data?.length && data.map((beneficio) => (
 
                 <TableTr key={beneficio.id}>
                     <TableTd>{beneficio.numero_beneficio}</TableTd>

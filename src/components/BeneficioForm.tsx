@@ -1,17 +1,21 @@
 'use client';
 
-import { useAxiosClient } from '@/src/api-client/getAxiosClient';
+import { apiClient } from '@/src/api-client/client';
+import type { EspecialistaGet } from '@/src/api-client/client/especialista';
+import type { PessoaGet } from '@/src/api-client/client/pessoa';
+import type { SituacaoGet } from '@/src/api-client/client/situacao';
+import type { TipoBeneficioGet } from '@/src/api-client/client/tipoBeneficio';
+import type { TipoMovimentacaoGet } from '@/src/api-client/client/tipoMovimentacao';
 import { Box, Button, Flex, Group, rem, Select, Text, TextInput } from '@mantine/core';
 import { Dropzone, DropzoneAccept, DropzoneIdle, DropzoneReject, FileWithPath, PDF_MIME_TYPE } from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
-import { Beneficio, Especialista, TipoMovimentacao, Pessoa, Situacao, Tipo } from '@prisma/client';
+import { Beneficio } from '@prisma/client';
 import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
+import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useState, useTransition } from 'react';
 
 
 export type BeneficioFormInput = Omit<Beneficio, "id">;
-
-
 
 type BeneficioFormOutput = BeneficioFormInput & { tipo_movimentacao_id: string };
 
@@ -21,15 +25,38 @@ export type BeneficioFormProps = {
     title?: string;
 }
 
-
 export function BeneficioForm({ data, onSubmit, title }: BeneficioFormProps) {
-    const [pessoas, setPessoas] = useState<Pessoa[]>([]);
+    const { data: pessoas, isPending: pessoasIsPending } = useQuery(
+        {
+            queryKey: ['pessoas'],
+            queryFn: async () => apiClient.pessoa.get({}) as Promise<PessoaGet>
+        }
+    );
+    const { data: tipoBeneficio, isPending: tipoBeneficioIsPending } = useQuery(
+        {
+            queryKey: ['tiposBeneficio'],
+            queryFn: async () => apiClient.tipoBeneficio.get({}) as Promise<TipoBeneficioGet | []>
+        }
+    );
+    const { data: situacoes, isPending: situacaoIsPending } = useQuery(
+        {
+            queryKey: ['situacoes'],
+            queryFn: async () => apiClient.situacao.get({}) as Promise<SituacaoGet | []>
+        }
+    );
+    const { data: especialista, isPending: especialistaIsPending } = useQuery(
+        {
+            queryKey: ['especialistas'],
+            queryFn: async () => apiClient.especialista.get({}) as Promise<EspecialistaGet | []>
+        }
+    );
+    const { data: tipoMovimentacao, isPending: tipoMovimentacaoIsPending } = useQuery(
+        {
+            queryKey: ['tiposMovimentacao'],
+            queryFn: async () => apiClient.tipoMovimentacao.get({}) as Promise<TipoMovimentacaoGet | []>
+        }
+    );
     const [files, setFiles] = useState<FileWithPath[]>([]);
-    const [tipos, setTipo] = useState<Tipo[]>([]);
-    const [situacoes, setSituacoes] = useState<Situacao[]>([]);
-    const [especialistas, setEspecialistas] = useState<Especialista[]>([]);
-    const [tipoMovimentacao, setTipoMovimentacao] = useState<TipoMovimentacao[]>([]);
-    const axios = useAxiosClient();
     const form = useForm<BeneficioFormOutput>({
         initialValues: {
             numero_beneficio: '',
@@ -42,20 +69,11 @@ export function BeneficioForm({ data, onSubmit, title }: BeneficioFormProps) {
     });
 
     useEffect(() => {
-        const fetchData = async () => {
-            const endpoints = ["/pessoas", "/tipoBeneficio", "/situacao", "/especialista", "/tipoMovimentacao"];
-            const promiseAllResults = await Promise.all(endpoints.map(async e => axios.get(e)));
-            const [responsePessoa, responseTipo, responseSituacao, responseEspecialista, responseMovimentacao] = promiseAllResults;
-            setPessoas(responsePessoa.data);
-            setTipo(responseTipo.data);
-            setSituacoes(responseSituacao.data);
-            setEspecialistas(responseEspecialista.data);
-            setTipoMovimentacao(responseMovimentacao.data);
+        if (data) {
+            console.log(data);
+            form.setValues(data);
         }
-        fetchData();
-    }, []);
-
-
+    }, [data]);
 
     const [isPending, startTransition] = useTransition();
     const handleSubmit = (values: BeneficioFormOutput) => {
@@ -84,31 +102,31 @@ export function BeneficioForm({ data, onSubmit, title }: BeneficioFormProps) {
                 <Select
                     label="Pessoa"
                     placeholder="Selecione a pessoa"
-                    data={pessoas.map(e => ({ value: `${e.id}`, label: e.nome }))}
+                    data={pessoas ? pessoas?.map(e => ({ value: `${e.id}`, label: e.nome })) : []}
                     {...form.getInputProps('pessoa_id')}
                 />
                 <Select
                     label="Situação"
                     placeholder="Selecione a Situação"
-                    data={situacoes.map(e => ({ value: `${e.id}`, label: e.nome }))}
+                    data={situacoes ? situacoes?.map(e => ({ value: `${e.id}`, label: e.nome })) : []}
                     {...form.getInputProps('situacao_id')}
                 />
                 <Select
                     label="Tipo de Beneficio"
                     placeholder="Tipo de Beneficio"
-                    data={tipos.map(e => ({ value: `${e.id}`, label: e.nome }))}
+                    data={tipoBeneficio ? tipoBeneficio?.map(e => ({ value: `${e.id}`, label: e.nome })) : []}
                     {...form.getInputProps('tipo_id')}
                 />
                 <Select
                     label="Tipo de Movimentação"
                     placeholder="Tipo de Movimentação"
-                    data={tipoMovimentacao.map(e => ({ value: `${e.id}`, label: e.nome }))}
+                    data={tipoMovimentacao ? tipoMovimentacao.map(e => ({ value: `${e.id}`, label: e.nome })) : []}
                     {...form.getInputProps('tipo_movimentacao_id')}
                 />
                 <Select
                     label="Especialista"
                     placeholder="Selecione o Especialista"
-                    data={especialistas.map(e => ({ value: `${e.id}`, label: e.nome }))}
+                    data={especialista ? especialista?.map(e => ({ value: `${e.id}`, label: e.nome })) : []}
                     {...form.getInputProps('especialista_id')}
                 />
                 <Dropzone

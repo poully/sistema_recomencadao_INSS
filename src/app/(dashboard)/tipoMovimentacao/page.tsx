@@ -1,42 +1,35 @@
-import { gettipoMovimentacao } from '@/src/api-client/tipoMovimentacaoService';
+import type { TipoMovimentacaoGet } from '@/src/api-client/server/tipoMovimentacao';
 import { Box, Button, Group, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text } from '@mantine/core';
 import Link from 'next/link';
+import { TipoMovimentacaoRows } from './TipoMovimentacaoRows';
+import { apiServerClient } from '@/src/api-client/server';
 
 export default async function tipoMovimentacaoList() {
-    const tipoMovimentacao = await gettipoMovimentacao();
+    const tipomovimentacaos = await apiServerClient.tipoMovimentacao.get({}) as TipoMovimentacaoGet;
 
 
-    const rows = tipoMovimentacao.map((element) => (
-        <TableTr key={element.id}>
-            <TableTd>{element.nome}</TableTd>
-            <TableTd>
-                <Link href={`/tipoMovimentacao/update/${element.id}`}>
-                    <Button>Editar</Button>
-                </Link>
-                {/* <Link href={`/tipoMovimentacao/delete/${element.id}`}>
-                    <Button variant="filled" color="red">Excluir</Button>
-                </Link> */}
-            </TableTd>
-        </TableTr>
-    ));
-    const ths = (
-        <TableTr>
-            <TableTh>Nome</TableTh>
-            <TableTh></TableTh>
-        </TableTr>
-    );
+    const headers = ['Nome'];
     return (
         <Box>
             <Group>
-                <Text variant="h1">Lista de Tipo Movimentação</Text>
+                <Text variant="h1">Lista de Tipos de Movimentação</Text>
                 <Link href="/tipoMovimentacao/create">
-                    <Button>Adicionar</Button>
+                    <Button>Criar Tipo Movimentacao</Button>
                 </Link>
+
             </Group>
-            <Table>
-                <TableThead>{ths}</TableThead>
-                <TableTbody>{rows}</TableTbody>
+
+            <Table highlightOnHover >
+                <TableThead>
+                    <TableTr>
+                        {headers.map((header) => (
+                            <TableTh key={header}>{header}</TableTh>
+                        ))}
+                    </TableTr>
+                </TableThead>
+
+                <TableTbody><TipoMovimentacaoRows tipomovimentacaos={tipomovimentacaos} /></TableTbody>
             </Table>
-        </Box >
+        </Box>
     );
 }

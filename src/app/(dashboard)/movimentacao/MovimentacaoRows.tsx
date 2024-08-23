@@ -1,5 +1,7 @@
 'use client';
-import { getMovimentacao, MovimentacaoGet } from '@/src/services-client/movimentacaoService';
+
+import { apiClient } from '@/src/api-client/client';
+import { MovimentacaoGet } from '@/src/api-client/client/movimentacao';
 import { TableTr, TableTd } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { RowActions } from '@/src/components';
@@ -9,7 +11,7 @@ export function MovimentacaoRows(props: { data: MovimentacaoGet }) {
 
     const { data } = useQuery({
         queryKey: ['movimentacoes'],
-        queryFn: getMovimentacao,
+        queryFn: () => apiClient.movimentacao.get({}) as Promise<MovimentacaoGet>,
         initialData: props.data,
     });
 

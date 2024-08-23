@@ -1,45 +1,39 @@
 'use client'
-import { useAxiosClient } from '@/src/api-client/getAxiosClient';
-import { TipoMovimentacaoForm, TipoMovimentacaoFormInput } from '@/src/components/TipoMovimentacaoForm';
+
+import { TipoMovimentacaoForm, TipoMovimentacaoFormInput } from '@/src/components';
 import { Loader } from '@mantine/core';
-import { TipoMovimentacao } from '@prisma/client';
-import { AxiosError } from 'axios';
+import { apiClient } from "@/src/api-client/client";
+import type { TipoMovimentacaoGet } from "@/src/api-client/client/tipoMovimentacao";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
 
 
 export default function TipoMovimentacaoUpdate() {
-    const axios = useAxiosClient();
     const router = useRouter();
+    const queryClient = useQueryClient();
     const params = useParams<{ id: string }>();
-    const [isPending, startTransition] = useTransition();
-    const [tipoMovimentacao, setTipoMovimentacao] = useState<TipoMovimentacao | null>(null);
-    useEffect(() => {
-        startTransition(async () => {
-            try {
-                const tipoMovimentacao = await axios.get(`/tipoMovimentacao/${params.id}`);
-                setTipoMovimentacao(tipoMovimentacao.data);
-            } catch (e) {
-                const error = e as AxiosError;
-                // @ts-expect-error
-                toast.error(error.response?.data?.error!);
-                router.back();
-            }
-
-        });
-    }, [])
-
-    const onSubmit = async (values: TipoMovimentacaoFormInput) => {
-        try {
-            const response = await axios.put(`/tipoMovimentacao/${tipoMovimentacao?.id}`, values);
+    const { data: tipoMovimentacao, error, isPending } = useQuery(
+        {
+            queryKey: ['tipoMovimentacao', params.id],
+            queryFn: async () => apiClient.tipoMovimentacao.get({ id: params.id }) as Promise<TipoMovimentacaoGet[0]>
+        }
+    );
+    const { mutate } = useMutation({
+        mutationFn: apiClient.tipoMovimentacao.update, mutationKey: ['updateTipoMovimentacao'], onError(e) {
+            toast.error("Erro ao alterar tipo de movimentação");
+        },
+        onSettled: async () => {
+            return await queryClient.invalidateQueries({ queryKey: ['tiposMovimentacao'] })
+        },
+        onSuccess(data, variables, context) {
             toast.success("Alterado com sucesso.");
             router.push("/tipoMovimentacao");
-        } catch (e) {
-            const error = e as AxiosError;
-            // @ts-expect-error
-            toast.error(error.response?.data?.error!);
-        }
+            router.refresh();
+        },
+    });
+    const onSubmit = async (values: TipoMovimentacaoFormInput) => {
+        await mutate({ id: params.id, ...values });
     }
     return !isPending && tipoMovimentacao ? <TipoMovimentacaoForm onSubmit={onSubmit} data={tipoMovimentacao as unknown as TipoMovimentacaoFormInput} title="Editar tipo de movimentação" /> : <Loader color="blue" />;
 }

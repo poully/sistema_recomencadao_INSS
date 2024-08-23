@@ -1,10 +1,11 @@
-import { getMovimentacao } from '@/src/api-client/movimentacaoService';
+import { MovimentacaoGet } from '@/src/api-client/client/movimentacao';
 import { Box, Group, Table, TableTbody, TableTh, TableThead, TableTr, Text } from '@mantine/core';
 import { MovimentacaoRows } from './MovimentacaoRows';
+import { apiServerClient } from '@/src/api-client/server';
 
 export default async function MovimentacaoListPage() {
 
-    const movimentacoes = await getMovimentacao();
+    const movimentacoes = await apiServerClient.movimentacao.get({}) as MovimentacaoGet;
 
     const headers = ["Movimentação", "Tipo de benefício", "Nome do Beneficiário", ""];
 

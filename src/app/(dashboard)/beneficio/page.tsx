@@ -1,14 +1,15 @@
-import { getBeneficio } from '@/src/api-client/beneficioService';
+import { apiServerClient } from '@/src/api-client/server';
 import { Box, Button, Group, Table, TableTbody, TableTh, TableThead, TableTr, Text } from '@mantine/core';
 import Link from 'next/link';
 import { BeneficioRows } from './BeneficioRows';
+import { BeneficioGet } from '@/src/api-client/server/beneficio';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function BeneficioListPage() {
 
-    const beneficios = await getBeneficio();
+    const beneficios = await apiServerClient.beneficio.get({}) as BeneficioGet;
 
     const headers = ["Benefício", "Tipo", "Nome", "Situação", ""];
 

@@ -1,25 +1,34 @@
-'use client'
+'use client';
 
-import { useAxiosClient } from '@/src/api-client/getAxiosClient';
-import { TipoMovimentacaoForm, TipoMovimentacaoFormInput } from '@/src/components/TipoMovimentacaoForm';
-import { AxiosError } from 'axios';
+import { apiClient } from '@/src/api-client/client';
+import { TipoMovimentacaoForm, TipoMovimentacaoFormInput } from '@/src/components';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export default function TipoCreate() {
-    const axios = useAxiosClient();
+
+export default function TipoMovimentacaoCreate() {
     const router = useRouter();
+    const queryClient = useQueryClient();
+    const { mutate } = useMutation({
+        mutationFn: apiClient.tipoMovimentacao.create,
+        mutationKey: ['createTipoMovimentacao'],
+        onError(e) {
+            toast.error("Erro ao criar tipo de movimentação");
+        },
+        onSettled: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['tiposMovimentacao'] });
+        },
+        onSuccess(data, variables, context) {
+            toast.success("Criado com sucesso");
+            router.push("/tipoMovimentacao");
+            router.refresh();
+        },
+    });
 
     const onSubmit = async (values: TipoMovimentacaoFormInput) => {
-        try {
-            const response = await axios.post("/tipoMovimentacao", values);
-            toast.success("Inserido com sucesso.");
-            router.push("/tipoMovimentacao");
-        } catch (e) {
-            const error = e as AxiosError;
-            // @ts-expect-error
-            toast.error(error.response?.data?.error!);
-        }
-    }
-    return <TipoMovimentacaoForm onSubmit={onSubmit} title="Adicionar tipo" />
+        await mutate(values);
+    };
+
+    return <TipoMovimentacaoForm onSubmit={onSubmit} title="Adicionar tipo de movimentação" />;
 }

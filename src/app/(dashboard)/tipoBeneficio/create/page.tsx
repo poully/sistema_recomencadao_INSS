@@ -1,25 +1,27 @@
 'use client'
 
-import { useAxiosClient } from '@/src/api-client/getAxiosClient';
-import { TipoForm, TipoFormInput } from '@/src/components/TipoForm';
-import { AxiosError } from 'axios';
+import { apiClient } from '@/src/api-client/client';
+import { TipoForm, TipoFormInput } from '@/src/components';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export default function TipoCreate() {
-    const axios = useAxiosClient();
     const router = useRouter();
-
-    const onSubmit = async (values: TipoFormInput) => {
-        try {
-            const response = await axios.post("/tipoBeneficio", values);
-            toast.success("Inserido com sucesso.");
+    const queryClient = useQueryClient();
+    const { mutate } = useMutation({
+        mutationFn: apiClient.tipoBeneficio.create, mutationKey: ['createTipoBeneficio'], onError(e) {
+            toast.error("Erro ao criar tipo de benefício");
+        },
+        onSettled: async () => {
+            return await queryClient.invalidateQueries({ queryKey: ['tiposBeneficio'] })
+        },
+        onSuccess(data, variables, context) {
+            toast.success("Criado com sucesso");
             router.push("/tipoBeneficio");
-        } catch (e) {
-            const error = e as AxiosError;
-            // @ts-expect-error
-            toast.error(error.response?.data?.error!);
-        }
-    }
-    return <TipoForm onSubmit={onSubmit} title="Adicionar tipo" />
+            router.refresh();
+        },
+    });
+
+    return <TipoForm onSubmit={mutate} title="Adicionar tipo" />
 }

@@ -1,45 +1,39 @@
 'use client'
-import { useAxiosClient } from '@/src/api-client/getAxiosClient';
 import { PessoaForm, PessoaFormInput } from '@/src/components';
 import { Loader } from '@mantine/core';
-import { Pessoa } from '@prisma/client';
-import { AxiosError } from 'axios';
+import { apiClient } from "@/src/api-client/client";
+import type { PessoaGet } from "@/src/api-client/client/pessoa";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
 
-
 export default function PessoaUpdate() {
-    const axios = useAxiosClient();
+
     const router = useRouter();
+    const queryClient = useQueryClient();
     const params = useParams<{ id: string }>();
-    const [isPending, startTransition] = useTransition();
-    const [pessoa, setPessoa] = useState<Pessoa | null>(null);
-    useEffect(() => {
-        startTransition(async () => {
-            try {
-                const pessoa = await axios.get(`/pessoas/${params.id}`);
-                setPessoa(pessoa.data);
-            } catch (e) {
-                const error = e as AxiosError;
-                // @ts-expect-error
-                toast.error(error.response?.data?.error!);
-                router.back();
-            }
-
-        });
-    }, [])
-
-    const onSubmit = async (values: PessoaFormInput) => {
-        try {
-            const response = await axios.put(`/pessoas/${pessoa?.id}`, values);
+    const { data: pessoa, error, isLoading } = useQuery(
+        {
+            queryKey: ['pessoa', params.id],
+            queryFn: async () => apiClient.pessoa.get({ id: params.id }) as Promise<PessoaGet[0]>
+        }
+    );
+    const { mutate } = useMutation({
+        mutationFn: apiClient.pessoa.update, mutationKey: ['updatePessoa'], onError(e) {
+            toast.error("Erro ao alterar pessoa");
+        },
+        onSettled: async () => {
+            return await queryClient.invalidateQueries({ queryKey: ['pessoas'] })
+        },
+        onSuccess(data, variables, context) {
             toast.success("Alterado com sucesso.");
             router.push("/pessoa");
-        } catch (e) {
-            const error = e as AxiosError;
-            // @ts-expect-error
-            toast.error(error.response?.data?.error!);
-        }
+            router.refresh();
+        },
+    });
+    const onSubmit = async (values: PessoaFormInput) => {
+        await mutate({ id: params.id, ...values });
     }
-    return !isPending && pessoa ? <PessoaForm onSubmit={onSubmit} data={pessoa as unknown as PessoaFormInput} title="Editar pessoa" /> : <Loader color="blue" />;
+
+    return !isLoading && pessoa ? <PessoaForm onSubmit={onSubmit} data={pessoa as unknown as PessoaFormInput} title="Editar pessoa" /> : <Loader color="blue" />;
 }

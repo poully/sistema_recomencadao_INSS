@@ -1,6 +1,6 @@
 'use client';
 
-import { useAxiosClient } from '@/src/api-client/getAxiosClient';
+import { apiClient } from '@/src/api-client/client';
 import { Box, Button, Flex, Group, Select, Text, TextInput, rem } from '@mantine/core';
 import { Dropzone, DropzoneAccept, DropzoneIdle, DropzoneReject, FileWithPath, PDF_MIME_TYPE } from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
@@ -32,7 +32,6 @@ type BeneficioForm = { documentos?: Omit<Documentos, "id" | "descricao" | "benef
 
 export default function BeneficioCreate() {
     const router = useRouter();
-    const axios = useAxiosClient();
     const queryClient = useQueryClient();
 
     const onSubmit: BeneficioFormProps['onSubmit'] = async ({ values, files }) => {
@@ -49,7 +48,7 @@ export default function BeneficioCreate() {
             const newValues = {
                 ...values, documentos: docs
             };
-            const response = await axios.post("/beneficio", newValues);
+            const response = await apiClient.beneficio.create(newValues);
             toast.success("Inserido com sucesso.");
             await queryClient.invalidateQueries({ queryKey: ['beneficios'] })
             router.push("/beneficio");

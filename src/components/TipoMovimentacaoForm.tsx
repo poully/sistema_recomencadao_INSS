@@ -3,7 +3,7 @@
 import { Box, Button, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { TipoMovimentacao } from '@prisma/client';
-import { useTransition } from 'react';
+import { useEffect, useTransition } from 'react';
 
 
 export type TipoMovimentacaoFormInput = Omit<TipoMovimentacao, "id">;
@@ -19,7 +19,11 @@ export function TipoMovimentacaoForm({ data, onSubmit, title }: TipoMovimentacao
             nome: '',
         },
     });
-
+    useEffect(() => {
+        if (data) {
+            form.setValues(data);
+        }
+    }, [data]);
     const [isPending, startTransition] = useTransition();
     const handleSubmit = (values: TipoMovimentacaoFormInput) => {
         if (onSubmit) {

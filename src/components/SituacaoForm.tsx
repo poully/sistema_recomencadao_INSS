@@ -3,7 +3,7 @@
 import { Box, Button, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Situacao } from '@prisma/client';
-import { useTransition } from 'react';
+import { useEffect, useTransition } from 'react';
 
 
 export type SituacaoFormInput = Omit<Situacao, "id">;
@@ -19,7 +19,11 @@ export function SituacaoForm({ data, onSubmit, title }: SituacaoFormProps) {
             nome: '',
         },
     });
-
+    useEffect(() => {
+        if (data) {
+            form.setValues(data);
+        }
+    }, [data]);
     const [isPending, startTransition] = useTransition();
     const handleSubmit = (values: SituacaoFormInput) => {
         if (onSubmit) {

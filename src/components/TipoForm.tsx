@@ -3,7 +3,7 @@
 import { Box, Button, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Tipo } from '@prisma/client';
-import { useTransition } from 'react';
+import { useEffect, useTransition } from 'react';
 
 
 export type TipoFormInput = Omit<Tipo, "id">;
@@ -19,6 +19,12 @@ export function TipoForm({ data, onSubmit, title }: TipoFormProps) {
             nome: '',
         },
     });
+
+    useEffect(() => {
+        if (data) {
+            form.setValues(data);
+        }
+    }, [data]);
 
     const [isPending, startTransition] = useTransition();
     const handleSubmit = (values: TipoFormInput) => {

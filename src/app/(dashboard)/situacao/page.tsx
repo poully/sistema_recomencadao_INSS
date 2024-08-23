@@ -1,39 +1,31 @@
-import { getSituacao } from '@/src/api-client/situacao';
+import { apiServerClient } from '@/src/api-client/server';
+import type { SituacaoGet } from '@/src/api-client/server/situacao';
 import { Box, Button, Group, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text } from '@mantine/core';
 import Link from 'next/link';
+import { SituacaoRows } from './SituacaoRows';
 
 export default async function SituacaoList() {
-    const tipo = await getSituacao();
+    const situacoes = await apiServerClient.situacao.get({}) as SituacaoGet;
 
 
-    const rows = tipo.map((element) => (
-        <TableTr key={element.id}>
-            <TableTd>{element.nome}</TableTd>
-            <TableTd>
-                <Link href={`/situacao/update/${element.id}`}>
-                    <Button>Editar</Button>
-                </Link>
-            </TableTd>
-        </TableTr>
-    ));
-    const ths = (
-        <TableTr>
-            <TableTh>Nome</TableTh>
-            <TableTh></TableTh>
-        </TableTr>
-    );
+    const headers = ["Nome", ""];
+
     return (
         <Box>
             <Group>
                 <Text variant="h1">Lista de Situações</Text>
-                <Link href="/situacao/create">
-                    <Button>Adicionar</Button>
-                </Link>
             </Group>
-            <Table>
-                <TableThead>{ths}</TableThead>
-                <TableTbody>{rows}</TableTbody>
+
+            <Table highlightOnHover >
+                <TableThead>
+                    <TableTr>
+                        {headers.map((header) => (
+                            <TableTh key={header}>{header}</TableTh>
+                        ))}
+                    </TableTr>
+                </TableThead>
+                <TableTbody> <SituacaoRows data={situacoes} /> </TableTbody>
             </Table>
-        </Box >
+        </Box>
     );
 }

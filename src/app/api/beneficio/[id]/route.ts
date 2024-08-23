@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 type Params = { params: { id: string } };
 
 export async function GET(req: NextRequest, { params: { id } }: Params) {
-    const data = await prisma.beneficio.findFirst({ where: { id } });
+    const data = await prisma.beneficio.findFirst({ where: { id }, include: { documentos: true } });
     return NextResponse.json(data);
 }
 
@@ -16,10 +16,18 @@ export async function PUT(req: NextRequest, { params: { id } }: Params) {
     try {
         const { tipo_movimentacao_id, ...body } = await req.json();
         const data = await BeneficioUpdateInputObjectSchema.parseAsync(body);
-        const beneficio = await prisma.beneficio.update({ data: { ...data, movimentacao: { create: { tipo_movimentacao_id } } }, where: { id } });
+        const beneficio = await prisma.beneficio.update({
+            data: {
+                ...data, movimentacao: {
+                    create: { tipo_movimentacao_id },
+                },
+            }, where: { id }
+        });
         return NextResponse.json(beneficio);
     } catch (e) {
-        return NextResponse.error();
+        const error = e as Error;
+        console.error(e);
+        return NextResponse.json({ error: error?.message ?? "" }, { status: 400 })
     }
 }
 

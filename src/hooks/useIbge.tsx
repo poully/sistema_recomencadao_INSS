@@ -49,7 +49,6 @@ export const useIbge = () => {
     }, [cidades]);
 
     const setSelectedEstado = useCallback((sigla: string) => {
-        console.log("setSelectedEstado", sigla);
         const estadoId = getEstadoIdBySigla(sigla);
         startCidadesLoading(async () => {
             if (estadoId) {

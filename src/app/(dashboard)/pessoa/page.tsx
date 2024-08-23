@@ -1,46 +1,37 @@
-import { getPessoas } from '@/src/api-client/pessoaService';
+import type { PessoaGet } from '@/src/api-client/server/pessoa';
+import { apiServerClient } from '@/src/api-client/server';
 import { Box, Button, Group, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text } from '@mantine/core';
 import Link from 'next/link';
+import { PessoaRows } from './PessoaRows';
 
 export default async function PessoaList() {
 
-    const pessoas = await getPessoas();
+    const pessoas = await apiServerClient.pessoa.get({}) as PessoaGet;
 
 
-    const rows = pessoas.map((element) => (
-        <TableTr key={element.id}>
-            <TableTd>{element.nome}</TableTd>
-            <TableTd>{element.email}</TableTd>
-            <TableTd>{element.cpf}</TableTd>
-            <TableTd>{element.telefone}</TableTd>
-            <TableTd>
-                <Link href={`/pessoa/update/${element.id}`}>
-                    <Button>Editar</Button>
-                </Link>
-            </TableTd>
-        </TableTr>
-    ));
-    const ths = (
-        <TableTr>
-            <TableTh>Nome</TableTh>
-            <TableTh>Email</TableTh>
-            <TableTh>Cpf</TableTh>
-            <TableTh>Telefone</TableTh>
-            <TableTh></TableTh>
-        </TableTr>
-    );
+    const headers = ['Nome', 'Email', "CPF", 'Telefone', ''];
+
     return (
         <Box>
             <Group>
                 <Text variant="h1">Lista de Pessoas</Text>
                 <Link href="/pessoa/create">
-                    <Button>Adicionar</Button>
+                    <Button>Criar pessoa</Button>
                 </Link>
+
             </Group>
-            <Table>
-                <TableThead>{ths}</TableThead>
-                <TableTbody>{rows}</TableTbody>
+
+            <Table highlightOnHover >
+                <TableThead>
+                    <TableTr>
+                        {headers.map((header) => (
+                            <TableTh key={header}>{header}</TableTh>
+                        ))}
+                    </TableTr>
+                </TableThead>
+
+                <TableTbody><PessoaRows pessoas={pessoas} /></TableTbody>
             </Table>
-        </Box >
+        </Box>
     );
 }

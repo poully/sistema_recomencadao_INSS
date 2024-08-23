@@ -3,7 +3,6 @@ import { createMovimentacao } from "@/src/utils/createMovimentacao";
 import { PrismaClient, Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { fromError } from "zod-validation-error";
-import { v4 as uuidv4 } from 'uuid';
 
 const prisma = new PrismaClient();
 
@@ -42,9 +41,7 @@ export async function POST(req: NextRequest) {
         };
 
         const data = await BeneficioCreateInputObjectSchema.parseAsync(input);
-        console.log(data);
         const beneficio = await prisma.beneficio.create({ data, include: { movimentacao: { include: { tipo_movimentacao: true } }, situacao: true, documentos: true, especialista: true, pessoa: true, tipo: true } });
-        //await createMovimentacao({ beneficio_id: beneficio.id, nomeTipoMovimentacao: "" });
         return NextResponse.json(beneficio);
     } catch (e) {
         console.log(e);

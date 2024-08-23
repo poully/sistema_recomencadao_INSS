@@ -10,7 +10,7 @@ export function RowActions({ viewUrl, editUrl, onClickDelete }: RowActionsProps)
 
     return (
         <>
-            <Link href={viewUrl}><IconEye /></Link>
+            {/*<Link href={viewUrl}><IconEye /></Link>*/}
             {editUrl ? <Link href={editUrl}><IconPencil /></Link> : null}
             {onClickDelete ? <IconTrash style={{
                 cursor: "pointer"
