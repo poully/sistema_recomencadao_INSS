@@ -2,7 +2,9 @@ import { getBeneficio } from '@/src/api-client/beneficioService';
 import { Box, Button, Group, Table, TableTbody, TableTh, TableThead, TableTr, Text } from '@mantine/core';
 import Link from 'next/link';
 import { BeneficioRows } from './BeneficioRows';
-import { unstable_cache } from "next/cache";
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function BeneficioListPage() {
 

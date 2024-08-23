@@ -11,6 +11,7 @@ import { useCallback, useEffect, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
 import { BeneficioForm, BeneficioFormProps } from '@/src/components/BeneficioForm';
 import { revalidatePath } from 'next/cache';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 type Pessoa = {
     id: number;
@@ -30,9 +31,10 @@ type Tipo = {
 type BeneficioForm = { documentos?: Omit<Documentos, "id" | "descricao" | "beneficio_id">[] } & Omit<Beneficio, "id">;
 
 export default function BeneficioCreate() {
-
     const router = useRouter();
     const axios = useAxiosClient();
+    const queryClient = useQueryClient();
+
     const onSubmit: BeneficioFormProps['onSubmit'] = async ({ values, files }) => {
         try {
             const docs = [];
@@ -49,6 +51,7 @@ export default function BeneficioCreate() {
             };
             const response = await axios.post("/beneficio", newValues);
             toast.success("Inserido com sucesso.");
+            await queryClient.invalidateQueries({ queryKey: ['beneficios'] })
             router.push("/beneficio");
             router.refresh();
         } catch (e) {

@@ -5,14 +5,14 @@ import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-type Params = { id: string };
+type Params = { params: { id: string } };
 
-export async function GET(req: NextRequest, { id }: Params) {
+export async function GET(req: NextRequest, { params: { id } }: Params) {
     const data = await prisma.beneficio.findFirst({ where: { id } });
     return NextResponse.json(data);
 }
 
-export async function PUT(req: NextRequest, { id }: Params) {
+export async function PUT(req: NextRequest, { params: { id } }: Params) {
     try {
         const { tipo_movimentacao_id, ...body } = await req.json();
         const data = await BeneficioUpdateInputObjectSchema.parseAsync(body);
@@ -23,11 +23,13 @@ export async function PUT(req: NextRequest, { id }: Params) {
     }
 }
 
-export async function DELETE(req: NextRequest, { id }: Params) {
+export async function DELETE(req: NextRequest, { params: { id } }: Params) {
     try {
         const beneficio = await prisma.beneficio.delete({ where: { id } });
         return NextResponse.json(beneficio);
     } catch (e) {
-        return NextResponse.error();
+        const error = e as Error;
+        console.error(e);
+        return NextResponse.json({ error: error?.message ?? "" }, { status: 400 })
     }
 }

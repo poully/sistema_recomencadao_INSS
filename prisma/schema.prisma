@@ -56,10 +56,10 @@ model Beneficio {
   pessoa_id        String         @db.Uuid
   tipo_id          String         @db.Uuid
   especialista_id  String         @db.Uuid
-  situacao         Situacao       @relation(fields: [situacao_id], references: [id])
-  pessoa           Pessoa         @relation(fields: [pessoa_id], references: [id])
-  tipo             Tipo           @relation(fields: [tipo_id], references: [id])
-  especialista     Especialista   @relation(fields: [especialista_id], references: [id])
+  situacao         Situacao       @relation(fields: [situacao_id], references: [id], onDelete: Cascade)
+  pessoa           Pessoa         @relation(fields: [pessoa_id], references: [id], onDelete: Cascade)
+  tipo             Tipo           @relation(fields: [tipo_id], references: [id], onDelete: Cascade)
+  especialista     Especialista   @relation(fields: [especialista_id], references: [id], onDelete: Cascade)
   documentos       Documentos[]
   movimentacao     Movimentacao[]
 }
@@ -69,7 +69,7 @@ model Documentos {
   descricao    String
   imagem       String
   beneficio_id String    @db.Uuid
-  beneficio    Beneficio @relation(fields: [beneficio_id], references: [id])
+  beneficio    Beneficio @relation(fields: [beneficio_id], references: [id], onDelete: Cascade)
 }
 
 model TipoMovimentacao {
@@ -82,6 +82,6 @@ model Movimentacao {
   id                   String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tipo_movimentacao_id String           @db.Uuid
   beneficio_id         String           @db.Uuid
-  beneficio            Beneficio        @relation(fields: [beneficio_id], references: [id])
-  tipo_movimentacao    TipoMovimentacao @relation(fields: [tipo_movimentacao_id], references: [id])
+  beneficio            Beneficio        @relation(fields: [beneficio_id], references: [id], onDelete: Cascade)
+  tipo_movimentacao    TipoMovimentacao @relation(fields: [tipo_movimentacao_id], references: [id], onDelete: Cascade)
 }

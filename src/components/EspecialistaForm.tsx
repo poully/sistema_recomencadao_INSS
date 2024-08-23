@@ -21,15 +21,15 @@ export function EspecialistaForm({ data, onSubmit, title }: EspecialistaFormProp
             email: '',
             cidade: '',
             uf: '',
-            telefone: "",
-            endereco: "",
+            telefone: '',
+            endereco: '',
         },
     });
 
     const { cidades, estados, cidadesLoading, estadosLoading, setSelectedEstado } = useIbge();
 
     useEffect(() => {
-        
+
         if (form.values.uf && form.values.uf !== '' && !estadosLoading) {
             setSelectedEstado(form.values.uf);
         }
@@ -37,7 +37,7 @@ export function EspecialistaForm({ data, onSubmit, title }: EspecialistaFormProp
 
     useEffect(() => {
         if (data) {
-            form.setValues({ ...data});
+            form.setValues({ ...data });
         }
     }, [data]);
 

@@ -1,4 +1,5 @@
 import { getEspecialista } from '@/src/api-client/especialistaService';
+import { RowActions } from '@/src/components';
 import { Box, Button, Group, Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text } from '@mantine/core';
 import Link from 'next/link';
 
@@ -23,6 +24,7 @@ export default async function EspecialistasList() {
             <TableTh>Nome</TableTh>
             <TableTh>Email</TableTh>
             <TableTh>Telefone</TableTh>
+
         </TableTr>
     );
     return (
@@ -32,6 +34,17 @@ export default async function EspecialistasList() {
                 <Link href="/especialista/create">
                     <Button>Adicionar</Button>
                 </Link>
+                <TableTd>
+                    <RowActions viewUrl={`/beneficio/${especialistas.id}`}
+                        editUrl={`/beneficio/update/${especialistas.id}`}
+                        onClickDelete={async () => {
+
+                            await mutate({ id: beneficio.id });
+                            router.refresh();
+
+                        }} />
+
+                </TableTd>
             </Group>
             <Table>
                 <TableThead>{ths}</TableThead>
